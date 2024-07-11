@@ -32,7 +32,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-link link-body-emphasis">
+                                <a href="{{route('student@setting')}}" class="nav-link link-body-emphasis">
                                     <i class="bi bi-gear-wide"></i>
                                     <span class="d-none d-lg-inline ms-3">Settings</span>
                                 </a>
@@ -68,31 +68,33 @@
             <!-- main content -->
             <div class="col-10 bg-light">
                 <div class="horizontal-menu py-2 mt-1 d-flex justify-content-between">
-                    <label for="announce-alert" class="announce-alert bg-white rounded-pill py-2 px-3 d-flex">
+                    <label for="announce-alert" class="announce-alert bg-white rounded-pill border py-2 px-3 d-flex">
                         <i class="bi-megaphone-fill pe-2 text-ucsp"></i>
                         <marquee direction="rtl" class="text-ucsp">This is new announce.</marquee>
                     </label>
                     <div class="lg-profile d-flex justify-content-between">
                         <div class="d-flex">
                             <div class="position-relative p-2">
-                                <i class="bi bi-bell-fill text-ucsp"></i>
+                                <a href="{{route('user@chat')}}">
+                                    <i class="bi bi-chat-fill text-ucsp px-2"></i>
                                 <span
-                                    class="position-absolute translate-middle p-1 bg-danger border border-2 border-light rounded-circle absolute-noti"></span>
-                            </div>
-                            <div class="position-relative p-2">
-                                <i class="bi bi-chat-fill text-ucsp px-2"></i>
-                                <span
-                                    class="position-absolute translate-middle p-1 bg-danger border border-2 border-light rounded-circle absolute-message"></span>
+                                    class="position-absolute translate-middle  p-1 bg-danger border border-2 border-light rounded-circle absolute-message"></span>
+                                </a>
                             </div>
                         </div>
                         <div class="d-none d-lg-inline">
-                            <div class="d-flex mt-1 ms-5">
+                            <div class="d-flex justify-content-center mt-1 ms-5">
                                 <div class="position-relative">
-                                    <h5 class="profile-title mb-2">{{$user->name}}</h5>
-                                    <p class="profile-role">{{$dept->name}}</p>
+                                    <h5 class="profile-title">{{$user->name}}</h5>
+                                    <p class="profile-role">{{Str::words(Str::after($dept->name, 'Department of'), 2, '...')}}</p>
                                 </div>
-                                <img src="{{ asset('upload/pp.jpeg') }}" alt="profile"
-                                    class="profile-icon rounded-circle mx-2">
+                                <div class="ms-2">
+                                    @if ($user->profile_photo == null)
+                                    <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
+                                    @else
+                                    <img src="{{ asset('storage/upload/'.$user->profile_photo) }}" alt="profile" class="profile-icon rounded-circle">
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -101,8 +103,88 @@
 
                 <div class="row">
                     <div class="col-sm col-lg-9">
-                        <div class="bg-primary mb-3" style="height: 300px"></div>
-                        <div class="bg-success mb-3" style="height: 300px"></div>
+                        <div class=mb-3">
+
+                            <!-- announcement design -->
+                            <div class="card mb-3">
+                                <div class="card-header d-flex justify-content-between">
+                                    <div class="d-flex">
+                                        <div class="me-2">
+                                            @if ($user->profile_photo_path == null)
+                                            <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
+                                            @else
+                                            <img src="{{ asset('upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
+                                            @endif
+                                        </div>
+                                        <div class="d-flex align-item-center">
+                                            <div class="position-relative">
+                                                <h6 class="profile-title">Administraction</h6>
+                                                <p class="profile-date">5.6.2024</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn-outline-ucsp">See more...</button>
+                                    </div>
+                                </div>
+                                <div class="card-body text-justify">
+                                    6.6.2024 မှစ၍ ကွန်ပျူတာတက္ကသိုလ်ပြည် ပထမနှစ်မှ စတုတ္ထနှစ်အထိ သင်တန်းများ စတင်ဖွင့်လှစ်မည်ဖြစ်ကြောင်း ကြေငြာအပ်ပါသည်။ ကျောင်းအပ်ရာတွင်.....
+                                </div>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-header d-flex justify-content-between">
+                                    <div class="d-flex">
+                                        <div class="me-2">
+                                            @if ($user->profile_photo_path == null)
+                                            <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
+                                            @else
+                                            <img src="{{ asset('upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
+                                            @endif
+                                        </div>
+                                        <div class="d-flex align-item-center">
+                                            <div class="position-relative">
+                                                <h6 class="profile-title">Administraction</h6>
+                                                <p class="profile-date">2024-5-19</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn-outline-ucsp">See more...</button>
+                                    </div>
+                                </div>
+                                <div class="card-body text-justify">
+                                    19.5.2024 ရက်မှစ၍ exam result များ အတန်းလိုက်ပေးပို့နေပါပြီ။ ကျောင်းသားများအားလုံး edu mail များမှတစ်ဆင့် မိမိတို့ grade များအား ၀င်ရောက် ကြည့်ရှုနိုင်ပြီဖြစ်ကြောင်း...
+                                </div>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-header d-flex justify-content-between">
+                                    <div class="d-flex">
+                                        <div class="me-2">
+                                            @if ($user->profile_photo_path == null)
+                                            <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
+                                            @else
+                                            <img src="{{ asset('upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
+                                            @endif
+                                        </div>
+                                        <div class="d-flex align-item-center">
+                                            <div class="position-relative">
+                                                <h6 class="profile-title">Administraction</h6>
+                                                <p class="profile-date">15.3.2024</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn-outline-ucsp">See more...</button>
+                                    </div>
+                                </div>
+                                <div class="card-body text-justify">
+                                    2023-2024 ပညာသင်နှစ် ကွန်ပျူတာတက္ကသိုလ်ပြည် midterm exam များကို 21-3-2024 မှ 3.4.2024 အထိ ပြုလုပ်သွားမည်ဖြစ်ကြောင်း ကြေငြာအပ်ပါသည်။ Timetable များမှာ...
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                     <div class="col-sm col-lg-3">
                         <section class="ftco-section" style="margin: 0; padding: 0;">

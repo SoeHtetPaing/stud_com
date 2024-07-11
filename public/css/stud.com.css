@@ -3,8 +3,15 @@
     padding:  0;
 }
 
-body {
+body, h1, h2, h3, h4, h5, h6 {
     font-family: 'Source Serif 4';
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 151, 178, 0.5);
 }
 
 img.logo-image {
@@ -23,12 +30,12 @@ h4.logo-title {
     color: #023f4a;
 }
 
-h5.profile-title {
+.profile-title {
     font-family: 'Dancing Script';
     font-weight: bolder;
 }
 
-p.profile-role {
+.profile-role {
     position: absolute;
     font-family: 'Cutive Mono';
     font-size: 10px;
@@ -38,8 +45,21 @@ p.profile-role {
     color: #0097b2;
 }
 
+.profile-date {
+    position: absolute;
+    font-family: 'Cutive Mono';
+    font-size: 10px;
+    font-weight: bold;
+    bottom: -0.8rem;
+    color: #0097b2;
+}
+
 .text-ucsp {
     color: #0097b2;
+}
+
+.text-label {
+    font-size: 14px;
 }
 
 .bg-ucsp {
@@ -91,10 +111,123 @@ img.profile-icon {
     font-size: 1rem;
 }
 
+.btn-outline-ucsp {
+    border: 2px solid #0097b2;
+    font-family: 'Source Serif 4';
+    font-size: 12px;
+}
+
+.btn-outline-ucsp:hover {
+    background-color: #0097b2;
+    color: #fff;
+}
+
+.btn-ucsp {
+    background-color: #0097b2;
+    color: #fff;
+    font-family: 'Source Serif 4';
+}
+
+.btn-ucsp:hover {
+    background-color: #01515f;
+    color: #fff;
+}
+
+.image-icon-size {
+    width: 45px;
+    height: 45px;
+}
+
+.image-icon-size-sm {
+    width: 25px;
+    height: 25px;
+}
+
+.message-alert {
+    position: absolute;
+    font-size: 14px;
+    bottom: 0rem;
+}
+
+.chat {
+    padding: 5px;
+}
+
+.active-chat {
+    background-color: rgba(0, 151, 178, 0.3);
+    border-radius: 50vh;
+
+    .chat-arrive {
+        display: none;
+    }
+
+    .chat-amt {
+        display: none;
+    }
+}
+
+.more-rounded {
+    border-radius: 20px;
+}
+
+.active-user {
+    border: 3px solid #fff;
+    background-color: rgb(4, 225, 4);
+    padding: 5px;
+    bottom: -0.3rem;
+    right: -0.7rem;
+}
+
+.group-scroll-content {
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.group-scroll-content-sm {
+    max-height: 135px;
+    height: 135px;
+    overflow-y: scroll;
+}
+
+.chat-scroll-content {
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.message-scroll-content {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.typing-area {
+    border: none;
+    outline: none;
+}
+
+.pp-info {
+    width: 80%;
+    margin: 0px 10%;
+    padding: 10px;
+    position: absolute;
+    bottom: -3rem;
+    text-align: center;
+    background-color: #fff;
+    /* border: 1px solid #ccc; */
+    border-radius: 10px;
+}
+
+.divider {
+    margin-top: 3.5rem;
+    height: 2px;
+    background-color: #e5f1fd;
+}
+
+
 /* for student */
 .bg-student {
     background-image: linear-gradient(to bottom right, white, #0097b2);
 }
+
 
 /* for teacher */
 .bg-teacher {
@@ -104,6 +237,153 @@ img.profile-icon {
 /* for admin */
 .bg-admin {
     background-image: linear-gradient(to bottom right, white, #818181);
+}
+
+/* code.bless.com chat sample design */
+.msg {
+    clear: both;
+    margin-bottom: 10px;
+    max-width: 300px;
+}
+.msg-box {
+    position: relative;
+    background-color: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    float: left;
+    left: 4rem;
+}
+.msg-box::before {
+    content: '';
+    position: absolute;
+    visibility: visible;
+    top: 20px;
+    left: -30px;
+    padding: 5px;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 50vh;
+}
+.msg-box::after {
+    content: '';
+    position: absolute;
+    visibility: visible;
+    top: 30px;
+    left: -15px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 50vh;
+    outline: 2px solid #fff;
+    clear: both;
+}
+.msg-box-img {
+    width: 2rem;
+    position: absolute;
+    top: 0rem;
+    left: -4rem;
+    border-radius: 50%;
+}
+.msg-box-title {
+    font-family: 'Source Serif 4';
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 5px;
+    font-size: 13px;
+    color: #ccc;
+}
+.msg-box-body {
+    text-align: justify;
+    padding: 5px;
+}
+.msg-box-foot {
+    font-family: 'Source Serif 4';
+    position: absolute;
+    left: -3.7rem;
+    top: 2rem;
+    color: #0097b2;
+    font-size: 13px;
+}
+
+.msg-me {
+    position: relative;
+    background-color: #0097b2;
+    text-align: right;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid blue;
+    float: right;
+    right: 4rem;
+}
+.msg-me::before {
+    content: '';
+    position: absolute;
+    visibility: visible;
+    top: 20px;
+    right: -30px;
+    padding: 5px;
+    background-color: #0097b2;
+    border: 1px solid #004ab2;
+    border-radius: 50vh;
+}
+.msg-me::after {
+    content: '';
+    position: absolute;
+    visibility: visible;
+    top: 30px;
+    right: -15px;
+    padding: 10px;
+    background-color: #0097b2;
+    border: 1px solid #004ab2;
+    border-radius: 50vh;
+    outline: 2px solid #fff;
+    clear: both;
+}
+.msg-me-img {
+    width: 2rem;
+    position: absolute;
+    top: 0rem;
+    right: -4rem;
+    border-radius: 50%;
+}
+.msg-me-title {
+    font-family: 'Source Serif 4';
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 5px;
+    font-size: 13px;
+    color: #555;
+}
+.msg-me-body {
+    text-align: justify;
+    padding: 5px;
+    color: #eee;
+}
+.msg-me-foot {
+    font-family: 'Source Serif 4';
+    position: absolute;
+    right: -3.7rem;
+    top: 2rem;
+    color: #0097b2;
+    font-size: 13px;
+}
+
+.accordion-button:not(.collapsed)::after {
+    font-family:"FontAwesome";
+    content:"\f0d8";
+    background-image: url("");
+    transform: rotate(360deg);
+    background-size: auto;
+    background-position: center;
+}
+
+.accordion-button.collapsed::after {
+    font-family:"FontAwesome";
+    content:"\f0d7";
+    background-image: url("");
+    background-size: auto;
+    background-position: center;
 }
 
 @media (max-width: 400px) {

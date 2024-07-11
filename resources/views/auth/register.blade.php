@@ -22,7 +22,6 @@
             <div class="mt-3">
                 <x-label for="role" value="{{ __('Role') }}" />
                 <select name="role" id="role" class="block mt-1  w-full rounded">
-                    <option value="">Select your role:</option>
                     <option value="Student">Student</option>
                     <option value="Lecturer">Lecturer</option>
                 </select>
@@ -31,10 +30,20 @@
             <div class="mt-3">
                 <x-label for="dept" value="{{ __('Department') }}" />
                 <select name="dept" id="dept" class="block mt-1  w-full rounded">
-                    <option value="">Select your dept:</option>
                     @foreach($dept as $item)
                       <option value="{{ $item->id }}">{{ $item->name }}</option>
                     @endforeach
+                </select>
+            </div>
+
+            <div class="mt-3">
+                <x-label for="section" value="{{ __('Section') }}" />
+                <select name="section" id="section" class="block mt-1  w-full rounded">
+                    <option value="Section A">Section A</option>
+                    <option value="Section B">Section B</option>
+                    <option value="Section C">Section C</option>
+                    <option value="Section CT">Section CT</option>
+                    <option value="">No Section</option>
                 </select>
             </div>
 
