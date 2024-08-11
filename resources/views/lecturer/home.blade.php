@@ -87,7 +87,7 @@
                         </div>
                         <div class="d-none d-lg-inline">
                             <div class="d-flex mt-1 ms-5">
-                                <div class="position-relative">
+                                <div class="profile-group position-relative">
                                     <h5 class="profile-title">Genius iQ</h5>
                                     <p class="profile-role">Final Year</p>
                                 </div>

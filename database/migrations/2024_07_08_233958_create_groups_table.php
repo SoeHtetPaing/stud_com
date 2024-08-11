@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('type');
-            $table->integer('department_id');
-            $table->string('image');
+            $table->integer('creater_id');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

@@ -75,7 +75,7 @@
                     <div class="lg-profile d-flex justify-content-between">
                         <div class="d-flex">
                             <div class="position-relative p-2">
-                                <a href="{{route('user@chat')}}">
+                                <a href="">
                                     <i class="bi bi-chat-fill text-ucsp px-2"></i>
                                 <span
                                     class="position-absolute translate-middle  p-1 bg-danger border border-2 border-light rounded-circle absolute-message"></span>
@@ -84,9 +84,9 @@
                         </div>
                         <div class="d-none d-lg-inline">
                             <div class="d-flex justify-content-center mt-1 ms-5">
-                                <div class="position-relative">
+                                <div class="profile-group position-relative">
                                     <h5 class="profile-title">{{$user->name}}</h5>
-                                    <p class="profile-role">{{Str::words(Str::after($dept->name, 'Department of'), 2, '...')}}</p>
+                                    <p class="profile-role">{{Str::words(Str::after($dept->name, 'Department of'), 4, '...')}}</p>
                                 </div>
                                 <div class="ms-2">
                                     @if ($user->profile_photo == null)

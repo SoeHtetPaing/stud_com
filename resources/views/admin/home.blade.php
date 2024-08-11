@@ -13,67 +13,55 @@
                     <hr>
                     <div class="d-flex flex-column flex-shrink-0">
                         <ul class="nav nav-pills flex-column mb-auto">
-                            <h6 class="text-ucsp p-1" style="font-size: 14px;">General</h6>
+                            <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">General</h6>
                             <li class="nav-item">
-                                <a href="#" class="nav-link active-vertical-menu" aria-current="page">
+                                <a href="{{route('user@home')}}" class="nav-link active-vertical-menu" aria-current="page">
                                     <i class="bi-grid"></i>
                                     <span class="d-none d-lg-inline ms-3">Dashboard</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-link link-body-emphasis">
+                                <a href="{{route('admin@manageAnnounce')}}" class="nav-link link-body-emphasis">
                                     <i class="bi-megaphone"></i>
                                     <span class="d-none d-lg-inline ms-3">Announcement</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-link link-body-emphasis">
+                                <a href="{{route('admin@manageUser')}}" class="nav-link link-body-emphasis">
                                     <i class="fa-solid fa-user-tie fa-lg"></i>
-                                    <span class="d-none d-lg-inline ms-3">Admin</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{route('student@setting')}}" class="nav-link link-body-emphasis">
-                                    <i class="fa-solid fa-chalkboard-user"></i>
-                                    <span class="d-none d-lg-inline ms-3">Lecturer</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{route('student@setting')}}" class="nav-link link-body-emphasis">
-                                    <i class="fa-solid fa-graduation-cap"></i>
-                                    <span class="d-none d-lg-inline ms-3">Student</span>
+                                    <span class="d-none d-lg-inline ms-3">User</span>
                                 </a>
                             </li>
                             <hr>
-                            <h6 class="text-ucsp p-1" style="font-size: 14px;">Managemant</h6>
+                            <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">Managemant</h6>
                             <li>
-                                <a href="#" class="nav-link link-body-emphasis">
+                                <a href="{{route('admin@manageTimetable')}}" class="nav-link link-body-emphasis">
                                     <i class="bi-table"></i>
                                     <span class="d-none d-lg-inline ms-3">Timetable</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-link link-body-emphasis">
+                                <a href="{{route('admin@manageDepartment')}}" class="nav-link link-body-emphasis">
                                     <i class="fa-solid fa-briefcase"></i>
                                     <span class="d-none d-lg-inline ms-3">Department</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-link link-body-emphasis">
+                                <a href="{{route('admin@manageGroup')}}" class="nav-link link-body-emphasis">
                                     <i class="bi bi-people-fill"></i>
                                     <span class="d-none d-lg-inline ms-3">Group</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-link link-body-emphasis">
+                                <a href="{{route('admin@manageGrade')}}" class="nav-link link-body-emphasis">
                                     <i class="fa-solid fa-medal"></i>
                                     <span class="d-none d-lg-inline ms-3">Grade</span>
                                 </a>
                             </li>
                             <hr>
-                            <h6 class="text-ucsp p-1" style="font-size: 14px;">Personal</h6>
-                            <li>
-                                <a href="{{route('student@setting')}}" class="nav-link link-body-emphasis">
+                            <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">Personal</h6>
+                            <li class="d-none d-lg-inline">
+                                <a href="{{route('admin@manageProfile')}}" class="nav-link link-body-emphasis">
                                     <i class="bi bi-gear-wide"></i>
                                     <span class="d-none d-lg-inline ms-3">Profile Settings</span>
                                 </a>
@@ -94,11 +82,28 @@
                                 <a href="#"
                                     class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{asset('upload/pp.jpeg')}}" alt="" width="32" height="32"
-                                        class="rounded-circle">
+                                    @if ($user->profile_photo == null)
+                                    <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
+                                    @else
+                                    <img src="{{ asset('storage/upload/'.$user->profile_photo) }}" alt="profile" class="profile-icon rounded-circle">
+                                    @endif
                                 </a>
                                 <ul class="dropdown-menu text-small shadow">
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-left me-3"></i>Sign out</a></li>
+                                    <li>
+                                        <a href="{{route('admin@manageProfile')}}" class="nav-link link-body-emphasis">
+                                            <i class="bi bi-gear-wide"></i>
+                                            <span class="d-none d-lg-inline ms-3">Profile Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <form action="{{route("logout")}}" method="post">
+                                            @csrf
+                                            <button type="submit" class="nav-link link-body-emphasis">
+                                                <i class="bi bi-box-arrow-left"></i>
+                                                <span class="d-none d-lg-inline ms-3">Sign out</span>
+                                            </button>
+                                        </form>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -124,7 +129,7 @@
                     <div class="lg-profile d-flex justify-content-between">
                         <div class="d-flex">
                             <div class="position-relative p-2">
-                                <a href="{{route('user@chat')}}">
+                                <a href="{{route('user@chat', ['back' => 'user@home'])}}">
                                     <i class="bi bi-chat-fill text-ucsp px-2"></i>
                                 <span
                                     class="position-absolute translate-middle  p-1 bg-danger border border-2 border-light rounded-circle absolute-message"></span>
@@ -133,9 +138,9 @@
                         </div>
                         <div class="d-none d-lg-inline">
                             <div class="d-flex justify-content-center mt-1 ms-5">
-                                <div class="position-relative">
-                                    <h5 class="profile-title">{{$user->name}}</h5>
-                                    <p class="profile-role">{{Str::words(Str::after($dept->name, 'Department of'), 2, '...')}}</p>
+                                <div class="profile-group position-relative">
+                                    <h5 class="profile-title">{{Str::words(Str::after($user->name, 'Daw'), 5, '...')}}</h5>
+                                    <p class="profile-role">{{Str::words(Str::after($dept->name, 'Department of'), 4, '...')}}</p>
                                 </div>
                                 <div class="ms-2">
                                     @if ($user->profile_photo == null)
@@ -149,26 +154,25 @@
                     </div>
                 </div>
 
-
                 <div class="row text-dark">
                     <div class="col-sm col-lg-9">
                         <div class=mb-3">
 
                             <!-- admin dashboard -->
-                            <div class="d-flex" style="gap: 10px">
-                                <div class="card-body bg-admin border rounded">
+                            <div class="d-flex flex-column flex-md-row flex-lg-row flex-xl-row" style="gap: 10px">
+                                <div class="card-body bg-admin border rounded py-1 py-md-3 py-lg-3 py-xl-3">
                                     <p class="position-absolute py-2"><i class="fa-solid fa-user-tie fa-xl"></i></p>
                                     <p class="text-end">{{$adminNo}} <br>Admins</p>
                                 </div>
-                                <div class="card-body bg-teacher border rounded">
+                                <div class="card-body bg-teacher border rounded py-1 py-md-3 py-lg-3 py-xl-3">
                                     <p class="position-absolute py-2"><i class="fa-solid fa-chalkboard-user fa-xl"></i></p>
                                     <p class="text-end">{{$lecturerNo}} <br>Lecturers</p>
                                 </div>
-                                <div class="card-body bg-student border rounded">
+                                <div class="card-body bg-student border rounded py-1 py-md-3 py-lg-3 py-xl-3">
                                     <p class="position-absolute py-2"><i class="fa-solid fa-graduation-cap fa-xl"></i></p>
                                     <p class="text-end">{{$studentNo}} <br>Students</p>
                                 </div>
-                                <div class="card-body bg-white border rounded">
+                                <div class="card-body bg-white border rounded py-1 py-md-3 py-lg-3 py-xl-3">
                                     <p class="position-absolute py-2"><i class="fa-solid fa-user-group fa-xl"></i></p>
                                     <p class="text-end">{{$adminNo + $lecturerNo + $studentNo}} <br>Totals</p>
 
@@ -199,7 +203,7 @@
                                                 </div>
                                                 <div class="form-group mb-3">
                                                   <label for="annoContent"><span class="text-danger fw-bold">*</span> Enter announcement content</label>
-                                                  <textarea name="annoContent" id="" cols="30" rows="8" class="form-control" placeholder="13.3.2024 ရက်မှ 24.3.2024 အထိ ကျင်းပပြုလုပ်မည့် exam timetable များမှာ..."></textarea>
+                                                  <textarea name="annoContent" id="" cols="30" rows="8" class="form-control" required="" placeholder="13.3.2024 ရက်မှ 24.3.2024 အထိ ကျင်းပပြုလုပ်မည့် exam timetable များမှာ..."></textarea>
                                                 </div>
                                                 <div class="form-group mb-3">
                                                   <label for="annoImage"><span class="text-success fw-bold">*</span> Announcement photo is optional</label>
@@ -356,7 +360,7 @@
                             </div>
 
                             {{-- add section for management, lecturer and student --}}
-                            <div class="row mt-4">
+                            <div class="row mt-5">
                                 {{-- for management --}}
                                 <div class="col">
                                     <h5 class="ms-3 mb-2 text-ucsp">Management</h5>
@@ -429,20 +433,21 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-groub mb-3">
-                                                      <label for="subjectCode"><span class="text-danger fw-bold">*</span> Enter subject code & name</label>
-                                                      <div class="row">
-                                                        <div class="col">
-                                                            <input type="text" name="subjectCode" class="form-control" required="" placeholder="CST-1101">
-                                                        </div>
-                                                        <div class="col">
-                                                            <input type="text" name="subjectName" class="form-control" required="" placeholder="English">
-                                                        </div>
+                                                        <label for="choices-multiple-remove-button-4"><span class="text-danger fw-bold">*</span> Search & select a subject</label>
+                                                        <select name="subject[]" id="choices-multiple-remove-button-4" required="" multiple>
+                                                          @foreach ($subject as $sub)
+                                                              <option value="{{ $sub['id'] }}">{{ $sub['subject_code']." · ".$sub['subject_name'] }}</option>
+                                                          @endforeach
+                                                      </select>
                                                       </div>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                      <label for="annoContent"><span class="text-danger fw-bold">*</span> Enter lecturer email</label>
-                                                      <input type="text" name="lectEmail" class="form-control" required="" placeholder="lecturername@ucspyay.edu.mm">
-                                                    </div>
+                                                      <div class="form-groub mb-3">
+                                                        <label for="choices-multiple-remove-button-5"><span class="text-danger fw-bold">*</span> Search & select lecturer</label>
+                                                        <select name="lecturer[]" id="choices-multiple-remove-button-5" required="" multiple>
+                                                            @foreach ($lecturer as $lect)
+                                                            <option value="{{ $lect['user_name'] }}">{{ $lect['user_name']." · ".$lect['dept_name'] }}</option>
+                                                            @endforeach
+                                                      </select>
+                                                      </div>
                                                     <div class="form-group mb-3 text-end">
                                                       <input type="submit" value="Schedule a session" name="addTimetable" class="btn btn-ucsp">
                                                     </div>
@@ -477,22 +482,117 @@
 
                                 </div>
                                 <div class="col">
-                                    {{-- for lecturer --}}
-                                    <h5 class="ms-3 mb-2 text-ucsp">Lecturer Related</h5>
+                                    {{-- for group creation --}}
+                                    <h5 class="ms-3 mb-2 text-ucsp">Group Creation</h5>
 
-                                    <div class="accordion mb-5" id="lecturerAccordion">
+                                    <div class="accordion mb-5" id="groupAccordion">
 
+                                        {{-- for lecturer group --}}
                                         <div class="accordion-item rounded mb-3">
                                           <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#lecturerOne" aria-expanded="true" aria-controls="collapseOne">
-                                                <i class="fa-solid fa-plus-circle me-3"></i> Add Lecturer Group
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#groupOne" aria-expanded="true" aria-controls="collapseOne">
+                                                <i class="fa-solid fa-plus-circle me-3"></i> Create Lecturer Group
                                             </button>
                                           </h2>
-                                          <div id="lecturerOne" class="accordion-collapse collapse" data-bs-parent="#lecturerAccordion">
+                                          <div id="groupOne" class="accordion-collapse collapse" data-bs-parent="#groupAccordion">
                                             <div class="accordion-body">
-                                              <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                                <form action="{{route('admin@createLecturerGroup')}}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="form-group mb-3">
+                                                        <label for="groupName"><span class="text-danger fw-bold">*</span> Enter group name</label>
+                                                        <input type="text" name="groupName" id="groupName" class="form-control" required="">
+                                                    </div>
+                                                    <div class="form-groub mb-3">
+                                                      <label for="choices-multiple-remove-button"><span class="text-danger fw-bold">*</span> Select group members</label>
+                                                      <select name="member[]" id="choices-multiple-remove-button" multiple>
+                                                        @foreach ($lecturer as $lect)
+                                                            <option value="{{ $lect['user_id'] }}">{{ $lect['user_name']." · ".$lect['dept_name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label for="groupImage"><span class="text-success fw-bold">*</span> Group photo is optional</label>
+                                                        <input type="file" name="groupImage" class="form-control">
+                                                    </div>
+                                                    <div class="form-group mb-3 text-end">
+                                                      <input type="submit" value="Create Group" name="addLecturerGroup" class="btn btn-ucsp">
+                                                    </div>
+                                                </form>
+
                                             </div>
                                           </div>
+                                        </div>
+
+                                        {{-- for student group --}}
+                                        <div class="accordion-item rounded mb-3">
+                                            <h2 class="accordion-header">
+                                              <button class="accordion-button collapsed border-top rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#groupTwo" aria-expanded="true" aria-controls="collapseOne">
+                                                  <i class="fa-solid fa-plus-circle me-3"></i> Create Student Group
+                                              </button>
+                                            </h2>
+                                            <div id="groupTwo" class="accordion-collapse collapse" data-bs-parent="#groupAccordion">
+                                              <div class="accordion-body">
+                                                  <form action="{{route('admin@createStudentGroup')}}" method="POST" enctype="multipart/form-data">
+                                                      @csrf
+                                                      <div class="form-group mb-3">
+                                                          <label for="groupName"><span class="text-danger fw-bold">*</span> Enter group name</label>
+                                                          <input type="text" name="groupName" id="groupName" class="form-control" required="">
+                                                      </div>
+                                                      <div class="form-groub mb-3">
+                                                        <label for="choices-multiple-remove-button-1"><span class="text-danger fw-bold">*</span> Select group members</label>
+                                                        <select name="member[]" id="choices-multiple-remove-button-1" multiple>
+                                                          @foreach ($student as $stu)
+                                                              <option value="{{ $stu['user_id'] }}">{{ $stu['user_name']." · ".$stu['dept_name'] }}</option>
+                                                          @endforeach
+                                                      </select>
+                                                      </div>
+                                                      <div class="form-group mb-3">
+                                                        <label for="groupImage"><span class="text-success fw-bold">*</span> Group photo is optional</label>
+                                                        <input type="file" name="groupImage" class="form-control">
+                                                    </div>
+                                                      <div class="form-group mb-3 text-end">
+                                                        <input type="submit" value="Create Group" name="addStudentGroup" class="btn btn-ucsp">
+                                                      </div>
+                                                  </form>
+
+                                              </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- for custom group --}}
+                                        <div class="accordion-item rounded mb-3">
+                                            <h2 class="accordion-header">
+                                              <button class="accordion-button collapsed border-top rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#groupThree" aria-expanded="true" aria-controls="collapseOne">
+                                                  <i class="fa-solid fa-plus-circle me-3"></i> Create Custom Group
+                                              </button>
+                                            </h2>
+                                            <div id="groupThree" class="accordion-collapse collapse" data-bs-parent="#groupAccordion">
+                                              <div class="accordion-body">
+                                                  <form action="{{route('admin@createCustomGroup')}}" method="POST" enctype="multipart/form-data">
+                                                      @csrf
+                                                      <div class="form-group mb-3">
+                                                          <label for="groupName"><span class="text-danger fw-bold">*</span> Enter group name</label>
+                                                          <input type="text" name="groupName" id="groupName" class="form-control" required="">
+                                                      </div>
+                                                      <div class="form-groub mb-3">
+                                                        <label for="choices-multiple-remove-button-2"><span class="text-danger fw-bold">*</span> Select group members</label>
+                                                        <select name="member[]" id="choices-multiple-remove-button-2" multiple>
+                                                          @foreach ($custom as $usr)
+                                                              <option value="{{ $usr['user_id'] }}">{{ $usr['user_name']." · ".$usr['dept_name'] }}</option>
+                                                          @endforeach
+                                                      </select>
+                                                      </div>
+                                                      <div class="form-group mb-3">
+                                                        <label for="groupImage"><span class="text-success fw-bold">*</span> Group photo is optional</label>
+                                                        <input type="file" name="groupImage" class="form-control">
+                                                    </div>
+                                                      <div class="form-group mb-3 text-end">
+                                                        <input type="submit" value="Create Group" name="addCustomGroup" class="btn btn-ucsp">
+                                                      </div>
+                                                  </form>
+
+                                              </div>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -502,31 +602,90 @@
 
                                     <div class="accordion" id="studentAccordion">
 
+                                        {{-- announce grade --}}
                                         <div class="accordion-item rounded mb-3">
                                           <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#studentOne" aria-expanded="true" aria-controls="collapseOne">
-                                                <i class="fa-solid fa-plus-circle me-3"></i> Add Student Group
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#studentOne" aria-expanded="false" aria-controls="collapseTwo">
+                                                <i class="fa-solid fa-plus-circle me-3"></i> Announce grade
                                             </button>
                                           </h2>
                                           <div id="studentOne" class="accordion-collapse collapse" data-bs-parent="#studentAccordion">
                                             <div class="accordion-body">
-                                              <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+
+                                                <form action="{{route('admin@announceGrade')}}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="form-groub mb-3">
+                                                      <label for="choices-multiple-remove-button-3"><span class="text-danger fw-bold">*</span> Search & select a student</label>
+                                                      <select name="member[]" id="choices-multiple-remove-button-3" required="" multiple>
+                                                        @foreach ($student as $stu)
+                                                            <option value="{{ $stu['user_id'] }}">{{ $stu['user_name']." · ".$stu['user_email'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label for="message"><span class="text-danger fw-bold">*</span> Message</label>
+                                                        <input type="text" name="message" class="form-control" placeholder="5CS-13@1sem2024" required="">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                      <label for="gradeFile"><span class="text-danger fw-bold">*</span> Select grade attachment file</label>
+                                                      <input type="file" name="gradeFile" class="form-control" required="">
+                                                  </div>
+                                                    <div class="form-group mb-3 text-end">
+                                                      <input type="submit" value="Send" name="announceGrade" class="btn btn-ucsp">
+                                                    </div>
+                                                </form>
+
                                             </div>
                                           </div>
                                         </div>
 
+                                        {{-- add subject --}}
                                         <div class="accordion-item rounded mb-3">
-                                          <h2 class="accordion-header">
-                                            <button class="accordion-button border-top rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#studentTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                <i class="fa-solid fa-plus-circle me-3"></i> Grade announce
-                                            </button>
-                                          </h2>
-                                          <div id="studentTwo" class="accordion-collapse collapse show" data-bs-parent="#studentAccordion">
-                                            <div class="accordion-body">
-                                              <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                            <h2 class="accordion-header">
+                                              <button class="accordion-button border-top rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#studentTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                  <i class="fa-solid fa-plus-circle me-3"></i> Add subject
+                                              </button>
+                                            </h2>
+                                            <div id="studentTwo" class="accordion-collapse collapse show" data-bs-parent="#studentAccordion">
+                                              <div class="accordion-body">
+
+                                                <form action="{{route('admin@addSubject')}}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="form-groub mb-3">
+                                                        <label for="year"><span class="text-danger fw-bold">*</span> Select academic year</label>
+                                                        <select name="year" id="year" class="form-select">
+                                                            @foreach($stuDept as $item)
+                                                              <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-groub mb-3">
+                                                        <label for="term"><span class="text-danger fw-bold">*</span> Select semester term</label>
+                                                        <select name="term" id="section" class="form-select">
+                                                            <option value="First Term CS">First Term CS</option>
+                                                            <option value="First Term CT">First Term CT</option>
+                                                            <option value="Second Term CS">Second Term CS</option>
+                                                            <option value="Second Term CT">Second Term CT</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-groub mb-3">
+                                                      <label for="subjectCode"><span class="text-danger fw-bold">*</span> Enter subject code & name</label>
+                                                      <div class="row">
+                                                        <div class="col">
+                                                            <input type="text" name="subjectCode" class="form-control" required="" placeholder="CST-1101">
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" name="subjectName" class="form-control" required="" placeholder="English">
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    <div class="form-group mb-3 text-end">
+                                                      <input type="submit" value="Add Subject" name="addSubject" class="btn btn-ucsp">
+                                                    </div>
+                                                </form>
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
 
                                     </div>
 
@@ -637,18 +796,130 @@
 
                         </section>
 
-                        <div class="time-table mt-3 mb-3 rounded" style="position: sticky; top: 100px; z-index: 10;">
+                        <div class="time-table mt-3 mb-3 rounded" style="position: sticky; top: 65px; z-index: 10; height: 700px; overflow-y: scroll;">
                             <div class="card">
-                                <div class="card-body py-2">
-                                    <h4 class="logo-title text-ucsp">Timetable today:</h4>
-                                    <div style="line-height: 10px;">
-                                        <p class="time-table-interval">9:00AM-10:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>English</span></p>
-                                        <p class="time-table-interval">10:00AM-11:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-502</span></p>
-                                        <p class="time-table-interval">11:00AM-12:00PM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-503</span></p>
-                                        <p class="time-table-interval">1:00AM-2:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-501</span></p>
-                                        <p class="time-table-interval">2:00AM-3:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-506</span></p>
-                                        <p class="time-table-interval">3:00AM-4:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-505</span></p>
+                                <div class="card-body pt-3">
+                                    <div class="bg-white" style="position: sticky; top: 0px; z-index: 10;">
+                                        <h6 class="text-ucsp py-2">ဘာသာရပ် စုစုပေါင်း: {{ $totalSubject }}</h6>
+                                        <div class="divider my-1"></div>
                                     </div>
+
+                                    <div style="">
+                                        <p class="bg-white py-2" style="position: sticky; top: 45px; z-index: 9;">First Semester</p>
+                                        <div class="border-ucsp position-relative mb-4">
+                                            <p class="time-table-interval position-absolute bg-white p-1" style="top: -17px; left: 10px;">First Year</p>
+                                            <p class="px-3 pt-3" style="font-size: 14px;">
+                                                @foreach ($t1y1cs as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                            </p>
+                                        </div>
+                                        <div class="border-ucsp position-relative mb-4">
+                                            <p class="time-table-interval position-absolute bg-white p-1" style="top: -17px; left: 10px;">Second Year</p>
+                                            <p class="px-3 pt-3" style="font-size: 14px;">
+                                                <span class="text-ucsp">Computer Science</span><br>
+                                                @foreach ($t1y2cs as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                                <br><span class="text-ucsp">Computer Technology</span><br>
+                                                @foreach ($t1y2ct as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                            </p>
+                                        </div>
+                                        <div class="border-ucsp position-relative mb-4">
+                                            <p class="time-table-interval position-absolute bg-white p-1" style="top: -17px; left: 10px;">Third Year</p>
+                                            <p class="px-3 pt-3" style="font-size: 14px;">
+                                                <span class="text-ucsp">Computer Science</span><br>
+                                                @foreach ($t1y3cs as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                                <br><span class="text-ucsp">Computer Technology</span><br>
+                                                @foreach ($t1y3ct as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                            </p>
+                                        </div>
+                                        <div class="border-ucsp position-relative mb-4">
+                                            <p class="time-table-interval position-absolute bg-white p-1" style="top: -17px; left: 10px;">Fouth Year</p>
+                                            <p class="px-3 pt-3" style="font-size: 14px;">
+                                                <span class="text-ucsp">Computer Science</span><br>
+                                                @foreach ($t1y4cs as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                                <br><span class="text-ucsp">Computer Technology</span><br>
+                                                @foreach ($t1y4ct as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                            </p>
+                                        </div>
+                                        <div class="border-ucsp position-relative mb-4">
+                                            <p class="time-table-interval position-absolute bg-white p-1" style="top: -17px; left: 10px;">Final Year</p>
+                                            <p class="px-3 pt-3" style="font-size: 14px;">
+                                                <span class="text-ucsp">Computer Science</span><br>
+                                                @foreach ($t1y5cs as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                                <br><span class="text-ucsp">Computer Technology</span><br>
+                                                @foreach ($t1y5ct as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div style="">
+                                        <p class="bg-white py-2" style="position: sticky; top: 45px; z-index: 8;">Second Semester</p>
+                                        <div class="border-ucsp position-relative mb-4">
+                                            <p class="time-table-interval position-absolute bg-white p-1" style="top: -17px; left: 10px;">First Year</p>
+                                            <p class="px-3 pt-3" style="font-size: 14px;">
+                                                @foreach ($t2y1cs as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                            </p>
+                                        </div>
+                                        <div class="border-ucsp position-relative mb-4">
+                                            <p class="time-table-interval position-absolute bg-white p-1" style="top: -17px; left: 10px;">Second Year</p>
+                                            <p class="px-3 pt-3" style="font-size: 14px;">
+                                                <span class="text-ucsp">Computer Science</span><br>
+                                                @foreach ($t2y2cs as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                                <br><span class="text-ucsp">Computer Technology</span><br>
+                                                @foreach ($t2y2ct as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                            </p>
+                                        </div>
+                                        <div class="border-ucsp position-relative mb-4">
+                                            <p class="time-table-interval position-absolute bg-white p-1" style="top: -17px; left: 10px;">Third Year</p>
+                                            <p class="px-3 pt-3" style="font-size: 14px;">
+                                                <span class="text-ucsp">Computer Science</span><br>
+                                                @foreach ($t2y3cs as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                                <br><span class="text-ucsp">Computer Technology</span><br>
+                                                @foreach ($t2y3ct as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                            </p>
+                                        </div>
+                                        <div class="border-ucsp position-relative mb-4">
+                                            <p class="time-table-interval position-absolute bg-white p-1" style="top: -17px; left: 10px;">Fouth Year</p>
+                                            <p class="px-3 pt-3" style="font-size: 14px;">
+                                                <span class="text-ucsp">Computer Science</span><br>
+                                                @foreach ($t2y4cs as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                                <br><span class="text-ucsp">Computer Technology</span><br>
+                                                @foreach ($t2y4ct as $subject)
+                                                    <span style="cursor: pointer;" title="{{$subject['subject_name']}}">{{$subject["subject_code"]." · "}}</span>
+                                                @endforeach
+                                            </p>
+                                        </div>
+                                    </div>
+
+
                                 </div>
                             </div>
                         </div>
@@ -658,3 +929,56 @@
         </div>
     </div>
 @endsection
+
+@push("script")
+
+// for multiple select
+$(document).ready(function(){
+
+var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+   removeItemButton: true,
+   maxItemCount:50,
+   searchResultLimit:10,
+   renderChoiceLimit:5
+ });
+
+ var multipleCancelButton1 = new Choices('#choices-multiple-remove-button-1', {
+   removeItemButton: true,
+   maxItemCount:50,
+   searchResultLimit:10,
+   renderChoiceLimit:5
+ });
+
+ var multipleCancelButton2 = new Choices('#choices-multiple-remove-button-2', {
+   removeItemButton: true,
+   maxItemCount:50,
+   searchResultLimit:10,
+   renderChoiceLimit:5
+ });
+
+ var multipleCancelButton3 = new Choices('#choices-multiple-remove-button-3', {
+   removeItemButton: true,
+   maxItemCount:1,
+   searchResultLimit:10,
+   renderChoiceLimit:5
+ });
+
+ var multipleCancelButton4 = new Choices('#choices-multiple-remove-button-4', {
+   removeItemButton: true,
+   maxItemCount:1,
+   searchResultLimit:10,
+   renderChoiceLimit:5
+ });
+
+ var multipleCancelButton5 = new Choices('#choices-multiple-remove-button-5', {
+   removeItemButton: true,
+   maxItemCount:1,
+   searchResultLimit:10,
+   renderChoiceLimit:5
+ });
+
+
+});
+@endpush
+
+

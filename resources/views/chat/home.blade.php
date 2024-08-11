@@ -6,7 +6,7 @@
         <div class="bg-light">
             <div class="horizontal-menu py-2 mt-1 d-flex justify-content-between">
                 <div class="d-flex">
-                    <a href="{{route('user@home')}}"><button class="btn btn-ucsp me-3 my-1"><i class="fa-solid fa-arrow-left me-2"></i>Back</button></a>
+                    <a href="{{route($back)}}"><button class="btn btn-ucsp me-3 my-1"><i class="fa-solid fa-arrow-left me-2"></i>Back</button></a>
                     <label for="announce-alert" class="announce-alert bg-white rounded-pill border py-2 px-3 d-flex">
                         <i class="bi-megaphone-fill pe-2 text-ucsp"></i>
                         <marquee direction="rtl" class="text-ucsp">This is new announce.</marquee>
@@ -26,7 +26,7 @@
                         <div class="d-flex justify-content-center mt-1 ms-5">
                             <div class="position-relative">
                                 <h5 class="profile-title">{{$user->name}}</h5>
-                                <p class="profile-role">{{Str::words(Str::after($dept->name, 'Department of'), 2, '...')}}</p>
+                                <p class="profile-role">{{Str::words(Str::after($dept->name, 'Department of'), 4, '...')}}</p>
                             </div>
                             <div class="ms-2">
                                 @if ($user->profile_photo == null)
