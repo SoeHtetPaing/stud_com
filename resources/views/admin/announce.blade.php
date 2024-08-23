@@ -7,13 +7,14 @@
                 <!-- vertical menubar -->
                 <nav>
                     <div class="logo d-flex pt-3">
-                        <img src="{{ asset('img/favicon/stud_com.png') }}" alt="logo" class="logo-image mt-1">
+                        <img src="{{ asset('img/favicon/stud_com.png') }}" alt="logo" class="logo-image" style="margin-top: 6.8px;">
                         <h4 class="logo-title d-none d-lg-inline px-3 text-ucsp">Studcom <span class="pageuser-role">(admin)</span></h>
                     </div>
-                    <hr>
+                    <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 1px;"></div>
+
                     <div class="d-flex flex-column flex-shrink-0">
                         <ul class="nav nav-pills flex-column mb-auto">
-                            <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">General</h6>
+                            <h6 class="text-ucsp ps-1 d-none d-lg-inline" style="font-size: 14px;">General</h6>
                             <li class="nav-item">
                                 <a href="{{route('user@home')}}" class="nav-link link-body-emphasis" aria-current="page">
                                     <i class="bi-grid"></i>
@@ -32,7 +33,8 @@
                                     <span class="d-none d-lg-inline ms-3">User</span>
                                 </a>
                             </li>
-                            <hr>
+                            <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 0.7px;"></div>
+
                             <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">Managemant</h6>
                             <li>
                                 <a href="{{route('admin@manageTimetable')}}" class="nav-link link-body-emphasis">
@@ -58,7 +60,8 @@
                                     <span class="d-none d-lg-inline ms-3">Grade</span>
                                 </a>
                             </li>
-                            <hr>
+                            <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 1px;"></div>
+
                             <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">Personal</h6>
                             <li class="d-none d-lg-inline">
                                 <a href="{{route('admin@manageProfile')}}" class="nav-link link-body-emphasis">
@@ -71,7 +74,7 @@
                                     @csrf
                                     <button type="submit" class="nav-link link-body-emphasis">
                                         <i class="bi bi-box-arrow-left"></i>
-                                        <span class="d-none d-lg-inline ms-3">Sign out</span>
+                                        <span class="d-none d-lg-inline ms-3">Log out</span>
                                     </button>
                                 </form>
                             </li>
@@ -100,7 +103,7 @@
                                             @csrf
                                             <button type="submit" class="nav-link link-body-emphasis">
                                                 <i class="bi bi-box-arrow-left"></i>
-                                                <span class="d-none d-lg-inline ms-3">Sign out</span>
+                                                <span class="d-none d-lg-inline ms-3">Log out</span>
                                             </button>
                                         </form>
                                     </li>
@@ -185,7 +188,7 @@
                                             <div class="d-flex align-item-center">
                                                 <div class="position-relative">
                                                     <h6 class="profile-title">{{Str::words(Str::after($r->name, 'Daw'), 5, '...')}} ({{$r["role"]}})</h6>
-                                                    <p class="profile-date">{{$r->created_at->format('D F Y')}}</p>
+                                                    <p class="profile-date">{{$r->created_at->format('D d F Y')}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -201,7 +204,7 @@
                                     <div class="card-body">
                                         <h6 class="text-ucsp">{{$r['title']}}</h6>
                                         <p class=" text-justify">{{Str::words($r['content'], 20, '...')}}</p>
-                                        <small><a href="mailto:{{$r['email']}}">
+                                        <small><a class="text-decoration-none" href="mailto:{{$r['email']}}">
                                             {{$r['email']}}
                                         </a></small>
                                     </div>
@@ -221,15 +224,15 @@
                         <form action="{{route('admin@addAnnouncement')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group mb-3">
-                              <label for="annoTitle"><span class="text-danger fw-bold">*</span> Enter announcement title</label>
+                              <label class="form-label" for="annoTitle"><span class="text-danger fw-bold">*</span> Enter announcement title</label>
                               <input type="text" name="annoTitle" class="form-control" required="" placeholder="Exam timetable များထုတ်ပြန်ကြေငြာခြင်း">
                             </div>
                             <div class="form-group mb-3">
-                              <label for="annoContent"><span class="text-danger fw-bold">*</span> Enter announcement content</label>
+                              <label class="form-label" for="annoContent"><span class="text-danger fw-bold">*</span> Enter announcement content</label>
                               <textarea name="annoContent" id="" cols="30" rows="8" class="form-control" required="" placeholder="13.3.2024 ရက်မှ 24.3.2024 အထိ ကျင်းပပြုလုပ်မည့် exam timetable များမှာ..."></textarea>
                             </div>
                             <div class="form-group mb-3">
-                              <label for="annoImage"><span class="text-success fw-bold">*</span> Announcement photo is optional</label>
+                              <label class="form-label" for="annoImage"><span class="text-success fw-bold">*</span> Announcement photo is optional</label>
                               <input type="file" name="annoImage" class="form-control">
                             </div>
                             <div class="form-group mb-3 text-end">

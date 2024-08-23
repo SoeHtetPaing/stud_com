@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white main-text border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -13,20 +13,8 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        <i class="bi-grid me-2"></i>
                         {{ __('Dashboard') }}
                     </x-nav-link>
-
-                    <x-nav-link href="{{ route(Auth::user()->role.'@timetable') }}" :active="request()->routeIs(Auth::user()->role.'@timetable')">
-                        <i class="bi-table me-2"></i>
-                        {{ __('Timetable') }}
-                    </x-nav-link>
-
-                    <x-nav-link href="{{ route(Auth::user()->role.'@timetable') }}" :active="request()->routeIs(Auth::user()->role.'@timetable')">
-                        <i class="fa-solid fa-graduation-cap me-2"></i>
-                        {{ __('Grade') }}
-                    </x-nav-link>
-
                 </div>
             </div>
 
@@ -36,18 +24,15 @@
                     <div class="ms-3 relative">
                         <x-dropdown align="right" width="60">
                             <x-slot name="trigger">
-                                <div class="inline-flex rounded-md">
-                                    <img src="{{asset('upload/pp.jpeg')}}" alt="pp" width="32" height="32"
-                                        class="rounded-circle">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-0 border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-
+                                <span class="inline-flex rounded-md">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                         {{ Auth::user()->currentTeam->name }}
 
                                         <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                                         </svg>
                                     </button>
-                                </div>
+                                </span>
                             </x-slot>
 
                             <x-slot name="content">

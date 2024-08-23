@@ -4,7 +4,7 @@
             <x-authentication-card-logo />
         </x-slot>
 
-        <x-validation-errors class="mb-3" />
+        <x-validation-errors class="mb-2" />
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
@@ -14,12 +14,12 @@
                 <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             </div>
 
-            <div class="mt-3">
+            <div class="mt-2">
                 <x-label for="email" value="{{ __('Email') }}" />
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             </div>
 
-            <div class="mt-3">
+            <div class="mt-2">
                 <x-label for="role" value="{{ __('Role') }}" />
                 <select name="role" id="role" class="block mt-1  w-full rounded">
                     <option value="Student">Student</option>
@@ -27,7 +27,7 @@
                 </select>
             </div>
 
-            <div class="mt-3">
+            <div class="mt-2">
                 <x-label for="dept" value="{{ __('Department') }}" />
                 <select name="dept" id="dept" class="block mt-1  w-full rounded">
                     @foreach($dept as $item)
@@ -36,7 +36,7 @@
                 </select>
             </div>
 
-            <div class="mt-3">
+            <div class="mt-2">
                 <x-label for="section" value="{{ __('Section') }}" />
                 <select name="section" id="section" class="block mt-1  w-full rounded">
                     <option value="Section A">Section A</option>
@@ -47,27 +47,27 @@
                 </select>
             </div>
 
-            <div class="d-flex align-items-center mt-3">
+            <div class="d-flex align-items-center mt-2">
                 <x-input id="gendar" value="Male" type="radio" name="gendar" class="me-1" checked />
-                <x-label for="gendar" value="{{ __('Male') }}" class="me-2" />
+                <x-label for="gendar" class="form-label" value="{{ __('Male') }}" class="me-2 mt-1" />
 
                 <x-input id="gendar" value="Female" type="radio" name="gendar" class="me-1" />
-                <x-label for="gendar" value="{{ __('Female') }}" />
+                <x-label for="gendar" class="form-label mt-1" value="{{ __('Female') }}" />
 
             </div>
 
-            <div class="mt-3">
+            <div class="mt-2">
                 <x-label for="password" value="{{ __('Password') }}" />
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             </div>
 
-            <div class="mt-3">
+            <div class="mt-2">
                 <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                <div class="mt-3">
+                <div class="mt-2">
                     <x-label for="terms">
                         <div class="flex items-center">
                             <x-checkbox name="terms" id="terms" required />

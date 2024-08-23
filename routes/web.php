@@ -53,12 +53,30 @@ Route::get('/admin/manageUser/edit/{id}', [AdminController::class, 'editUser'])-
 Route::post('/admin/manageUser/updateUser', [AdminController::class, 'updateUser'])->name('admin@updateUser');
 
 
-
-
 Route::get('/admin/manageTimetable', [AdminController::class, 'manageTimetable'])->name('admin@manageTimetable');
+Route::get('/admin/manageTimetable/deleteAllTimetable', [AdminController::class, 'deleteAllTimetable'])->name('admin@deleteAllTimetable');
+Route::get('/admin/manageTimetable/delete/{id}', [AdminController::class, 'deleteTimetable'])->name('admin@deleteTimetable');
+Route::get('/admin/manageTimetable/edit/{id}', [AdminController::class, 'editTimetable'])->name('admin@editTimetable');
+Route::post('/admin/manageTimetable/updateTimetable', [AdminController::class, 'updateTimetable'])->name('admin@updateTimetable');
+
 Route::get('/admin/manageDepartment', [AdminController::class, 'manageDepartment'])->name('admin@manageDepartment');
+Route::get('/admin/manageDepartment/delete/{id}', [AdminController::class, 'deleteDepartment'])->name('admin@deleteDepartment');
+Route::get('/admin/manageDepartment/edit/{id}', [AdminController::class, 'editDepartment'])->name('admin@editDepartment');
+Route::post('/admin/manageDepartment/updateDepartment', [AdminController::class, 'updateDepartment'])->name('admin@updateDepartment');
+
+
 Route::get('/admin/manageGroup', [AdminController::class, 'manageGroup'])->name('admin@manageGroup');
+Route::get('/admin/manageGroup/delete/{id}', [AdminController::class, 'deleteGroup'])->name('admin@deleteGroup');
+Route::get('/admin/manageGroup/edit/{id}', [AdminController::class, 'editGroup'])->name('admin@editGroup');
+Route::post('/admin/manageGroup/updateGroup', [AdminController::class, 'updateGroup'])->name('admin@updateGroup');
+Route::get('/admin/manageGroup/removeMember/{id}', [AdminController::class, 'removeMember'])->name('admin@removeMember');
+Route::post('/admin/manageGroup/addMember', [AdminController::class, 'addMember'])->name('admin@addMember');
+
 Route::get('/admin/manageGrade', [AdminController::class, 'manageGrade'])->name('admin@manageGrade');
+Route::get('/admin/manageGrade/delete/{id}', [AdminController::class, 'deleteGrade'])->name('admin@deleteGrade');
+Route::get('/admin/manageGrade/edit/{id}', [AdminController::class, 'editGrade'])->name('admin@editGrade');
+Route::post('/admin/manageGrade/updateGradeFile', [AdminController::class, 'updateGradeFile'])->name('admin@updateGradeFile');
+Route::post('/admin/manageGrade/updateGrade', [AdminController::class, 'updateGrade'])->name('admin@updateGrade');
 
 Route::get('/admin/manageProfile', [AdminController::class, 'manageProfile'])->name('admin@manageProfile');
 

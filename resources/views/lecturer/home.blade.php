@@ -44,7 +44,7 @@
                                 @csrf
                                 <button type="submit" class="nav-link link-body-emphasis">
                                     <i class="bi bi-box-arrow-left"></i>
-                                    <span class="d-none d-lg-inline ms-3">Sign out</span>
+                                    <span class="d-none d-lg-inline ms-3">Log out</span>
                                 </button>
                             </form>
                         </li>
@@ -68,7 +68,7 @@
             <!-- main content -->
             <div class="col-10 bg-light">
                 <div class="horizontal-menu py-2 mt-1 d-flex justify-content-between">
-                    <label for="announce-alert" class="announce-alert bg-white rounded-pill py-2 px-3 d-flex">
+                    <label class="form-label" for="announce-alert" class="announce-alert bg-white rounded-pill py-2 px-3 d-flex">
                         <i class="bi-megaphone-fill pe-2 text-ucsp"></i>
                         <marquee direction="rtl" class="text-ucsp">This is new announce.</marquee>
                     </label>

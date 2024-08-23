@@ -7,7 +7,7 @@
             <div class="horizontal-menu py-2 mt-1 d-flex justify-content-between">
                 <div class="d-flex">
                     <a href="{{route($back)}}"><button class="btn btn-ucsp me-3 my-1"><i class="fa-solid fa-arrow-left me-2"></i>Back</button></a>
-                    <label for="announce-alert" class="announce-alert bg-white rounded-pill border py-2 px-3 d-flex">
+                    <label class="form-label" for="announce-alert" class="announce-alert bg-white rounded-pill border py-2 px-3 d-flex">
                         <i class="bi-megaphone-fill pe-2 text-ucsp"></i>
                         <marquee direction="rtl" class="text-ucsp">This is new announce.</marquee>
                     </label>

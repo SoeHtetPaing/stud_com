@@ -26,7 +26,7 @@
             </div>
 
             <div class="block mt-3">
-                <label for="remember_me" class="flex items-center">
+                <label class="form-label" for="remember_me" class="flex items-center">
                     <x-checkbox id="remember_me" name="remember" />
                     <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
                 </label>

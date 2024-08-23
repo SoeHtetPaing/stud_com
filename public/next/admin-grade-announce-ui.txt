@@ -51,16 +51,16 @@
 
             <form action="{{route('admin@addSubject')}}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="form-groub mb-3">
-                    <label for="year"><span class="text-danger fw-bold">*</span> Select academic year</label>
+                <div class="form-group mb-3">
+                    <label class="form-label" for="year"><span class="text-danger fw-bold">*</span> Select academic year</label>
                     <select name="year" id="year" class="form-select">
                         @foreach($stuDept as $item)
                           <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="form-groub mb-3">
-                    <label for="term"><span class="text-danger fw-bold">*</span> Select semester term</label>
+                <div class="form-group mb-3">
+                    <label class="form-label" for="term"><span class="text-danger fw-bold">*</span> Select semester term</label>
                     <select name="term" id="section" class="form-select">
                         <option value="First Term CS">First Term CS</option>
                         <option value="First Term CT">First Term CT</option>
@@ -68,8 +68,8 @@
                         <option value="Second Term CT">Second Term CT</option>
                     </select>
                 </div>
-                <div class="form-groub mb-3">
-                  <label for="subjectCode"><span class="text-danger fw-bold">*</span> Enter subject code & name</label>
+                <div class="form-group mb-3">
+                  <label class="form-label" for="subjectCode"><span class="text-danger fw-bold">*</span> Enter subject code & name</label>
                   <div class="row">
                     <div class="col">
                         <input type="text" name="subjectCode" class="form-control" required="" placeholder="CST-1101">

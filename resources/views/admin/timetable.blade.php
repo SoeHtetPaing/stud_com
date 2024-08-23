@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main-clone')
 
 @section('content')
     <div class="container-fluid">
@@ -13,7 +13,7 @@
                     <hr>
                     <div class="d-flex flex-column flex-shrink-0">
                         <ul class="nav nav-pills flex-column mb-auto">
-                            <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">General</h6>
+                            <h6 class="text-ucsp ps-1 d-none d-lg-inline" style="font-size: 14px;">General</h6>
                             <li class="nav-item">
                                 <a href="{{route('user@home')}}" class="nav-link link-body-emphasis" aria-current="page">
                                     <i class="bi-grid"></i>
@@ -71,7 +71,7 @@
                                     @csrf
                                     <button type="submit" class="nav-link link-body-emphasis">
                                         <i class="bi bi-box-arrow-left"></i>
-                                        <span class="d-none d-lg-inline ms-3">Sign out</span>
+                                        <span class="d-none d-lg-inline ms-3">Log out</span>
                                     </button>
                                 </form>
                             </li>
@@ -100,7 +100,7 @@
                                             @csrf
                                             <button type="submit" class="nav-link link-body-emphasis">
                                                 <i class="bi bi-box-arrow-left"></i>
-                                                <span class="d-none d-lg-inline ms-3">Sign out</span>
+                                                <span class="d-none d-lg-inline ms-3">Log out</span>
                                             </button>
                                         </form>
                                     </li>
@@ -123,7 +123,7 @@
                                 <a href="{{route('user@chat', ['back' => 'admin@manageTimetable'])}}">
                                     <i class="bi bi-chat-fill text-ucsp px-2"></i>
                                 <span
-                                    class="position-absolute translate-middle  p-1 bg-danger border border-2 border-light rounded-circle absolute-message"></span>
+                                    class="position-absolute translate-middle  p-1 bg-danger border border-2 border-light rounded-circle absolute-message" style="top: 0.8rem; right: 0.4rem;"></span>
                                 </a>
                             </div>
                         </div>
@@ -152,98 +152,969 @@
 
                         <div class="mb-3">
                             <div class="bg-white border rounded-pill">
-                                <form action="{{route('admin@manageTimetable')}}" method="get">
-                                    <div class="input-group px-3 py-2">
-                                        <input type="text" value="{{request('key')}}" name="key" class="search-input" placeholder="Search">
-                                        <button class="search-btn" type="submit"><i class="fa fa-search text-ucsp"></i></button>
+                                <div class="input-group px-3 pt-2 pb-1">
+                                    <div class="search-input text-ucsp">
+                                        <marquee behavior="" direction="" class="ms-3">If one semister finish, delete all timetables and setup timetables for next semister. Delete all timetables for click <i class="fa-solid fa-arrow-right ms-2"></i></marquee>
                                     </div>
-                                </form>
+                                    <a href="{{route('admin@deleteAllTimetable')}}" class="search-btn text-decoration-none">
+                                        <button class="btn btn-sm btn-delete btn-danger" style="margin-left: 40%;"><i class="fa fa-trash"></i></button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
+                        <div class="row mx-2"  style="height: 630px; overflow-y: scroll;">
+                            <ul class="nav nav-underline" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                  <a class="nav-link active" id="simple-tab-1" data-bs-toggle="tab" href="#simple-tabpanel-1" role="tab" aria-controls="simple-tabpanel-0" aria-selected="true">1<sup>st</sup> Year</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                  <a class="nav-link" id="simple-tab-2" data-bs-toggle="tab" href="#simple-tabpanel-2" role="tab" aria-controls="simple-tabpanel-1" aria-selected="false">2<sup>nd</sup> Year</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                  <a class="nav-link" id="simple-tab-3" data-bs-toggle="tab" href="#simple-tabpanel-3" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">3<sup>rd</sup> Year</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="simple-tab-4" data-bs-toggle="tab" href="#simple-tabpanel-4" role="tab" aria-controls="simple-tabpanel-3" aria-selected="false">4<sup>th</sup> Year</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="simple-tab-5" data-bs-toggle="tab" href="#simple-tabpanel-5" role="tab" aria-controls="simple-tabpanel-4" aria-selected="false">5<sup>th</sup> Year</a>
+                                </li>
+                            </ul>
 
-                        @if (count($data) == 0)
-                            <div class="my-5 text-center">
-                                <div class="text-muted fs-5">
-                                    Oop! No data found<br>
-                                    <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
-                                </div>
-                            </div>
-                         @else
+                            <div class="tab-content py-3" id="tab-content">
+                                <div class="tab-pane active" id="simple-tabpanel-1" role="tabpanel" aria-labelledby="simple-tab-0">
 
-                            <div class="row">
-                            @foreach ($data as $r)
-
-                                <div class="col-sm col-md-12 col-lg-6 col-xl-6 mb-3">
-                                    <div class="card" style="height: 275px;">
-                                        <div class="card-header my-card-header">
-                                            <div class="d-flex">
-                                                <div class="me-2">
-                                                    @if ($r["profile_photo"] == null)
-                                                    <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
-                                                    @else
-                                                    <img src="{{ asset('storage/upload/'.$r->profile_photo) }}" alt="profile" class="profile-icon rounded-circle">
-                                                    @endif
-                                                </div>
-                                                <div class="d-flex align-item-center">
-                                                    <div class="position-relative">
-                                                        <h6 class="profile-title">{{Str::words(Str::after($r->name, 'Daw'), 5, '...')}}</h6>
-                                                        <p class="profile-date">
-                                                            {{$r->role}}
-                                                            @if ($r['gendar'] == "Male")
-                                                                <i class="fa-solid fa-mars text-warning"></i>
-                                                            @else
-                                                                <i class="fa-solid fa-venus" style="color: deeppink;"></i>
-                                                            @endif
-                                                        </p>
-                                                    </div>
-                                                </div>
+                                        {{-- 1 year section A --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>First Year Section A</h6>
                                             </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="m-0 text-end">
-                                                <span class="text-muted" style="font-size: 13px;">Name:&emsp;</span>
-                                                <span style="font-size: 15px;">
-                                                    {{$r['name']}}
-                                                </span>
-                                            </p>
+                                            @if (count($y1s1) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
 
-                                            <p class="m-0 text-end">
-                                                <span class="text-muted" style="font-size: 13px;">Email:&emsp;</span>
-                                                <small><a href="mailto:{{$r['email']}}">
-                                                    {{$r['email']}}
-                                                </a></small>
-                                            </p>
-                                            <p class="m-0 text-end">
-                                                <span class="text-muted" style="font-size: 13px;">Department:&emsp;</span>
-                                                <span style="font-size: 15px;">
-                                                    {{Str::words(Str::after($r->dept_name, 'Department of'), 4, '...')}}
-                                                </span>
-                                            </p>
-                                            <p class="m-0 text-end">
-                                                @if ($r['section'] != "")
-                                                <span class="text-muted" style="font-size: 13px;">Section:&emsp;</span>
-                                                <span style="font-size: 15px;">
-                                                    {{$r['section']}}
-                                                </span>
-                                                @endif
-                                            </p>
+                                                    @foreach ($y1s1 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
                                         </div>
-                                        <div class="card-footer text-end">
-                                            <a href="{{route('admin@deleteUser', $r['id'])}}" class="text-decoration-none">
-                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
-                                            </a>
-                                            <a href="{{route('admin@editUser', $r['id'])}}" class="text-decoration-none">
-                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
-                                            </a>
+
+                                        {{-- 1 year section B --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>First Year Section B</h6>
+                                            </div>
+                                            @if (count($y1s2) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y1s2 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
                                         </div>
-                                    </div>
+
+                                        {{-- 1 year section C --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>First Year Section C</h6>
+                                            </div>
+                                            @if (count($y1s3) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y1s3 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
+                                        </div>
+
                                 </div>
+                                <div class="tab-pane" id="simple-tabpanel-2" role="tabpanel" aria-labelledby="simple-tab-1">
 
-                            @endforeach
+                                        {{-- 2 year section A --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>Second Year Section A</h6>
+                                            </div>
+                                            @if (count($y2s1) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y2s1 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- 2 year section B --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>Second Year Section B</h6>
+                                            </div>
+                                            @if (count($y2s2) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y2s2 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- 2 year section CT --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>Second Year Section CT</h6>
+                                            </div>
+                                            @if (count($y2s3) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y2s3 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                </div>
+                                <div class="tab-pane" id="simple-tabpanel-3" role="tabpanel" aria-labelledby="simple-tab-2">
+
+                                        {{-- 3 year section A --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>Third Year Section A</h6>
+                                            </div>
+                                            @if (count($y3s1) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y3s1 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- 3 year section B --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>Third Year Section B</h6>
+                                            </div>
+                                            @if (count($y3s2) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y3s2 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- 3 year section CT --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>Third Year Section CT</h6>
+                                            </div>
+                                            @if (count($y3s3) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y3s3 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                </div>
+                                <div class="tab-pane" id="simple-tabpanel-4" role="tabpanel" aria-labelledby="simple-tab-3">
+
+                                        {{-- 4 year section A --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>Fourth Year Section A</h6>
+                                            </div>
+                                            @if (count($y4s1) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y4s1 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- 4 year section B --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>Fourth Year Section B</h6>
+                                            </div>
+                                            @if (count($y4s2) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y4s2 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- 4 year section CT --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>Fourth Year Section CT</h6>
+                                            </div>
+                                            @if (count($y4s3) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y4s3 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                </div>
+                                <div class="tab-pane" id="simple-tabpanel-5" role="tabpanel" aria-labelledby="simple-tab-4">
+
+                                        {{-- 5 year section A --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>Final Year Section A</h6>
+                                            </div>
+                                            @if (count($y5s1) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y5s1 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- 5 year section B --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>Final Year Section B</h6>
+                                            </div>
+                                            @if (count($y5s2) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y5s2 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- 5 year section CT --}}
+                                        <div class="card mb-3">
+                                            <div class="card-header my-card-header">
+                                                <h6>Final Year Section CT</h6>
+                                            </div>
+                                            @if (count($y5s3) == 0)
+                                                <td colspan="4" style="">
+                                                    <div class="my-5 text-center">
+                                                        <div class="text-muted fs-5">
+                                                            Oop! No data found<br>
+                                                            <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @else
+                                            <div class="card-body table-responsive">
+                                               <table class="table table-hover" style="width: 1500px;">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start Hour</th>
+                                                    <th>End Hour</th>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Lecturer Name</th>
+                                                    <th>Duration</th>
+                                                    <th>Actions</th>
+                                                </tr>
+
+                                                    @foreach ($y5s3 as $r)
+
+                                                    <tr>
+                                                        <td>{{$r["day"]}}</td>
+                                                        <td>{{$r["start_hour"]}}</td>
+                                                        <td>{{$r["end_hour"]}}</td>
+                                                        <td>{{$r["subject_code"]}}</td>
+                                                        <td>{{$r["subject_name"]}}</td>
+                                                        <td>{{$r["lecturer_name"]}}</td>
+                                                        <td>
+                                                            @php
+                                                                $start = Str::before($r["start_hour"], ':');
+                                                                $end = Str::before($r["end_hour"], ':');
+                                                                $interval = $end - $start;
+                                                            @endphp
+                                                            {{$interval}} Hr
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </a>
+                                                            <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">
+                                                                <button class="btn btn-sm btn-outline-ucsp"><i class="fa fa-edit"></i></button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+
+                                                </table>
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                </div>
                             </div>
-                            {{$data->appends(request()->query())->links()}}
-                        @endif
+                        </div>
                     </div>
 
                     <div class="col-sm col-lg-4 bg-white"  style="position: sticky; top: 65px; z-index: 10; height: 700px; overflow-y: scroll;">
@@ -251,10 +1122,10 @@
 
                         {{-- message --}}
                         @if (\Session::has('message'))
-                        <div class="bg-white rounded border-ucspyay py-2 px-3 text-ucsp mb-3"><i class="bi bi-check-all me-2"></i>{{ \Session::get('message') }}</div>
+                        <div class="bg-white rounded border-ucspyay py-2 px-3 text-ucsp my-3"><i class="bi bi-check-all me-2"></i>{{ \Session::get('message') }}</div>
                         @endif
                         @if (\Session::has('error'))
-                            <div class="bg-white rounded border border-danger py-2 px-3 text-danger mb-3"><i class="bi bi-x me-2"></i>{{ \Session::get('error') }}</div>
+                            <div class="bg-white rounded border border-danger py-2 px-3 text-danger my-3"><i class="bi bi-x me-2"></i>{{ \Session::get('error') }}</div>
                         @endif
 
                         <div class="accordion mt-3" id="manageAccordion">
@@ -270,16 +1141,16 @@
                                 <div class="accordion-body">
                                     <form action="{{route('admin@addTimetable')}}" method="POST" enctype="multipart/form-data">
                                         @csrf
-                                        <div class="form-groub mb-3">
-                                            <label for="year"><span class="text-danger fw-bold">*</span> Select academic year</label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="year"><span class="text-danger fw-bold">*</span> Select academic year</label>
                                             <select name="year" id="year" class="form-select">
                                                 @foreach($stuDept as $item)
                                                   <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-groub mb-3">
-                                            <label for="section"><span class="text-danger fw-bold">*</span> Select section</label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="section"><span class="text-danger fw-bold">*</span> Select section</label>
                                             <select name="section" id="section" class="form-select">
                                                 <option value="Section A">Section A</option>
                                                 <option value="Section B">Section B</option>
@@ -287,8 +1158,8 @@
                                                 <option value="Section CT">Section CT</option>
                                             </select>
                                         </div>
-                                        <div class="form-groub mb-3">
-                                            <label for="day"><span class="text-danger fw-bold">*</span> Select day</label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="day"><span class="text-danger fw-bold">*</span> Select day</label>
                                             <select name="day" id="day" class="form-select">
                                                 <option value="Monday">Monday</option>
                                                 <option value="Tueday">Tueday</option>
@@ -297,8 +1168,8 @@
                                                 <option value="Friday">Friday</option>
                                             </select>
                                         </div>
-                                        <div class="form-groub mb-3">
-                                            <label for="startHour"><span class="text-danger fw-bold">*</span> Select time interval</label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="startHour"><span class="text-danger fw-bold">*</span> Select time interval</label>
                                             <div class="row">
                                                 <div class="col">
                                                     <select name="startHour" id="startHour" class="form-select">
@@ -324,16 +1195,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-groub mb-3">
-                                            <label for="choices-multiple-remove-button"><span class="text-danger fw-bold">*</span> Search & select a subject</label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="choices-multiple-remove-button"><span class="text-danger fw-bold">*</span> Search & select a subject</label>
                                             <select name="subject[]" id="choices-multiple-remove-button" required="" multiple>
                                               @foreach ($subject as $sub)
                                                   <option value="{{ $sub['id'] }}">{{ $sub['subject_code']." · ".$sub['subject_name'] }}</option>
                                               @endforeach
                                           </select>
                                           </div>
-                                          <div class="form-groub mb-3">
-                                            <label for="choices-multiple-remove-button-1"><span class="text-danger fw-bold">*</span> Search & select lecturer</label>
+                                          <div class="form-group mb-3">
+                                            <label class="form-label" for="choices-multiple-remove-button-1"><span class="text-danger fw-bold">*</span> Search & select lecturer</label>
                                             <select name="lecturer[]" id="choices-multiple-remove-button-1" required="" multiple>
                                                 @foreach ($lecturer as $lect)
                                                 <option value="{{ $lect['user_name'] }}">{{ $lect['user_name']." · ".$lect['dept_name'] }}</option>
@@ -359,16 +1230,16 @@
                                   <div class="accordion-body">
                                     <form action="{{route('admin@addSubjectInTimetable')}}" method="POST" enctype="multipart/form-data">
                                         @csrf
-                                        <div class="form-groub mb-3">
-                                            <label for="year"><span class="text-danger fw-bold">*</span> Select academic year</label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="year"><span class="text-danger fw-bold">*</span> Select academic year</label>
                                             <select name="year" id="year" class="form-select">
                                                 @foreach($stuDept as $item)
                                                   <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-groub mb-3">
-                                            <label for="term"><span class="text-danger fw-bold">*</span> Select semester term</label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="term"><span class="text-danger fw-bold">*</span> Select semester term</label>
                                             <select name="term" id="section" class="form-select">
                                                 <option value="First Term CS">First Term CS</option>
                                                 <option value="First Term CT">First Term CT</option>
@@ -376,8 +1247,8 @@
                                                 <option value="Second Term CT">Second Term CT</option>
                                             </select>
                                         </div>
-                                        <div class="form-groub mb-3">
-                                          <label for="subjectCode"><span class="text-danger fw-bold">*</span> Enter subject code & name</label>
+                                        <div class="form-group mb-3">
+                                          <label class="form-label" for="subjectCode"><span class="text-danger fw-bold">*</span> Enter subject code & name</label>
                                           <div class="row">
                                             <div class="col">
                                                 <input type="text" name="subjectCode" class="form-control" required="" placeholder="CST-1101">

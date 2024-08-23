@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main-clone')
 
 @section('content')
     <div class="container" style="min-height: 100vh; background-color: rgba(0, 151, 178, 0.025)">
@@ -49,18 +49,18 @@
                             <div class="bg-white rounded border border-danger py-2 px-3 text-danger mb-3"><i class="bi bi-x me-2"></i>{{ \Session::get('error') }}</div>
                         @endif
 
-                        <input class="form-control" type="hidden" name="user_id" id="announce_id" value="{{$data['id']}}">
+                        <input class="form-control" type="hidden" name="user_id" id="user_id" value="{{$data['id']}}">
 
-                        <div class="form-groub mb-3">
-                            <label for="name"><span class="text-danger fw-bold">*</span> Name</label>
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="name"><span class="text-danger fw-bold">*</span> Name</label>
                             <input type="text" name="name" class="form-control" required="" value="{{$data['name']}}">
                           </div>
-                          <div class="form-groub mb-3">
-                              <label for="email"><span class="text-danger fw-bold">*</span> Email</label>
+                          <div class="form-group mb-3">
+                              <label class="form-label" for="email"><span class="text-danger fw-bold">*</span> Email</label>
                               <input type="email" name="email" class="form-control" required="" value="{{$data['email']}}">
                           </div>
-                          <div class="form-groub mb-3">
-                            <label for="role"><span class="text-danger fw-bold">*</span> Current role</span></label>
+                          <div class="form-group mb-3">
+                            <label class="form-label" for="role"><span class="text-danger fw-bold">*</span> Current role</span></label>
                             @php
                                 $r = ["Admin", "Lecturer", "EC Student", "Student", "Granduate"];
                             @endphp
@@ -80,8 +80,8 @@
                             </select>
                           </div>
 
-                          <div class="form-groub mb-3">
-                              <label for="dept"><span class="text-danger fw-bold">*</span> Current Department</label>
+                          <div class="form-group mb-3">
+                              <label class="form-label" for="dept"><span class="text-danger fw-bold">*</span> Current Department</label>
                               <select name="dept" id="dept" class="form-select">
                                   @foreach($dept as $item)
                                     <option value="{{ $item->id }}" @if ($item->id == $data["dept_id"]) selected @endif>{{ $item->name }}</option>
@@ -92,8 +92,8 @@
                           @php
                               if ($data["section"] != "") {
                             @endphp
-                                <div class="form-groub mb-3">
-                                <label for="section"><span class="text-danger fw-bold">*</span> Current section</span></label>
+                                <div class="form-group mb-3">
+                                <label class="form-label" for="section"><span class="text-danger fw-bold">*</span> Current section</span></label>
                             @php
                                 $r = ["Section A", "Section B", "Section C", "Section CT"];
                             @endphp
@@ -126,15 +126,27 @@
                                   <label class="form-check-label" for="inlineRadio2">Female</label>
                               </div>
                           </div>
-                          <div class="form-groub mb-3">
-                                <label for="lectPassword"><span class="text-danger fw-bold">*</span> Reset password, click <span class="btn-delete bg-danger text-white rounded py-1 px-2 ms-1"><i class="fa-solid fa-power-off me-1"></i> Reset</span>
+                          <div class="form-group mb-3">
+                                <label class="form-label" for="lectPassword"><span class="text-danger fw-bold">*</span> Reset password, click <span class="btn-delete bg-danger text-white rounded py-1 px-2 ms-1"><i class="fa-solid fa-power-off me-1"></i> Reset</span>
                                     <br>
-                                    <span class="text-black">Generated Password</span>
-                                    <ul class="">
-                                        <li>Admin:&emsp;<span class="text-black">admin@ucsp</span></li>
-                                        <li>Lecturer:&emsp;<span class="text-black">lecturer@ucsp</span></li>
-                                        <li>Student:&emsp;<span class="text-black">student@ucsp</span></li>
-                                    </ul>
+                                    <table class="table table-hover mt-3">
+                                        <tr>
+                                            <th>Role</th>
+                                            <th>Reset Password</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Admin</td>
+                                            <td>admin@ucsp</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Lecturer</td>
+                                            <td>lecturer@ucsp</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Student</td>
+                                            <td>student@ucsp</td>
+                                        </tr>
+                                    </table>
                                     <span class="text-danger">This is individually password reset! Not for all.</span>
                                 </label>
                             </div>

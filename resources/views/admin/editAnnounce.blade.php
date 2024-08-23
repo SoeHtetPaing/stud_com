@@ -45,20 +45,20 @@
                         <input class="form-control" type="hidden" name="announce_id" id="announce_id" value="{{$data['id']}}">
 
                         <div class="form-group mb-3">
-                            <label for="annoTitle"><span class="text-danger fw-bold">*</span> Announcement title</label>
+                            <label class="form-label" for="annoTitle"><span class="text-danger fw-bold">*</span> Announcement title</label>
                             <input type="text" name="annoTitle" class="form-control" required="" value="{{$data['title']}}">
                           </div>
                           <div class="form-group mb-3">
-                            <label for="annoContent"><span class="text-danger fw-bold">*</span> Announcement content</label>
+                            <label class="form-label" for="annoContent"><span class="text-danger fw-bold">*</span> Announcement content</label>
                             <textarea name="annoContent" id="" cols="30" rows="8" class="form-control" required="">{{$data['content']}}</textarea>
                           </div>
                           @if ($data['image'] == null)
                           <div class="form-group mb-3">
-                              <label for="annoImage"><span class="text-success fw-bold">*</span> Announcement photo is optional</label>
+                              <label class="form-label" for="annoImage"><span class="text-success fw-bold">*</span> Announcement photo is optional</label>
                               <input type="file" name="annoImage" class="form-control">
                           </div>
                           @else
-                          <label for="annoImage"><span class="text-success fw-bold">*</span> Click image to update photo</label>
+                          <label class="form-label" for="annoImage"><span class="text-success fw-bold">*</span> Click image to update photo</label>
 
                           <div class="bg-light rounded text-center">
                               <img style="cursor: pointer;" src="{{asset('storage/upload/'.$data['image'])}}" alt="{{$data['image']}}" class="w-75" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -90,7 +90,7 @@
     <form action="{{route('admin@updateAnnouncePhoto')}}" enctype="multipart/form-data" method="post">
             @csrf
             <input class="form-control" type="hidden" name="announce_id" id="announce_id" value="{{$data['id']}}">
-            <label for="annoImage"><span class="text-success fw-bold">*</span> Select new announce photo</label>
+            <label class="form-label" for="annoImage"><span class="text-success fw-bold">*</span> Select new announce photo</label>
             <input id="annoImage" name="annoImage" type="file" class="form-control">
         </div>
         <div class="modal-footer border-top-none">

@@ -30,11 +30,11 @@ class AdminController extends Controller
         }
 
         Announcement::create(["title" => $req["annoTitle"], "content" => $req["annoContent"], "announcer_id" => Auth::user()->id, "image" => $image]);
-        $anno_id = Announcement::count();
+        $last = Announcement::all()->last();
 
         $audience = User::where("role", "!=", "admin")->get();
         foreach ($audience as $data) {
-            AnnouncementNoti::create(["announce_id" => $anno_id, "audience_id" => $data->id, "is_seen" => false]);
+            AnnouncementNoti::create(["announce_id" => $last->id, "audience_id" => $data->id, "is_seen" => false]);
         }
 
         return redirect()->back()->with("message", "New announcement is successfully added.");
@@ -123,14 +123,14 @@ class AdminController extends Controller
         }
 
         Group::create(["name" => $req["groupName"], "type" => "mul2mul", "creater_id" => Auth::user()->id, "image" => $image]);
-        $group_id = Group::count();
+        $last = Group::all()->last();
 
-        GroupMember::create(["group_id" => $group_id, "user_id" => Auth::user()->id]);
+        GroupMember::create(["group_id" => $last->id, "user_id" => Auth::user()->id]);
 
         $members = $req["member"];
         if($members != null) {
             foreach ($members as $member) {
-                GroupMember::create(["group_id" => $group_id, "user_id" => $member]);
+                GroupMember::create(["group_id" => $last->id, "user_id" => $member]);
             }
         }
 
@@ -148,14 +148,14 @@ class AdminController extends Controller
         }
 
         Group::create(["name" => $req["groupName"], "type" => "mul2mul", "creater_id" => Auth::user()->id, "image" => $image]);
-        $group_id = Group::count();
+        $last = Group::all()->last();
 
-        GroupMember::create(["group_id" => $group_id, "user_id" => Auth::user()->id]);
+        GroupMember::create(["group_id" => $last->id, "user_id" => Auth::user()->id]);
 
         $members = $req["member"];
         if($members != null) {
             foreach ($members as $member) {
-                GroupMember::create(["group_id" => $group_id, "user_id" => $member]);
+                GroupMember::create(["group_id" => $last->id, "user_id" => $member]);
             }
         }
 
@@ -173,14 +173,14 @@ class AdminController extends Controller
         }
 
         Group::create(["name" => $req["groupName"], "type" => "mul2mul", "creater_id" => Auth::user()->id, "image" => $image]);
-        $group_id = Group::count();
+        $last = Group::all()->last();
 
-        GroupMember::create(["group_id" => $group_id, "user_id" => Auth::user()->id]);
+        GroupMember::create(["group_id" => $last->id, "user_id" => Auth::user()->id]);
 
         $members = $req["member"];
         if($members != null) {
             foreach ($members as $member) {
-                GroupMember::create(["group_id" => $group_id, "user_id" => $member]);
+                GroupMember::create(["group_id" => $last->id, "user_id" => $member]);
             }
         }
 
@@ -224,8 +224,12 @@ class AdminController extends Controller
         // dd($req);
         if($req->hasFile("gradeFile")) {
             $file = $req->file("gradeFile")->getClientOriginalName();
+            $unique = uniqid();
+            $unique_file = $unique."-iQ-".$file;
+            // dd($unique_file);
+
             // dd($file);
-            $req->file("gradeFile")->storeAs("public/upload", $file);
+            $req->file("gradeFile")->storeAs("public/upload", $unique_file);
         } else {
             return redirect()->back()->with("error", "Empty grade file!");
         }
@@ -239,19 +243,19 @@ class AdminController extends Controller
         // dd($group_exist);
 
         if($group_exist == null) {
-            Group::create(["name" => $group_name, "type" => "sig2sig", "creater_id" => Auth::user()->id, "image" => null]);
-            $group_id = Group::count();
+            Group::create(["name" => $group_name, "type" => "grade2announce", "creater_id" => Auth::user()->id, "image" => null]);
+            $last = Group::all()->last();
 
-            GroupMember::create(["group_id" => $group_id, "user_id" => Auth::user()->id]);
+            GroupMember::create(["group_id" => $last->id, "user_id" => Auth::user()->id]);
 
             $members = $req["member"];
             if($members != null) {
                 foreach ($members as $member) {
-                    GroupMember::create(["group_id" => $group_id, "user_id" => $member]);
-                    $member_id = GroupMember::count();
-                    GroupConversation::create(["group_id" => $group_id, "member_id" => $member_id, "message" => $req["message"], "attachment" => $file]);
-                    $conversation_id = GroupConversation::count();
-                    GroupConversationNoti::create(["conversation_id" => $conversation_id, "audience_id" => $member, "is_seen" => false]);
+                    GroupMember::create(["group_id" => $last->id, "user_id" => $member]);
+                    $last_m = GroupMember::all()->last();
+                    GroupConversation::create(["group_id" => $last->id, "member_id" => $last_m->id, "message" => $req["message"], "attachment" => $unique_file]);
+                    $last_c = GroupConversation::all()->last();
+                    GroupConversationNoti::create(["conversation_id" => $last_c->id, "audience_id" => $member, "is_seen" => false]);
                 }
             }
 
@@ -263,9 +267,9 @@ class AdminController extends Controller
                     $member_id = GroupMember::where("group_id", $group_exist["id"])->where("user_id", $member)->first();
                     // dd($member_id);
 
-                    GroupConversation::create(["group_id" => $group_exist["id"], "member_id" => $member_id["id"], "message" => $req["message"], "attachment" => $file]);
-                    $conversation_id = GroupConversation::count();
-                    GroupConversationNoti::create(["conversation_id" => $conversation_id, "audience_id" => $member, "is_seen" => false]);
+                    GroupConversation::create(["group_id" => $group_exist["id"], "member_id" => $member_id["id"], "message" => $req["message"], "attachment" => $unique_file]);
+                    $last_c = GroupConversation::all()->last();
+                    GroupConversationNoti::create(["conversation_id" => $last_c->id, "audience_id" => $member, "is_seen" => false]);
                 }
             }
 
@@ -287,7 +291,7 @@ class AdminController extends Controller
         $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->when(request('key'), function ($p) {
             $key = request('key');
             $p->orWhere('title', 'like', '%'.$key.'%')->orWhere('content', 'like', '%'.$key.'%');
-        })->orderBy('announcements.created_at', 'desc')->paginate(2);
+        })->orderBy('announcements.updated_at', 'desc')->paginate(2);
 
         return view('admin.announce', [
             "user" => $user,
@@ -297,6 +301,12 @@ class AdminController extends Controller
     }
 
     public function deleteAnnounce ($id) {
+
+        $announce = Announcement::where('id', $id)->first();
+        $old_img = $announce['image'];
+        // dd($old_img);
+        Storage::delete('public/upload/'.$old_img);
+
         AnnouncementNoti::where('announce_id', $id)->delete();
         Announcement::where('id', $id)->delete();
 
@@ -408,6 +418,11 @@ class AdminController extends Controller
 
     public function deleteUser ($id) {
         // dd($id);
+        $user = User::where('id', $id)->first();
+        $old_img = $user['profile_photo'];
+        // dd($old_img);
+        Storage::delete('public/upload/'.$old_img);
+
         User::where('id', $id)->delete();
 
         return redirect()->back()->with("error", "User is successfully deleted.");
@@ -489,22 +504,115 @@ class AdminController extends Controller
         // dd($data);
 
         // $data = Timetable::all()->groupBy("department_id");
-        $data = Timetable::join("departments", "timetables.department_id", "=", "departments.id")->select("timetables.*", "departments.name")->when(request('key'), function ($p) {
-            $key = request('key');
-            $p->orWhere('title', 'like', '%'.$key.'%')->orWhere('content', 'like', '%'.$key.'%');
-        })->get()->groupBy("name");
+        // $data = Timetable::join("departments", "timetables.department_id", "=", "departments.id")->select("timetables.*", "departments.name")->when(request('key'), function ($p) {
+        //     $key = request('key');
+        //     $p->orWhere('title', 'like', '%'.$key.'%')->orWhere('content', 'like', '%'.$key.'%');
+        // })->get()->groupBy("name")->groupBy("section");
+        // $data = $data->toArray();
+        // dd($data);
 
-        // dd($data->toArray());
+        $y1s1 = Timetable::where("department_id", 1)->where("section", "Section A")->get()->toArray();
+        $y1s2 = Timetable::where("department_id", 1)->where("section", "Section B")->get()->toArray();
+        $y1s3 = Timetable::where("department_id", 1)->where("section", "Section C")->get()->toArray();
+
+        $y2s1 = Timetable::where("department_id", 2)->where("section", "Section A")->get()->toArray();
+        $y2s2 = Timetable::where("department_id", 2)->where("section", "Section B")->get()->toArray();
+        $y2s3 = Timetable::where("department_id", 2)->where("section", "Section CT")->get()->toArray();
+
+        $y3s1 = Timetable::where("department_id", 3)->where("section", "Section A")->get()->toArray();
+        $y3s2 = Timetable::where("department_id", 3)->where("section", "Section B")->get()->toArray();
+        $y3s3 = Timetable::where("department_id", 3)->where("section", "Section CT")->get()->toArray();
+
+        $y4s1 = Timetable::where("department_id", 4)->where("section", "Section A")->get()->toArray();
+        $y4s2 = Timetable::where("department_id", 4)->where("section", "Section B")->get()->toArray();
+        $y4s3 = Timetable::where("department_id", 4)->where("section", "Section CT")->get()->toArray();
+
+        $y5s1 = Timetable::where("department_id", 5)->where("section", "Section A")->get()->toArray();
+        $y5s2 = Timetable::where("department_id", 5)->where("section", "Section B")->get()->toArray();
+        $y5s3 = Timetable::where("department_id", 5)->where("section", "Section CT")->get()->toArray();
+
+        // dd(count($y5s2));
+
 
         return view('admin.timetable', [
             "user" => $user,
             "dept" => $dept,
-            "data" => $data,
+            // "data" => $data,
             "stuDept" => Department::whereIn("name", ["First Year", "Second Year", "Third Year", "Fourth Year", "Final Year"])->get(),
             "subject" => $subject,
-            "lecturer" => $lecturer
+            "lecturer" => $lecturer,
+            "y1s1" => $y1s1,
+            "y1s2" => $y1s2,
+            "y1s3" => $y1s3,
+
+            "y2s1" => $y2s1,
+            "y2s2" => $y2s2,
+            "y2s3" => $y2s3,
+
+            "y3s1" => $y3s1,
+            "y3s2" => $y3s2,
+            "y3s3" => $y3s3,
+
+            "y4s1" => $y4s1,
+            "y4s2" => $y4s2,
+            "y4s3" => $y4s3,
+
+            "y5s1" => $y5s1,
+            "y5s2" => $y5s2,
+            "y5s3" => $y5s3,
 
         ]);
+    }
+
+    public function deleteAllTimetable () {
+        // dd("delete all");
+        Timetable::truncate();
+
+        return redirect()->back()->with("error", "Timetables in this semister are all cleared! Let start up for next semister schedule.");
+    }
+
+    public function deleteTimetable ($id) {
+        // dd($id);
+        Timetable::where('id', $id)->delete();
+
+        return redirect()->back()->with("error", "A timetable schedule is successfully deleted.");
+    }
+
+    public function editTimetable ($id) {
+        // dd($id);
+        $data = Timetable::where('id', $id)->first();
+        $subject = Subject::all();
+        $lecturer = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->orWhere("users.role", "Lecturer")->orWhere("users.role", "Admin")->get();
+        $stuDept = Department::whereIn("name", ["First Year", "Second Year", "Third Year", "Fourth Year", "Final Year"])->get();
+
+
+        // $data = User::join("departments", "users.department", "=", "departments.id")->select("users.*", "departments.id as dept_id", "departments.name as dept_name")->where('users.id', $id)->first();
+
+        // if($data['section'] == "") {
+        //     $dept = Department::whereNotIn("name", ["First Year", "Second Year", "Third Year", "Fourth Year", "Final Year", "Granduate"])->get();
+        // } else {
+        //     $dept = Department::whereIn("name", ["First Year", "Second Year", "Third Year", "Fourth Year", "Final Year", "Granduate"])->get();
+        // }
+
+        // dd($data);
+
+        return view('admin.editTimetable', compact('data', 'stuDept', 'subject', 'lecturer'));
+    }
+
+    public function updateTimetable (Request $req) {
+        // dd($req);
+
+        $name = $req["lecturer"][0];
+        $subject_id = $req["subject"][0];
+        // dd($email);
+
+        $subject = Subject::where("id", $subject_id)->first();
+
+        // dd($subject["subject_name"]);
+        Timetable::where("id", $req["tid"])->update(["department_id" => $req["year"], "section" => $req["section"], "day" => $req["day"], "start_hour" => $req["startHour"], "end_hour" => $req["endHour"], "subject_code" => $subject["subject_code"], "subject_name" => $subject["subject_name"], "lecturer_name" => $name]);
+
+        return redirect()->route("admin@manageTimetable")->with("message", "A timetable schedule is successfully updated.");
+
     }
 
     public function manageDepartment () {
@@ -515,12 +623,11 @@ class AdminController extends Controller
         // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
         // dd($data);
 
-        $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->when(request('key'), function ($p) {
+        $data = Department::when(request('key'), function ($p) {
             $key = request('key');
-            $p->orWhere('title', 'like', '%'.$key.'%')->orWhere('content', 'like', '%'.$key.'%');
-        })->orderBy('announcements.created_at', 'desc')->paginate(2);
+            $p->orWhere('name', 'like', '%'.$key.'%');
+        })->orderBy('updated_at', 'desc')->paginate(6);
 
-        $data = $data->toArray();
 
         return view('admin.department', [
             "user" => $user,
@@ -529,16 +636,288 @@ class AdminController extends Controller
         ]);
     }
 
+    public function deleteDepartment ($id) {
+        // dd($id);
+        $dept = Department::where('id', $id)->first();
+        Department::where('id', $id)->delete();
+
+        return redirect()->back()->with("error", "Department name '".$dept->name."' is successfully deleted.");
+    }
+
+    public function editDepartment ($id) {
+        // dd($id);
+        $data = Department::where('id', $id)->first();
+
+        // $data = User::join("departments", "users.department", "=", "departments.id")->select("users.*", "departments.id as dept_id", "departments.name as dept_name")->where('users.id', $id)->first();
+
+        // if($data['section'] == "") {
+        //     $dept = Department::whereNotIn("name", ["First Year", "Second Year", "Third Year", "Fourth Year", "Final Year", "Granduate"])->get();
+        // } else {
+        //     $dept = Department::whereIn("name", ["First Year", "Second Year", "Third Year", "Fourth Year", "Final Year", "Granduate"])->get();
+        // }
+
+        // dd($data);
+
+        return view('admin.editDepartment', compact('data'));
+    }
+
+    public function updateDepartment (Request $req) {
+        // dd($req);
+        $show_id = $req["deptShowId"];
+
+        Department::where("id", $req["deptId"])->update(["name" => $req["deptName"]]);
+
+        return redirect()->route("admin@manageDepartment")->with("message", "Department '".$show_id."' is successfully updated.");
+
+    }
+
     public function manageGroup () {
-        return view('admin.group');
+        $user = Auth::user();
+        $dept = Department::where("id", $user->department)->first();
+
+        $lecturer = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->orWhere("users.role", "Lecturer")->orWhere("users.role", "Admin")->get();
+        $student = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->where("users.role", "Student")->get();
+        $custom = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->get();
+
+
+        // $data = Announcement::orderBy("created_at", "desc")->paginate(1);
+        // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
+        // dd($data);
+
+        $data = Group::where("type", "mul2mul")->join("users", "groups.creater_id", "=", "users.id")->select("groups.*", "users.name as user_name", "users.email", "users.gendar", "users.profile_photo")->when(request('key'), function ($p) {
+            $key = request('key');
+            $p->where('groups.name', 'like', '%'.$key.'%');
+        })->orderBy('groups.updated_at', 'desc')->paginate(4);
+
+        // dd($data);
+
+
+        return view('admin.group', [
+            "user" => $user,
+            "dept" => $dept,
+            "data" => $data,
+            "lecturer" => $lecturer,
+            "student" => $student,
+            "custom" => $custom
+        ]);
+    }
+
+    public function deleteGroup ($id) {
+        // dd($id);
+        $group = Group::where('id', $id)->first();
+
+        $old_img = $group['image'];
+        // dd($old_img);
+        Storage::delete('public/upload/'.$old_img);
+
+        $convert = GroupConversation::where('group_id', $group->id)->get();
+        foreach ($convert as $value) {
+            GroupConversationNoti::where("conversation_id", $value->id)->delete();
+        }
+        GroupConversation::where("group_id", $id)->delete();
+        GroupMember::where("group_id", $id)->delete();
+        Group::where('id', $id)->delete();
+
+        return redirect()->back()->with("error", "Group '".$group->name."' is successfully deleted.");
+    }
+
+    public function editGroup ($id) {
+        // dd($id);
+
+        $data = Group::where("groups.id", $id)->join("users", "groups.creater_id", "=", "users.id")->select("groups.*", "users.name as user_name", "users.email", "users.gendar", "users.profile_photo")->first();
+        $member = GroupMember::where("group_id", $id)->join("users", "group_members.user_id", "=", "users.id")->select("group_members.*", "users.name as user_name", "users.email", "users.gendar", "users.profile_photo")->get();
+        $custom = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->get();
+
+        // dd($member);
+
+        return view('admin.editGroup', compact('data', 'member', 'custom'));
+    }
+
+    public function updateGroup (Request $req) {
+        // dd($req);
+
+        Group::where("id", $req["groupId"])->update(["name" => $req["groupName"]]);
+
+        return redirect()->route("admin@editGroup", ["id" => $req["groupId"]])->with("message", "Group name is successfully updated.");
+
+    }
+
+    public function removeMember ($id) {
+        // dd($id);
+        $temp = GroupMember::where('id', $id)->first();
+        $member = User::where('id', $temp->user_id)->first();
+        // dd($temp);
+        $convert = GroupConversation::where('group_id', $temp->group_id)->where('member_id', $temp->id)->get();
+        foreach ($convert as $value) {
+            GroupConversationNoti::where("conversation_id", $value->id)->delete();
+        }
+        GroupMember::where('id', $id)->delete();
+
+
+        return redirect()->back()->with("error", "Member '".$member->name."' is successfully removed from this group.");
+    }
+
+    public function addMember (Request $req) {
+        // dd($req);
+        $members = $req["member"];
+        $msg = [];
+        $errors = [];
+        if($members != null) {
+            foreach ($members as $member) {
+                $member_exist = GroupMember::where('group_id', $req["groupId"])->where('user_id', $member)->first();
+                // dd($member_exist);
+                if($member_exist == null) {
+                    GroupMember::create(["group_id" => $req["groupId"], "user_id" => $member]);
+                    $user = User::where('id', $member)->first();
+                    array_push($msg, $user->name." is successfully enrolled in this group.");
+                } else {
+                    $user = User::where('id', $member_exist->user_id)->first();
+                    array_push($errors, $user->name." is already memberized in this group!");
+                }
+
+            }
+        }
+
+        return redirect()->route('admin@editGroup', $req['groupId'])->with(["msg" => $msg, "errors" => $errors]);
+
     }
 
     public function manageGrade () {
-        return view('admin.grade');
+        $user = Auth::user();
+        $dept = Department::where("id", $user->department)->first();
+
+        $student = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->where("users.role", "Student")->get();
+
+        $data = Group::where('type', 'grade2announce')->join("group_conversations", "groups.id", "=", "group_conversations.group_id")->join("users", "groups.creater_id", "=", "users.id")->select("group_conversations.*", "groups.name as group_name", "groups.type", "groups.creater_id", "users.name as creater_name")->when(request('key'), function ($p) {
+            $key = request('key');
+            $p->where('group_conversations.message', 'like', '%'.$key.'%');
+        })->orderBy('group_conversations.created_at', 'desc')->paginate(10);
+
+        // dd($data);
+
+
+        return view('admin.grade', [
+            "user" => $user,
+            "dept" => $dept,
+            "data" => $data,
+            "student" => $student
+        ]);
+    }
+
+    public function deleteGrade ($id) {
+        // dd($id);
+        $gc = GroupConversation::where('id', $id)->first();
+        // dd($gc);
+
+        $old_img = $gc['attachment'];
+        // dd($old_img);
+        Storage::delete('public/upload/'.$old_img);
+
+
+        GroupConversationNoti::where("conversation_id", $id)->delete();
+        GroupConversation::where("id", $id)->delete();
+
+        return redirect()->back()->with("error", "Grade announcement is successfully deleted.");
+    }
+
+    public function editGrade ($id) {
+        // dd($id);
+
+        $data = GroupConversation::where('group_conversations.id', $id)->join("groups", "group_conversations.group_id", "=", "groups.id")->join("users", "groups.creater_id", "=", "users.id")->select("group_conversations.*", "groups.name as group_name", "groups.type", "groups.creater_id", "users.name as creater_name", "users.profile_photo")->first();
+        // dd($data);
+        $gm = GroupMember::where('id', $data->member_id)->first();
+        $rc = User::where('id', $gm->user_id)->first();
+        // dd($rc);
+
+        return view('admin.editGrade', compact('data', 'rc'));
+    }
+
+    public function updateGradeFile (Request $req) {
+        // dd($req);
+        $cid = $req['cid'];
+
+        if($req->hasFile("gradeFile")) {
+            $file = $req->file("gradeFile")->getClientOriginalName();
+            $unique = uniqid();
+            $unique_file = $unique."-iQ-".$file;
+            // dd($unique_file);
+
+            $temp = GroupConversation::where("id", $cid)->first();
+            // dd($temp);
+            $old_file = $temp['attachment'];
+            // dd($old_img);
+
+            Storage::delete('public/upload/'.$old_file);
+            // dd($file);
+            $req->file("gradeFile")->storeAs("public/upload", $unique_file);
+
+            GroupConversation::where("id", $cid)->update(["attachment" => $unique_file]);
+
+            return redirect()->back()->with("message", "Grade file is successfully updated.");
+        } else {
+            return redirect()->back()->with("error", "Error! File is null.");
+        }
+
+    }
+
+    public function updateGrade (Request $req) {
+        // dd($req);
+        $action = $req["submit"];
+        $cid = $req["cid"];
+        // dd($action);
+
+        if($action == "Remove") {
+            $temp = GroupConversation::where("id", $cid)->first();
+            // dd($temp);
+            $old_file = $temp['attachment'];
+            // dd($old_img);
+
+            Storage::delete('public/upload/'.$old_file);
+            GroupConversation::where("id", $cid)->update(["attachment" => ""]);
+
+            return redirect()->back()->with("message", "Grade file is successfully removed.");
+        } else {
+            //  dd($req);
+            if($req->hasFile("attachment")) {
+                $file = $req->file("attachment")->getClientOriginalName();
+                $unique = uniqid();
+                $unique_file = $unique."-iQ-".$file;
+                // dd($unique_file);
+    
+                $req->file("attachment")->storeAs("public/upload", $unique_file);
+    
+                GroupConversation::where("id", $cid)->update(["message" => $req["message"], "attachment" => $unique_file]);
+    
+                return redirect()->back()->with("message", "Grade is successfully updated.");
+            } else {
+                GroupConversation::where("id", $cid)->update(["message" => $req["message"]]);
+
+                return redirect()->back()->with("message", "Grade name is successfully updated.");
+            }
+        }
+
     }
 
     public function manageProfile () {
-        return view('admin.profile');
+        $user = Auth::user();
+        $dept = Department::where("id", $user->department)->first();
+
+
+        // // $data = Announcement::orderBy("created_at", "desc")->paginate(1);
+        // // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
+        // // dd($data);
+
+        // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->when(request('key'), function ($p) {
+        //     $key = request('key');
+        //     $p->orWhere('title', 'like', '%'.$key.'%')->orWhere('content', 'like', '%'.$key.'%');
+        // })->orderBy('announcements.created_at', 'desc')->paginate(2);
+
+
+        return view('admin.profile', [
+            "user" => $user,
+            "dept" => $dept,
+            // "data" => $data
+        ]);
     }
 
 }

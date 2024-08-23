@@ -7,13 +7,14 @@
                 <!-- vertical menubar -->
                 <nav>
                     <div class="logo d-flex pt-3">
-                        <img src="{{ asset('img/favicon/stud_com.png') }}" alt="logo" class="logo-image mt-1">
+                        <img src="{{ asset('img/favicon/stud_com.png') }}" alt="logo" class="logo-image" style="margin-top: 6.8px;">
                         <h4 class="logo-title d-none d-lg-inline px-3 text-ucsp">Studcom <span class="pageuser-role">(admin)</span></h>
                     </div>
-                    <hr>
+                    <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 1px;"></div>
+
                     <div class="d-flex flex-column flex-shrink-0">
                         <ul class="nav nav-pills flex-column mb-auto">
-                            <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">General</h6>
+                            <h6 class="text-ucsp ps-1 d-none d-lg-inline" style="font-size: 14px;">General</h6>
                             <li class="nav-item">
                                 <a href="{{route('user@home')}}" class="nav-link active-vertical-menu" aria-current="page">
                                     <i class="bi-grid"></i>
@@ -32,7 +33,8 @@
                                     <span class="d-none d-lg-inline ms-3">User</span>
                                 </a>
                             </li>
-                            <hr>
+                            <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 0.7px;"></div>
+
                             <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">Managemant</h6>
                             <li>
                                 <a href="{{route('admin@manageTimetable')}}" class="nav-link link-body-emphasis">
@@ -58,7 +60,8 @@
                                     <span class="d-none d-lg-inline ms-3">Grade</span>
                                 </a>
                             </li>
-                            <hr>
+                            <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 1px;"></div>
+
                             <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">Personal</h6>
                             <li class="d-none d-lg-inline">
                                 <a href="{{route('admin@manageProfile')}}" class="nav-link link-body-emphasis">
@@ -71,7 +74,7 @@
                                     @csrf
                                     <button type="submit" class="nav-link link-body-emphasis">
                                         <i class="bi bi-box-arrow-left"></i>
-                                        <span class="d-none d-lg-inline ms-3">Sign out</span>
+                                        <span class="d-none d-lg-inline ms-3">Log out</span>
                                     </button>
                                 </form>
                             </li>
@@ -100,7 +103,7 @@
                                             @csrf
                                             <button type="submit" class="nav-link link-body-emphasis">
                                                 <i class="bi bi-box-arrow-left"></i>
-                                                <span class="d-none d-lg-inline ms-3">Sign out</span>
+                                                <span class="d-none d-lg-inline ms-3">Log out</span>
                                             </button>
                                         </form>
                                     </li>
@@ -198,15 +201,15 @@
                                             <form action="{{route('admin@addAnnouncement')}}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="form-group mb-3">
-                                                  <label for="annoTitle"><span class="text-danger fw-bold">*</span> Enter announcement title</label>
+                                                  <label class="form-label" for="annoTitle"><span class="text-danger fw-bold">*</span> Enter announcement title</label>
                                                   <input type="text" name="annoTitle" class="form-control" required="" placeholder="Exam timetable များထုတ်ပြန်ကြေငြာခြင်း">
                                                 </div>
                                                 <div class="form-group mb-3">
-                                                  <label for="annoContent"><span class="text-danger fw-bold">*</span> Enter announcement content</label>
+                                                  <label class="form-label" for="annoContent"><span class="text-danger fw-bold">*</span> Enter announcement content</label>
                                                   <textarea name="annoContent" id="" cols="30" rows="8" class="form-control" required="" placeholder="13.3.2024 ရက်မှ 24.3.2024 အထိ ကျင်းပပြုလုပ်မည့် exam timetable များမှာ..."></textarea>
                                                 </div>
                                                 <div class="form-group mb-3">
-                                                  <label for="annoImage"><span class="text-success fw-bold">*</span> Announcement photo is optional</label>
+                                                  <label class="form-label" for="annoImage"><span class="text-success fw-bold">*</span> Announcement photo is optional</label>
                                                   <input type="file" name="annoImage" class="form-control">
                                                 </div>
                                                 <div class="form-group mb-3 text-end">
@@ -228,8 +231,8 @@
                                         <div class="accordion-body">
                                             <form action="{{route('admin@addAdmin')}}" method="POST" enctype="multipart/form-data">
                                                 @csrf
-                                                <div class="form-groub mb-3">
-                                                  <label for="email"><span class="text-danger fw-bold">*</span> Enter email approve as admin</label>
+                                                <div class="form-group mb-3">
+                                                  <label class="form-label" for="email"><span class="text-danger fw-bold">*</span> Enter email approve as admin</label>
                                                   <input type="email" name="adminEmail" class="form-control" required="" placeholder="username@ucspyay.edu.mm">
                                                 </div>
                                                 <div class="form-group mb-3 text-end">
@@ -251,16 +254,16 @@
                                           <div class="accordion-body">
                                             <form action="{{route('admin@addLecturer')}}" method="POST" enctype="multipart/form-data">
                                                 @csrf
-                                                <div class="form-groub mb-3">
-                                                  <label for="lectName"><span class="text-danger fw-bold">*</span> Enter lecturer name</label>
+                                                <div class="form-group mb-3">
+                                                  <label class="form-label" for="lectName"><span class="text-danger fw-bold">*</span> Enter lecturer name</label>
                                                   <input type="text" name="lectName" class="form-control" required="" placeholder="Daw Ni Ni Win">
                                                 </div>
-                                                <div class="form-groub mb-3">
-                                                    <label for="lectEmail"><span class="text-danger fw-bold">*</span> Enter lecturer email</label>
+                                                <div class="form-group mb-3">
+                                                    <label class="form-label" for="lectEmail"><span class="text-danger fw-bold">*</span> Enter lecturer email</label>
                                                     <input type="email" name="lectEmail" class="form-control" required="" placeholder="niniwin@ucspyay.edu.mm">
                                                 </div>
-                                                <div class="form-groub mb-3">
-                                                    <label for="dept"><span class="text-danger fw-bold">*</span> Select department name</label>
+                                                <div class="form-group mb-3">
+                                                    <label class="form-label" for="dept"><span class="text-danger fw-bold">*</span> Select department name</label>
                                                     <select name="dept" id="dept" class="form-select">
                                                         @foreach($lectDept as $item)
                                                           <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -277,12 +280,12 @@
                                                         <label class="form-check-label" for="inlineRadio2">Female</label>
                                                     </div>
                                                 </div>
-                                                <div class="form-groub mb-3">
-                                                    <label for="lectPassword"><span class="text-success fw-bold">*</span> Default password for lecturer is <span class="text-ucsp">lecturer@ucsp</span></label>
+                                                <div class="form-group mb-3">
+                                                    <label class="form-label" for="lectPassword"><span class="text-success fw-bold">*</span> Default password for lecturer is <span class="text-ucsp">lecturer@ucsp</span></label>
                                                     <input type="password" name="lectPassword" class="form-control" required="" value="lecturer@ucsp">
                                                   </div>
                                                 <div class="form-group mb-3">
-                                                  <label for="lectImage"><span class="text-success fw-bold">*</span> Profile photo is optional</label>
+                                                  <label class="form-label" for="lectImage"><span class="text-success fw-bold">*</span> Profile photo is optional</label>
                                                   <input type="file" name="lectImage" class="form-control">
                                                 </div>
                                                 <div class="form-group mb-3 text-end">
@@ -304,24 +307,24 @@
                                           <div class="accordion-body">
                                             <form action="{{route('admin@addStudent')}}" method="POST" enctype="multipart/form-data">
                                                 @csrf
-                                                <div class="form-groub mb-3">
-                                                  <label for="stuName"><span class="text-danger fw-bold">*</span> Enter student name</label>
+                                                <div class="form-group mb-3">
+                                                  <label class="form-label" for="stuName"><span class="text-danger fw-bold">*</span> Enter student name</label>
                                                   <input type="text" name="stuName" class="form-control" required="" placeholder="Soe Htet Paing">
                                                 </div>
-                                                <div class="form-groub mb-3">
-                                                    <label for="stuEmail"><span class="text-danger fw-bold">*</span> Enter student email</label>
+                                                <div class="form-group mb-3">
+                                                    <label class="form-label" for="stuEmail"><span class="text-danger fw-bold">*</span> Enter student email</label>
                                                     <input type="email" name="stuEmail" class="form-control" required="" placeholder="soehtetpaing@ucspyay.edu.mm">
                                                 </div>
-                                                <div class="form-groub mb-3">
-                                                    <label for="dept"><span class="text-danger fw-bold">*</span> Select academic year</label>
+                                                <div class="form-group mb-3">
+                                                    <label class="form-label" for="dept"><span class="text-danger fw-bold">*</span> Select academic year</label>
                                                     <select name="dept" id="dept" class="form-select">
                                                         @foreach($stuDept as $item)
                                                           <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="form-groub mb-3">
-                                                    <label for="section"><span class="text-danger fw-bold">*</span> Select section</label>
+                                                <div class="form-group mb-3">
+                                                    <label class="form-label" for="section"><span class="text-danger fw-bold">*</span> Select section</label>
                                                     <select name="section" id="section" class="form-select">
                                                         <option value="Section A">Section A</option>
                                                         <option value="Section B">Section B</option>
@@ -339,12 +342,12 @@
                                                         <label class="form-check-label" for="inlineRadio2">Female</label>
                                                     </div>
                                                 </div>
-                                                <div class="form-groub mb-3">
-                                                    <label for="stuPassword"><span class="text-success fw-bold">*</span> Default password for student is <span class="text-ucsp">student@ucsp</span></label>
+                                                <div class="form-group mb-3">
+                                                    <label class="form-label" for="stuPassword"><span class="text-success fw-bold">*</span> Default password for student is <span class="text-ucsp">student@ucsp</span></label>
                                                     <input type="password" name="stuPassword" class="form-control" required="" value="student@ucsp">
                                                   </div>
                                                 <div class="form-group mb-3">
-                                                  <label for="stuImage"><span class="text-success fw-bold">*</span> Profile photo is optional</label>
+                                                  <label class="form-label" for="stuImage"><span class="text-success fw-bold">*</span> Profile photo is optional</label>
                                                   <input type="file" name="stuImage" class="form-control">
                                                 </div>
                                                 <div class="form-group mb-3 text-end">
@@ -378,16 +381,16 @@
                                             <div class="accordion-body">
                                                 <form action="{{route('admin@addTimetable')}}" method="POST" enctype="multipart/form-data">
                                                     @csrf
-                                                    <div class="form-groub mb-3">
-                                                        <label for="year"><span class="text-danger fw-bold">*</span> Select academic year</label>
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label" for="year"><span class="text-danger fw-bold">*</span> Select academic year</label>
                                                         <select name="year" id="year" class="form-select">
                                                             @foreach($stuDept as $item)
                                                               <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    <div class="form-groub mb-3">
-                                                        <label for="section"><span class="text-danger fw-bold">*</span> Select section</label>
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label" for="section"><span class="text-danger fw-bold">*</span> Select section</label>
                                                         <select name="section" id="section" class="form-select">
                                                             <option value="Section A">Section A</option>
                                                             <option value="Section B">Section B</option>
@@ -395,8 +398,8 @@
                                                             <option value="Section CT">Section CT</option>
                                                         </select>
                                                     </div>
-                                                    <div class="form-groub mb-3">
-                                                        <label for="day"><span class="text-danger fw-bold">*</span> Select day</label>
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label" for="day"><span class="text-danger fw-bold">*</span> Select day</label>
                                                         <select name="day" id="day" class="form-select">
                                                             <option value="Monday">Monday</option>
                                                             <option value="Tueday">Tueday</option>
@@ -405,8 +408,8 @@
                                                             <option value="Friday">Friday</option>
                                                         </select>
                                                     </div>
-                                                    <div class="form-groub mb-3">
-                                                        <label for="startHour"><span class="text-danger fw-bold">*</span> Select time interval</label>
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label" for="startHour"><span class="text-danger fw-bold">*</span> Select time interval</label>
                                                         <div class="row">
                                                             <div class="col">
                                                                 <select name="startHour" id="startHour" class="form-select">
@@ -432,16 +435,16 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-groub mb-3">
-                                                        <label for="choices-multiple-remove-button-4"><span class="text-danger fw-bold">*</span> Search & select a subject</label>
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label" for="choices-multiple-remove-button-4"><span class="text-danger fw-bold">*</span> Search & select a subject</label>
                                                         <select name="subject[]" id="choices-multiple-remove-button-4" required="" multiple>
                                                           @foreach ($subject as $sub)
                                                               <option value="{{ $sub['id'] }}">{{ $sub['subject_code']." · ".$sub['subject_name'] }}</option>
                                                           @endforeach
                                                       </select>
                                                       </div>
-                                                      <div class="form-groub mb-3">
-                                                        <label for="choices-multiple-remove-button-5"><span class="text-danger fw-bold">*</span> Search & select lecturer</label>
+                                                      <div class="form-group mb-3">
+                                                        <label class="form-label" for="choices-multiple-remove-button-5"><span class="text-danger fw-bold">*</span> Search & select lecturer</label>
                                                         <select name="lecturer[]" id="choices-multiple-remove-button-5" required="" multiple>
                                                             @foreach ($lecturer as $lect)
                                                             <option value="{{ $lect['user_name'] }}">{{ $lect['user_name']." · ".$lect['dept_name'] }}</option>
@@ -467,8 +470,8 @@
                                               <div class="accordion-body">
                                                   <form action="{{route('admin@addDepartment')}}" method="POST" enctype="multipart/form-data">
                                                       @csrf
-                                                      <div class="form-groub mb-3">
-                                                        <label for="deptName"><span class="text-danger fw-bold">*</span> Enter department name</label>
+                                                      <div class="form-group mb-3">
+                                                        <label class="form-label" for="deptName"><span class="text-danger fw-bold">*</span> Enter department name</label>
                                                         <input type="text" name="deptName" class="form-control" required="" placeholder="Department of Computer Science">
                                                       </div>
                                                       <div class="form-group mb-3 text-end">
@@ -499,11 +502,11 @@
                                                 <form action="{{route('admin@createLecturerGroup')}}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="form-group mb-3">
-                                                        <label for="groupName"><span class="text-danger fw-bold">*</span> Enter group name</label>
+                                                        <label class="form-label" for="groupName"><span class="text-danger fw-bold">*</span> Enter group name</label>
                                                         <input type="text" name="groupName" id="groupName" class="form-control" required="">
                                                     </div>
-                                                    <div class="form-groub mb-3">
-                                                      <label for="choices-multiple-remove-button"><span class="text-danger fw-bold">*</span> Select group members</label>
+                                                    <div class="form-group mb-3">
+                                                      <label class="form-label" for="choices-multiple-remove-button"><span class="text-danger fw-bold">*</span> Select group members</label>
                                                       <select name="member[]" id="choices-multiple-remove-button" multiple>
                                                         @foreach ($lecturer as $lect)
                                                             <option value="{{ $lect['user_id'] }}">{{ $lect['user_name']." · ".$lect['dept_name'] }}</option>
@@ -511,7 +514,7 @@
                                                     </select>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <label for="groupImage"><span class="text-success fw-bold">*</span> Group photo is optional</label>
+                                                        <label class="form-label" for="groupImage"><span class="text-success fw-bold">*</span> Group photo is optional</label>
                                                         <input type="file" name="groupImage" class="form-control">
                                                     </div>
                                                     <div class="form-group mb-3 text-end">
@@ -535,11 +538,11 @@
                                                   <form action="{{route('admin@createStudentGroup')}}" method="POST" enctype="multipart/form-data">
                                                       @csrf
                                                       <div class="form-group mb-3">
-                                                          <label for="groupName"><span class="text-danger fw-bold">*</span> Enter group name</label>
+                                                          <label class="form-label" for="groupName"><span class="text-danger fw-bold">*</span> Enter group name</label>
                                                           <input type="text" name="groupName" id="groupName" class="form-control" required="">
                                                       </div>
-                                                      <div class="form-groub mb-3">
-                                                        <label for="choices-multiple-remove-button-1"><span class="text-danger fw-bold">*</span> Select group members</label>
+                                                      <div class="form-group mb-3">
+                                                        <label class="form-label" for="choices-multiple-remove-button-1"><span class="text-danger fw-bold">*</span> Select group members</label>
                                                         <select name="member[]" id="choices-multiple-remove-button-1" multiple>
                                                           @foreach ($student as $stu)
                                                               <option value="{{ $stu['user_id'] }}">{{ $stu['user_name']." · ".$stu['dept_name'] }}</option>
@@ -547,7 +550,7 @@
                                                       </select>
                                                       </div>
                                                       <div class="form-group mb-3">
-                                                        <label for="groupImage"><span class="text-success fw-bold">*</span> Group photo is optional</label>
+                                                        <label class="form-label" for="groupImage"><span class="text-success fw-bold">*</span> Group photo is optional</label>
                                                         <input type="file" name="groupImage" class="form-control">
                                                     </div>
                                                       <div class="form-group mb-3 text-end">
@@ -571,11 +574,11 @@
                                                   <form action="{{route('admin@createCustomGroup')}}" method="POST" enctype="multipart/form-data">
                                                       @csrf
                                                       <div class="form-group mb-3">
-                                                          <label for="groupName"><span class="text-danger fw-bold">*</span> Enter group name</label>
+                                                          <label class="form-label" for="groupName"><span class="text-danger fw-bold">*</span> Enter group name</label>
                                                           <input type="text" name="groupName" id="groupName" class="form-control" required="">
                                                       </div>
-                                                      <div class="form-groub mb-3">
-                                                        <label for="choices-multiple-remove-button-2"><span class="text-danger fw-bold">*</span> Select group members</label>
+                                                      <div class="form-group mb-3">
+                                                        <label class="form-label" for="choices-multiple-remove-button-2"><span class="text-danger fw-bold">*</span> Select group members</label>
                                                         <select name="member[]" id="choices-multiple-remove-button-2" multiple>
                                                           @foreach ($custom as $usr)
                                                               <option value="{{ $usr['user_id'] }}">{{ $usr['user_name']." · ".$usr['dept_name'] }}</option>
@@ -583,7 +586,7 @@
                                                       </select>
                                                       </div>
                                                       <div class="form-group mb-3">
-                                                        <label for="groupImage"><span class="text-success fw-bold">*</span> Group photo is optional</label>
+                                                        <label class="form-label" for="groupImage"><span class="text-success fw-bold">*</span> Group photo is optional</label>
                                                         <input type="file" name="groupImage" class="form-control">
                                                     </div>
                                                       <div class="form-group mb-3 text-end">
@@ -614,8 +617,8 @@
 
                                                 <form action="{{route('admin@announceGrade')}}" method="POST" enctype="multipart/form-data">
                                                     @csrf
-                                                    <div class="form-groub mb-3">
-                                                      <label for="choices-multiple-remove-button-3"><span class="text-danger fw-bold">*</span> Search & select a student</label>
+                                                    <div class="form-group mb-3">
+                                                      <label class="form-label" for="choices-multiple-remove-button-3"><span class="text-danger fw-bold">*</span> Search & select a student</label>
                                                       <select name="member[]" id="choices-multiple-remove-button-3" required="" multiple>
                                                         @foreach ($student as $stu)
                                                             <option value="{{ $stu['user_id'] }}">{{ $stu['user_name']." · ".$stu['user_email'] }}</option>
@@ -623,11 +626,11 @@
                                                     </select>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <label for="message"><span class="text-danger fw-bold">*</span> Message</label>
+                                                        <label class="form-label" for="message"><span class="text-danger fw-bold">*</span> Message</label>
                                                         <input type="text" name="message" class="form-control" placeholder="5CS-13@1sem2024" required="">
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                      <label for="gradeFile"><span class="text-danger fw-bold">*</span> Select grade attachment file</label>
+                                                      <label class="form-label" for="gradeFile"><span class="text-danger fw-bold">*</span> Select grade attachment file</label>
                                                       <input type="file" name="gradeFile" class="form-control" required="">
                                                   </div>
                                                     <div class="form-group mb-3 text-end">
@@ -651,16 +654,16 @@
 
                                                 <form action="{{route('admin@addSubject')}}" method="POST" enctype="multipart/form-data">
                                                     @csrf
-                                                    <div class="form-groub mb-3">
-                                                        <label for="year"><span class="text-danger fw-bold">*</span> Select academic year</label>
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label" for="year"><span class="text-danger fw-bold">*</span> Select academic year</label>
                                                         <select name="year" id="year" class="form-select">
                                                             @foreach($stuDept as $item)
                                                               <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    <div class="form-groub mb-3">
-                                                        <label for="term"><span class="text-danger fw-bold">*</span> Select semester term</label>
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label" for="term"><span class="text-danger fw-bold">*</span> Select semester term</label>
                                                         <select name="term" id="section" class="form-select">
                                                             <option value="First Term CS">First Term CS</option>
                                                             <option value="First Term CT">First Term CT</option>
@@ -668,8 +671,8 @@
                                                             <option value="Second Term CT">Second Term CT</option>
                                                         </select>
                                                     </div>
-                                                    <div class="form-groub mb-3">
-                                                      <label for="subjectCode"><span class="text-danger fw-bold">*</span> Enter subject code & name</label>
+                                                    <div class="form-group mb-3">
+                                                      <label class="form-label" for="subjectCode"><span class="text-danger fw-bold">*</span> Enter subject code & name</label>
                                                       <div class="row">
                                                         <div class="col">
                                                             <input type="text" name="subjectCode" class="form-control" required="" placeholder="CST-1101">

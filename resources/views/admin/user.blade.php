@@ -7,13 +7,13 @@
                 <!-- vertical menubar -->
                 <nav>
                     <div class="logo d-flex pt-3">
-                        <img src="{{ asset('img/favicon/stud_com.png') }}" alt="logo" class="logo-image mt-1">
+                        <img src="{{ asset('img/favicon/stud_com.png') }}" alt="logo" class="logo-image" style="margin-top: 6.8px;">
                         <h4 class="logo-title d-none d-lg-inline px-3 text-ucsp">Studcom <span class="pageuser-role">(admin)</span></h>
                     </div>
-                    <hr>
+                    <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 1px;"></div>
                     <div class="d-flex flex-column flex-shrink-0">
                         <ul class="nav nav-pills flex-column mb-auto">
-                            <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">General</h6>
+                            <h6 class="text-ucsp ps-1 d-none d-lg-inline" style="font-size: 14px;">General</h6>
                             <li class="nav-item">
                                 <a href="{{route('user@home')}}" class="nav-link link-body-emphasis" aria-current="page">
                                     <i class="bi-grid"></i>
@@ -32,7 +32,8 @@
                                     <span class="d-none d-lg-inline ms-3">User</span>
                                 </a>
                             </li>
-                            <hr>
+                            <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 0.7px;"></div>
+
                             <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">Managemant</h6>
                             <li>
                                 <a href="{{route('admin@manageTimetable')}}" class="nav-link link-body-emphasis">
@@ -58,7 +59,8 @@
                                     <span class="d-none d-lg-inline ms-3">Grade</span>
                                 </a>
                             </li>
-                            <hr>
+                            <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 1px;"></div>
+
                             <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">Personal</h6>
                             <li class="d-none d-lg-inline">
                                 <a href="{{route('admin@manageProfile')}}" class="nav-link link-body-emphasis">
@@ -71,7 +73,7 @@
                                     @csrf
                                     <button type="submit" class="nav-link link-body-emphasis">
                                         <i class="bi bi-box-arrow-left"></i>
-                                        <span class="d-none d-lg-inline ms-3">Sign out</span>
+                                        <span class="d-none d-lg-inline ms-3">Log out</span>
                                     </button>
                                 </form>
                             </li>
@@ -100,7 +102,7 @@
                                             @csrf
                                             <button type="submit" class="nav-link link-body-emphasis">
                                                 <i class="bi bi-box-arrow-left"></i>
-                                                <span class="d-none d-lg-inline ms-3">Sign out</span>
+                                                <span class="d-none d-lg-inline ms-3">Log out</span>
                                             </button>
                                         </form>
                                     </li>
@@ -210,7 +212,7 @@
 
                                             <p class="m-0 text-end">
                                                 <span class="text-muted" style="font-size: 13px;">Email:&emsp;</span>
-                                                <small><a href="mailto:{{$r['email']}}">
+                                                <small><a class="text-decoration-none" href="mailto:{{$r['email']}}">
                                                     {{$r['email']}}
                                                 </a></small>
                                             </p>
@@ -248,6 +250,14 @@
 
                     <div class="col-sm col-lg-4 bg-white"  style="position: sticky; top: 65px; z-index: 10; height: 700px; overflow-y: scroll;">
 
+                        {{-- message --}}
+                        @if (\Session::has('message'))
+                        <div class="bg-white rounded border-ucspyay py-2 px-3 text-ucsp my-3"><i class="bi bi-check-all me-2"></i>{{ \Session::get('message') }}</div>
+                        @endif
+                        @if (\Session::has('error'))
+                            <div class="bg-white rounded border border-danger py-2 px-3 text-danger my-3"><i class="bi bi-x me-2"></i>{{ \Session::get('error') }}</div>
+                        @endif
+
                         <div class="accordion mt-3" id="creationAccordion">
                             {{-- add admin --}}
                             <div class="accordion-item rounded mb-3">
@@ -260,8 +270,8 @@
                                 <div class="accordion-body">
                                     <form action="{{route('admin@addAdmin')}}" method="POST" enctype="multipart/form-data">
                                         @csrf
-                                        <div class="form-groub mb-3">
-                                          <label for="email"><span class="text-danger fw-bold">*</span> Enter email approve as admin</label>
+                                        <div class="form-group mb-3">
+                                          <label class="form-label" for="email"><span class="text-danger fw-bold">*</span> Enter email approve as admin</label>
                                           <input type="email" name="adminEmail" class="form-control" required="" placeholder="username@ucspyay.edu.mm">
                                         </div>
                                         <div class="form-group mb-3 text-end">
@@ -283,16 +293,16 @@
                                   <div class="accordion-body">
                                     <form action="{{route('admin@addLecturer')}}" method="POST" enctype="multipart/form-data">
                                         @csrf
-                                        <div class="form-groub mb-3">
-                                          <label for="lectName"><span class="text-danger fw-bold">*</span> Enter lecturer name</label>
+                                        <div class="form-group mb-3">
+                                          <label class="form-label" for="lectName"><span class="text-danger fw-bold">*</span> Enter lecturer name</label>
                                           <input type="text" name="lectName" class="form-control" required="" placeholder="Daw Ni Ni Win">
                                         </div>
-                                        <div class="form-groub mb-3">
-                                            <label for="lectEmail"><span class="text-danger fw-bold">*</span> Enter lecturer email</label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="lectEmail"><span class="text-danger fw-bold">*</span> Enter lecturer email</label>
                                             <input type="email" name="lectEmail" class="form-control" required="" placeholder="niniwin@ucspyay.edu.mm">
                                         </div>
-                                        <div class="form-groub mb-3">
-                                            <label for="dept"><span class="text-danger fw-bold">*</span> Select department name</label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="dept"><span class="text-danger fw-bold">*</span> Select department name</label>
                                             <select name="dept" id="dept" class="form-select">
                                                 @foreach($lectDept as $item)
                                                   <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -309,12 +319,12 @@
                                                 <label class="form-check-label" for="inlineRadio2">Female</label>
                                             </div>
                                         </div>
-                                        <div class="form-groub mb-3">
-                                            <label for="lectPassword"><span class="text-success fw-bold">*</span> Default password for lecturer is <span class="text-ucsp">lecturer@ucsp</span></label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="lectPassword"><span class="text-success fw-bold">*</span> Default password for lecturer is <span class="text-ucsp">lecturer@ucsp</span></label>
                                             <input type="password" name="lectPassword" class="form-control" required="" value="lecturer@ucsp">
                                           </div>
                                         <div class="form-group mb-3">
-                                          <label for="lectImage"><span class="text-success fw-bold">*</span> Profile photo is optional</label>
+                                          <label class="form-label" for="lectImage"><span class="text-success fw-bold">*</span> Profile photo is optional</label>
                                           <input type="file" name="lectImage" class="form-control">
                                         </div>
                                         <div class="form-group mb-3 text-end">
@@ -336,24 +346,24 @@
                                   <div class="accordion-body">
                                     <form action="{{route('admin@addStudent')}}" method="POST" enctype="multipart/form-data">
                                         @csrf
-                                        <div class="form-groub mb-3">
-                                          <label for="stuName"><span class="text-danger fw-bold">*</span> Enter student name</label>
+                                        <div class="form-group mb-3">
+                                          <label class="form-label" for="stuName"><span class="text-danger fw-bold">*</span> Enter student name</label>
                                           <input type="text" name="stuName" class="form-control" required="" placeholder="Soe Htet Paing">
                                         </div>
-                                        <div class="form-groub mb-3">
-                                            <label for="stuEmail"><span class="text-danger fw-bold">*</span> Enter student email</label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="stuEmail"><span class="text-danger fw-bold">*</span> Enter student email</label>
                                             <input type="email" name="stuEmail" class="form-control" required="" placeholder="soehtetpaing@ucspyay.edu.mm">
                                         </div>
-                                        <div class="form-groub mb-3">
-                                            <label for="dept"><span class="text-danger fw-bold">*</span> Select academic year</label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="dept"><span class="text-danger fw-bold">*</span> Select academic year</label>
                                             <select name="dept" id="dept" class="form-select">
                                                 @foreach($stuDept as $item)
                                                   <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-groub mb-3">
-                                            <label for="section"><span class="text-danger fw-bold">*</span> Select section</label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="section"><span class="text-danger fw-bold">*</span> Select section</label>
                                             <select name="section" id="section" class="form-select">
                                                 <option value="Section A">Section A</option>
                                                 <option value="Section B">Section B</option>
@@ -371,12 +381,12 @@
                                                 <label class="form-check-label" for="inlineRadio2">Female</label>
                                             </div>
                                         </div>
-                                        <div class="form-groub mb-3">
-                                            <label for="stuPassword"><span class="text-success fw-bold">*</span> Default password for student is <span class="text-ucsp">student@ucsp</span></label>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="stuPassword"><span class="text-success fw-bold">*</span> Default password for student is <span class="text-ucsp">student@ucsp</span></label>
                                             <input type="password" name="stuPassword" class="form-control" required="" value="student@ucsp">
                                           </div>
                                         <div class="form-group mb-3">
-                                          <label for="stuImage"><span class="text-success fw-bold">*</span> Profile photo is optional</label>
+                                          <label class="form-label" for="stuImage"><span class="text-success fw-bold">*</span> Profile photo is optional</label>
                                           <input type="file" name="stuImage" class="form-control">
                                         </div>
                                         <div class="form-group mb-3 text-end">
@@ -388,14 +398,6 @@
                             </div>
 
                         </div>
-
-                        {{-- message --}}
-                        @if (\Session::has('message'))
-                        <div class="bg-white rounded border-ucspyay py-2 px-3 text-ucsp mb-3"><i class="bi bi-check-all me-2"></i>{{ \Session::get('message') }}</div>
-                        @endif
-                        @if (\Session::has('error'))
-                            <div class="bg-white rounded border border-danger py-2 px-3 text-danger mb-3"><i class="bi bi-x me-2"></i>{{ \Session::get('error') }}</div>
-                        @endif
 
                     </div>
 
