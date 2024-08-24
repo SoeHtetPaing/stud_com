@@ -3,61 +3,97 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-2 vertical-menu bg-student">
+            <div class="col-2 vertical-menu bg-student" style="position: sticky; top: 0;">
                 <!-- vertical menubar -->
                 <nav>
                     <div class="logo d-flex pt-3">
-                        <img src="{{ asset('img/favicon/stud_com.png') }}" alt="logo" class="logo-image mt-1">
+                        <img src="{{ asset('img/favicon/stud_com.png') }}" alt="logo" class="logo-image" style="margin-top: 6.8px;">
                         <h4 class="logo-title d-none d-lg-inline px-3 text-ucsp">Studcom <span class="pageuser-role">(student)</span></h>
                     </div>
-                    <hr>
+                    <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 1px;"></div>
+
                     <div class="d-flex flex-column flex-shrink-0">
                         <ul class="nav nav-pills flex-column mb-auto">
+                            <h6 class="text-ucsp ps-1 d-none d-lg-inline" style="font-size: 14px;">General</h6>
                             <li class="nav-item">
-                                <a href="#" class="nav-link active-vertical-menu" aria-current="page">
+                                <a href="{{route('user@home')}}" class="nav-link active-vertical-menu" aria-current="page">
                                     <i class="bi-grid"></i>
                                     <span class="d-none d-lg-inline ms-3">Dashboard</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="nav-link link-body-emphasis">
+                            <li class="nav-item">
+                                <a href="{{route('student@timetable')}}" class="nav-link link-body-emphasis">
                                     <i class="bi-table"></i>
                                     <span class="d-none d-lg-inline ms-3">Timetable</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="nav-link link-body-emphasis">
-                                    <i class="fa-solid fa-graduation-cap"></i>
+                            <li class="nav-item">
+                                <a href="{{route('student@department')}}" class="nav-link link-body-emphasis">
+                                    <i class="fa-solid fa-briefcase"></i>
+                                    <span class="d-none d-lg-inline ms-3">Department</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('student@grade')}}" class="nav-link link-body-emphasis">
+                                    <i class="fa-solid fa-medal"></i>
                                     <span class="d-none d-lg-inline ms-3">Grade</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{route('student@setting')}}" class="nav-link link-body-emphasis">
+                            @if ($user->role == "EC Student")
+                                <li class="nav-item">
+                                    <a href="{{route('student@group')}}" class="nav-link link-body-emphasis">
+                                        <i class="bi bi-people-fill"></i>
+                                        <span class="d-none d-lg-inline ms-3">Group</span>
+                                    </a>
+                                </li>
+                            @endif
+                            <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 1px;"></div>
+
+                            <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">Personal</h6>
+                            <li class="d-none d-lg-inline">
+                                <a href="{{route('user@manageProfile')}}" class="nav-link link-body-emphasis">
                                     <i class="bi bi-gear-wide"></i>
-                                    <span class="d-none d-lg-inline ms-3">Settings</span>
+                                    <span class="d-none d-lg-inline ms-3">Profile Settings</span>
                                 </a>
                             </li>
+                            <li class="d-none d-lg-inline">
+                                <form action="{{route("logout")}}" method="post">
+                                    @csrf
+                                    <button type="submit" class="nav-link link-body-emphasis">
+                                        <i class="bi bi-box-arrow-left"></i>
+                                        <span class="d-none d-lg-inline ms-3">Log out</span>
+                                    </button>
+                                </form>
+                            </li>
                         </ul>
-                        <hr>
-                        <li class="d-none d-lg-inline">
-                            <form action="{{route("logout")}}" method="post">
-                                @csrf
-                                <button type="submit" class="nav-link link-body-emphasis">
-                                    <i class="bi bi-box-arrow-left"></i>
-                                    <span class="d-none d-lg-inline ms-3">Log out</span>
-                                </button>
-                            </form>
-                        </li>
+
                         <div class="d-lg-none">
                             <div class="dropdown">
                                 <a href="#"
                                     class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{asset('upload/pp.jpeg')}}" alt="" width="32" height="32"
-                                        class="rounded-circle">
+                                    @if ($user->profile_photo_path == null)
+                                    <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
+                                    @else
+                                    <img src="{{ url('storage/'.$user->profile_photo_path) }}" alt="profile" class="profile-icon rounded-circle">
+                                    @endif
                                 </a>
                                 <ul class="dropdown-menu text-small shadow">
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-left me-3"></i>Sign out</a></li>
+                                    <li class="nav-item">
+                                        <a href="{{route('user@manageProfile')}}" class="nav-link link-body-emphasis">
+                                            <i class="bi bi-gear-wide"></i>
+                                            <span class="d-none d-lg-inline ms-3">Profile Settings</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <form action="{{route("logout")}}" method="post">
+                                            @csrf
+                                            <button type="submit" class="nav-link link-body-emphasis">
+                                                <i class="bi bi-box-arrow-left"></i>
+                                                <span class="d-none d-lg-inline ms-3">Log out</span>
+                                            </button>
+                                        </form>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -67,15 +103,23 @@
 
             <!-- main content -->
             <div class="col-10 bg-light">
-                <div class="horizontal-menu py-2 mt-1 d-flex justify-content-between">
-                    <label class="form-label" for="announce-alert" class="announce-alert bg-white rounded-pill border py-2 px-3 d-flex">
-                        <i class="bi-megaphone-fill pe-2 text-ucsp"></i>
-                        <marquee direction="rtl" class="text-ucsp">This is new announce.</marquee>
-                    </label>
+                <div class="horizontal-menu py-2 mt-1 d-flex justify-content-between bg-light" style="position: sticky; top: 0; z-index: 5;">
+                    <div class="d-flex">
+                        <p class="text-ucsp">
+                            @if (\Session::has('message'))
+                                {{ \Session::get('message') }}
+                            @endif
+                        </p>
+                        <p class="text-danger">
+                            @if (\Session::has('error'))
+                                {{ \Session::get('error') }}
+                            @endif
+                        </p>
+                    </div>
                     <div class="lg-profile d-flex justify-content-between">
                         <div class="d-flex">
                             <div class="position-relative p-2">
-                                <a href="">
+                                <a href="{{route('user@chat', ['back' => 'user@home'])}}">
                                     <i class="bi bi-chat-fill text-ucsp px-2"></i>
                                 <span
                                     class="position-absolute translate-middle  p-1 bg-danger border border-2 border-light rounded-circle absolute-message"></span>
@@ -85,14 +129,14 @@
                         <div class="d-none d-lg-inline">
                             <div class="d-flex justify-content-center mt-1 ms-5">
                                 <div class="profile-group position-relative">
-                                    <h5 class="profile-title">{{$user->name}}</h5>
+                                    <h5 class="profile-title">{{Str::words(Str::after($user->name, 'Daw'), 5, '...')}}</h5>
                                     <p class="profile-role">{{Str::words(Str::after($dept->name, 'Department of'), 4, '...')}}</p>
                                 </div>
                                 <div class="ms-2">
-                                    @if ($user->profile_photo == null)
+                                    @if ($user->profile_photo_path == null)
                                     <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
                                     @else
-                                    <img src="{{ asset('storage/upload/'.$user->profile_photo) }}" alt="profile" class="profile-icon rounded-circle">
+                                    <img src="{{ url('storage/'.$user->profile_photo_path) }}" alt="profile" class="profile-icon rounded-circle">
                                     @endif
                                 </div>
                             </div>
@@ -100,92 +144,33 @@
                     </div>
                 </div>
 
-
-                <div class="row">
+                <div class="row text-dark">
                     <div class="col-sm col-lg-9">
                         <div class=mb-3">
 
-                            <!-- announcement design -->
-                            <div class="card mb-3">
-                                <div class="card-header d-flex justify-content-between">
-                                    <div class="d-flex">
-                                        <div class="me-2">
-                                            @if ($user->profile_photo_path == null)
-                                            <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
-                                            @else
-                                            <img src="{{ asset('upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
-                                            @endif
-                                        </div>
-                                        <div class="d-flex align-item-center">
-                                            <div class="position-relative">
-                                                <h6 class="profile-title">Administraction</h6>
-                                                <p class="profile-date">5.6.2024</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="">
-                                        <button class="btn btn-outline-ucsp">See more...</button>
-                                    </div>
+                            <!-- admin dashboard -->
+                            <div class="d-flex flex-column flex-md-row flex-lg-row flex-xl-row" style="gap: 10px">
+                                <div class="w-25"></div>
+                                <div class="w-25"></div>
+                                <div class="card-body bg-student border rounded py-1 py-md-3 py-lg-3 py-xl-3">
+                                    <p class="position-absolute py-2"><i class="fa-solid fa-chalkboard-user fa-xl"></i></p>
+                                    <p class="text-end">{{$deptLecturer}} <br>Classmates</p>
                                 </div>
-                                <div class="card-body text-justify">
-                                    6.6.2024 မှစ၍ ကွန်ပျူတာတက္ကသိုလ်ပြည် ပထမနှစ်မှ စတုတ္ထနှစ်အထိ သင်တန်းများ စတင်ဖွင့်လှစ်မည်ဖြစ်ကြောင်း ကြေငြာအပ်ပါသည်။ ကျောင်းအပ်ရာတွင်.....
+                                <div class="card-body bg-white border rounded py-1 py-md-3 py-lg-3 py-xl-3">
+                                    <p class="position-absolute py-2"><i class="fa-solid fa-graduation-cap fa-xl"></i></p>
+                                    <p class="text-end">{{$totStudent}} <br>Total Students</p>
                                 </div>
                             </div>
 
-                            <div class="card mb-3">
-                                <div class="card-header d-flex justify-content-between">
-                                    <div class="d-flex">
-                                        <div class="me-2">
-                                            @if ($user->profile_photo_path == null)
-                                            <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
-                                            @else
-                                            <img src="{{ asset('upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
-                                            @endif
-                                        </div>
-                                        <div class="d-flex align-item-center">
-                                            <div class="position-relative">
-                                                <h6 class="profile-title">Administraction</h6>
-                                                <p class="profile-date">2024-5-19</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="">
-                                        <button class="btn btn-outline-ucsp">See more...</button>
-                                    </div>
-                                </div>
-                                <div class="card-body text-justify">
-                                    19.5.2024 ရက်မှစ၍ exam result များ အတန်းလိုက်ပေးပို့နေပါပြီ။ ကျောင်းသားများအားလုံး edu mail များမှတစ်ဆင့် မိမိတို့ grade များအား ၀င်ရောက် ကြည့်ရှုနိုင်ပြီဖြစ်ကြောင်း...
-                                </div>
-                            </div>
 
-                            <div class="card mb-3">
-                                <div class="card-header d-flex justify-content-between">
-                                    <div class="d-flex">
-                                        <div class="me-2">
-                                            @if ($user->profile_photo_path == null)
-                                            <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
-                                            @else
-                                            <img src="{{ asset('upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
-                                            @endif
-                                        </div>
-                                        <div class="d-flex align-item-center">
-                                            <div class="position-relative">
-                                                <h6 class="profile-title">Administraction</h6>
-                                                <p class="profile-date">15.3.2024</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="">
-                                        <button class="btn btn-outline-ucsp">See more...</button>
-                                    </div>
-                                </div>
-                                <div class="card-body text-justify">
-                                    2023-2024 ပညာသင်နှစ် ကွန်ပျူတာတက္ကသိုလ်ပြည် midterm exam များကို 21-3-2024 မှ 3.4.2024 အထိ ပြုလုပ်သွားမည်ဖြစ်ကြောင်း ကြေငြာအပ်ပါသည်။ Timetable များမှာ...
-                                </div>
-                            </div>
+
+
 
                         </div>
                     </div>
+
+
+                    {{-- right side nav --}}
                     <div class="col-sm col-lg-3">
                         <section class="ftco-section" style="margin: 0; padding: 0;">
                             <div class="row">
@@ -288,13 +273,28 @@
                             <div class="card">
                                 <div class="card-body py-2">
                                     <h4 class="logo-title text-ucsp">Timetable today:</h4>
-                                    <div style="line-height: 10px;">
-                                        <p class="time-table-interval">9:00AM-10:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>English</span></p>
-                                        <p class="time-table-interval">10:00AM-11:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-502</span></p>
-                                        <p class="time-table-interval">11:00AM-12:00PM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-503</span></p>
-                                        <p class="time-table-interval">1:00AM-2:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-501</span></p>
-                                        <p class="time-table-interval">2:00AM-3:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-506</span></p>
-                                        <p class="time-table-interval">3:00AM-4:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-505</span></p>
+                                    <div style="line-height: 18px;">
+                                        @if (count($sttt) == 0)
+                                            <div class="my-5 text-center">
+                                                <div class="text-muted fs-5">
+                                                    Oop! No data found<br>
+                                                    <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                </div>
+                                            </div>
+                                        @else
+                                            @foreach ($sttt as $r)
+                                                <p class="timetable-interval">
+                                                    {{$r->start_hour." - ".$r->end_hour}}
+                                                    <span class="text-ucsp d-block mt-1" style="font-size: 15px;">
+                                                        <i class="fa-solid fa-book me-3"></i>
+                                                        {{$r->subject_code." ".$r->subject_name}}:
+                                                        <span class="text-dark ms-1">{{$r->lecturer_name}}</span>
+                                                    </span>
+                                                </p>
+
+                                            @endforeach
+                                        @endif
+
                                     </div>
                                 </div>
                             </div>

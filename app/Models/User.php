@@ -31,7 +31,7 @@ class User extends Authenticatable
         'section',
         'gendar',
         'password',
-        'profile_photo'
+        'profile_photo_path'
     ];
 
     /**
@@ -51,6 +51,9 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $appends = [
+        'profile_photo_url',
+    ];
 
     /**
      * Get the attributes that should be cast.

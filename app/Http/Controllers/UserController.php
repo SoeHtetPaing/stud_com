@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Subject;
 use App\Models\User;
+use App\Models\Subject;
+use App\Models\Timetable;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -51,6 +52,18 @@ class UserController extends Controller
 
         // dd($t1y1cs);
 
+
+        //lecturer
+        $deptLecturer = User::where("department", $user->department)->count();
+        $today = Carbon::parse(Carbon::now())->format('l');
+        // dd($today);
+        $lttt = Timetable::where("day", $today)->where("lecturer_name", $user->name)->join("departments", "timetables.department_id", "=", "departments.id")->select("timetables.*", "departments.name as dept_name")->get();
+        // dd($ttt);
+
+
+        //student
+        $sttt = Timetable::where("day", $today)->where("department_id", $user->department)->join("departments", "timetables.department_id", "=", "departments.id")->select("timetables.*", "departments.name as dept_name")->get();
+
         if ($user->role == "Admin") { return view("admin.home", [
             "user" => $user,
             "dept" => $dept,
@@ -88,14 +101,36 @@ class UserController extends Controller
             "subject" => $subject
 
         ]); }
-        else if ($user->role == "Lecturer") { return view("lecturer.home", ["user"=> $user, "dept"=> $dept]); }
-        else { return view("student.home", ["user"=> $user, "dept"=> $dept]); }
+        else if ($user->role == "Lecturer") { return view("lecturer.home", [
+            "user"=> $user,
+            "dept"=> $dept,
+            "deptLecturer" => $deptLecturer,
+            "totLecturer" => $lecturerNo,
+            "totStudent" => $studentNo,
+            "lttt" => $lttt,
+        ]); }
+        else { return view("student.home", [
+            "user"=> $user,
+            "dept"=> $dept,
+            "deptLecturer" => $deptLecturer,
+            "totStudent" => $studentNo,
+            "sttt" => $sttt,
+
+        ]); }
     }
 
     public function chat($back) {
         // dd($back);
         $user = Auth::user();
         $dept = Department::where("id", $user->department)->first();
-        return view("chat.home", ["user"=> $user, "dept"=> $dept, "back" => $back]);
+        return view("user.chat", ["user"=> $user, "dept"=> $dept, "back" => $back]);
+    }
+
+    public function manageProfile () {
+        $user = Auth::user();
+
+        return view('user.profile', [
+            "user" => $user,
+        ]);
     }
 }

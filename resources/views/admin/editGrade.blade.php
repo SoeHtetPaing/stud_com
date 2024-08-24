@@ -19,10 +19,10 @@
                             </div>
                         </div>
                         <div class="ms-2">
-                            @if ($data["profile_photo"] == null)
+                            @if ($data["profile_photo_path"] == null)
                             <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
                             @else
-                            <img src="{{ asset('storage/upload/'.$data->profile_photo) }}" alt="profile" class="profile-icon rounded-circle">
+                            <img src="{{ url('storage/'.$data->profile_photo_path) }}" alt="profile" class="profile-icon rounded-circle">
                             @endif
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                                         @else
                                             <a href="{{asset('storage/upload/'.$data->attachment.'')}}" class="text-decoration-none attachment" style="font-size: 4rem;"><i class="fa-regular fa-file-image fa-lg me-2"></i></a>
                                         @endif
-                                    </div>  
+                                    </div>
                                 </div>
                             </div>
                             <div class="col col-md-8">
@@ -75,7 +75,7 @@
                         <button type="submit" name="submit" value="Update" class="btn btn-outline-ucsp"><i class="fa-solid fa-check me-2"></i> Update</button>
                     </div>
                 </form>
-                
+
                 <div class="mt-5 p-3">
                     {{-- message --}}
                     @if (\Session::has('message'))

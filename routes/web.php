@@ -20,11 +20,8 @@ Route::middleware([
 });
 
 Route::get('/user/{back}/chat', [UserController::class,'chat'])->name('user@chat');
+Route::get('/admin/manageProfile', [UserController::class, 'manageProfile'])->name('user@manageProfile');
 
-
-Route::get('/student/setting', [StudentController::class,'setting'])->name('student@setting');
-Route::get('/teacher/setting', [LecturerController::class,'setting'])->name('lecturer@setting');
-Route::get('/admin/setting', [AdminController::class,'setting'])->name('admin@setting');
 
 Route::post('/admin/addAnnouncement', [AdminController::class, 'addAnnouncement'])->name('admin@addAnnouncement');
 Route::post('/admin/addAdmin', [AdminController::class, 'addAdmin'])->name('admin@addAdmin');
@@ -78,7 +75,23 @@ Route::get('/admin/manageGrade/edit/{id}', [AdminController::class, 'editGrade']
 Route::post('/admin/manageGrade/updateGradeFile', [AdminController::class, 'updateGradeFile'])->name('admin@updateGradeFile');
 Route::post('/admin/manageGrade/updateGrade', [AdminController::class, 'updateGrade'])->name('admin@updateGrade');
 
-Route::get('/admin/manageProfile', [AdminController::class, 'manageProfile'])->name('admin@manageProfile');
+
+//lecturer
+
+Route::get('/lecturer/timetable', [LecturerController::class, 'timetable'])->name('lecturer@timetable');
+Route::get('/lecturer/department', [LecturerController::class, 'department'])->name('lecturer@department');
+Route::get('/lecturer/group', [LecturerController::class, 'group'])->name('lecturer@group');
+
+
+//student
+
+Route::get('/student/timetable', [StudentController::class, 'timetable'])->name('student@timetable');
+Route::get('/student/department', [StudentController::class, 'department'])->name('student@department');
+Route::get('/student/group', [StudentController::class, 'group'])->name('student@group');
+Route::get('/student/grade', [StudentController::class, 'grade'])->name('student@grade');
+
+
+
 
 
 

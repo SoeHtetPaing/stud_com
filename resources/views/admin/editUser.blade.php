@@ -26,10 +26,10 @@
                             </div>
                         </div>
                         <div class="ms-2">
-                            @if ($data["profile_photo"] == null)
-                            <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
+                            @if ($data["profile_photo_path"] == null)
+                                <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
                             @else
-                            <img src="{{ asset('storage/upload/'.$data->profile_photo) }}" alt="profile" class="profile-icon rounded-circle">
+                                <img src="{{ url('storage/'.$data->profile_photo_path) }}" alt="profile" class="profile-icon rounded-circle">
                             @endif
                         </div>
                     </div>

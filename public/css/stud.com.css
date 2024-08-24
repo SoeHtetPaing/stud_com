@@ -448,6 +448,11 @@ img.profile-icon {
     background-color: #bbb;
 }
 
+.timetable-interval {
+    font-size: 14px;
+    color: #888;
+}
+
 
 @media (max-width: 400px) {
     .logo-image {

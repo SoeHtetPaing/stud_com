@@ -21,13 +21,13 @@
                                     <span class="d-none d-lg-inline ms-3">Dashboard</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="nav-item">
                                 <a href="{{route('admin@manageAnnounce')}}" class="nav-link link-body-emphasis">
                                     <i class="bi-megaphone"></i>
                                     <span class="d-none d-lg-inline ms-3">Announcement</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="nav-item">
                                 <a href="{{route('admin@manageUser')}}" class="nav-link link-body-emphasis">
                                     <i class="fa-solid fa-user-tie fa-lg"></i>
                                     <span class="d-none d-lg-inline ms-3">User</span>
@@ -36,25 +36,25 @@
                             <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 0.7px;"></div>
 
                             <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">Managemant</h6>
-                            <li>
+                            <li class="nav-item">
                                 <a href="{{route('admin@manageTimetable')}}" class="nav-link link-body-emphasis">
                                     <i class="bi-table"></i>
                                     <span class="d-none d-lg-inline ms-3">Timetable</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="nav-item">
                                 <a href="{{route('admin@manageDepartment')}}" class="nav-link link-body-emphasis">
                                     <i class="fa-solid fa-briefcase"></i>
                                     <span class="d-none d-lg-inline ms-3">Department</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="nav-item">
                                 <a href="{{route('admin@manageGroup')}}" class="nav-link link-body-emphasis">
                                     <i class="bi bi-people-fill"></i>
                                     <span class="d-none d-lg-inline ms-3">Group</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="nav-item">
                                 <a href="{{route('admin@manageGrade')}}" class="nav-link link-body-emphasis">
                                     <i class="fa-solid fa-medal"></i>
                                     <span class="d-none d-lg-inline ms-3">Grade</span>
@@ -64,7 +64,7 @@
 
                             <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">Personal</h6>
                             <li class="d-none d-lg-inline">
-                                <a href="{{route('admin@manageProfile')}}" class="nav-link link-body-emphasis">
+                                <a href="{{route('user@manageProfile')}}" class="nav-link link-body-emphasis">
                                     <i class="bi bi-gear-wide"></i>
                                     <span class="d-none d-lg-inline ms-3">Profile Settings</span>
                                 </a>
@@ -85,20 +85,20 @@
                                 <a href="#"
                                     class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    @if ($user->profile_photo == null)
+                                    @if ($user->profile_photo_path == null)
                                     <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
                                     @else
-                                    <img src="{{ asset('storage/upload/'.$user->profile_photo) }}" alt="profile" class="profile-icon rounded-circle">
+                                    <img src="{{ url('storage/'.$user->profile_photo_path) }}" alt="profile" class="profile-icon rounded-circle">
                                     @endif
                                 </a>
                                 <ul class="dropdown-menu text-small shadow">
-                                    <li>
-                                        <a href="{{route('admin@manageProfile')}}" class="nav-link link-body-emphasis">
+                                    <li class="nav-item">
+                                        <a href="{{route('user@manageProfile')}}" class="nav-link link-body-emphasis">
                                             <i class="bi bi-gear-wide"></i>
                                             <span class="d-none d-lg-inline ms-3">Profile Settings</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li class="nav-item">
                                         <form action="{{route("logout")}}" method="post">
                                             @csrf
                                             <button type="submit" class="nav-link link-body-emphasis">
@@ -146,10 +146,10 @@
                                     <p class="profile-role">{{Str::words(Str::after($dept->name, 'Department of'), 4, '...')}}</p>
                                 </div>
                                 <div class="ms-2">
-                                    @if ($user->profile_photo == null)
+                                    @if ($user->profile_photo_path == null)
                                     <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
                                     @else
-                                    <img src="{{ asset('storage/upload/'.$user->profile_photo) }}" alt="profile" class="profile-icon rounded-circle">
+                                    <img src="{{ url('storage/'.$user->profile_photo_path) }}" alt="profile" class="profile-icon rounded-circle">
                                     @endif
                                 </div>
                             </div>

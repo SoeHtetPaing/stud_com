@@ -47,7 +47,7 @@ class AdminController extends Controller
         if($user_valid == null) {
             return redirect()->back()->with("error", "Invalid email address!");
         } else {
-            User::where("id", $user_valid["id"])->update(["name" => $user_valid["name"], "email" => $user_valid["email"], "role" => "Admin", "department" => $user_valid["department"], "section" => $user_valid["section"], "gendar" => $user_valid["gendar"], "password" => $user_valid["password"], "profile_photo" => $user_valid["profile_photo"]]);
+            User::where("id", $user_valid["id"])->update(["role" => "Admin"]);
 
             return redirect()->back()->with("message", "Now, you updated as ".$user_valid["name"]." is changed to admin.");
         }
@@ -58,13 +58,18 @@ class AdminController extends Controller
         // dd($req);
         if($req->hasFile("lectImage")) {
             $image = $req->file("lectImage")->getClientOriginalName();
-            // dd($image);
-            $req->file("lectImage")->storeAs("public/upload", $image);
+            $unique = uniqid();
+            $save_image = $unique."iQ".$image;
+            $save_image_path = "profile-photos/".$save_image;
+            // dd($save_image_path);
+            $req->file("lectImage")->storeAs("public/profile-photos", $save_image);
         } else {
-            $image = null;
+            $save_image_path = null;
         }
 
-        User::create(["name" => $req["lectName"], "email" => $req["lectEmail"], "role" => "Lecturer", "department" => $req["dept"], "section" => null, "gendar" => $req["gendar"], "password" => $req["lectPassword"], "profile_photo" => $image]);
+        // dd($save_image_path);
+
+        User::create(["name" => $req["lectName"], "email" => $req["lectEmail"], "role" => "Lecturer", "department" => $req["dept"], "section" => null, "gendar" => $req["gendar"], "password" => $req["lectPassword"], "profile_photo_path" => $save_image_path]);
 
         return redirect()->back()->with("message", "New lecturer is successfully added.");
     }
@@ -74,13 +79,19 @@ class AdminController extends Controller
         // dd($req);
         if($req->hasFile("stuImage")) {
             $image = $req->file("stuImage")->getClientOriginalName();
-            // dd($image);
-            $req->file("stuImage")->storeAs("public/upload", $image);
+            $unique = uniqid();
+            $save_image = $unique."iQ".$image;
+            $save_image_path = "profile-photos/".$save_image;
+            // // dd($save_image_path);
+
+            $req->file("stuImage")->storeAs("public/profile-photos", $save_image);
         } else {
-            $image = null;
+            $save_image_path = null;
         }
 
-        User::create(["name" => $req["stuName"], "email" => $req["stuEmail"], "role" => "Student", "department" => $req["dept"], "section" => $req["section"], "gendar" => $req["gendar"], "password" => $req["stuPassword"], "profile_photo" => $image]);
+        // dd($save_image_path);
+
+        User::create(["name" => $req["stuName"], "email" => $req["stuEmail"], "role" => "Student", "department" => $req["dept"], "section" => $req["section"], "gendar" => $req["gendar"], "password" => $req["stuPassword"], "profile_photo_path" => $save_image_path]);
 
         return redirect()->back()->with("message", "New student is successfully added.");
     }
@@ -285,10 +296,10 @@ class AdminController extends Controller
         $dept = Department::where("id", $user->department)->first();
 
         // $data = Announcement::orderBy("created_at", "desc")->paginate(1);
-        // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
+        // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
         // dd($data);
 
-        $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->when(request('key'), function ($p) {
+        $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*")->when(request('key'), function ($p) {
             $key = request('key');
             $p->orWhere('title', 'like', '%'.$key.'%')->orWhere('content', 'like', '%'.$key.'%');
         })->orderBy('announcements.updated_at', 'desc')->paginate(2);
@@ -315,7 +326,7 @@ class AdminController extends Controller
 
     public function showAnnounce ($id) {
         // $data = Announcement::where('id', $id)->first();
-        $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->where('announcements.id', $id)->first();
+        $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->where('announcements.id', $id)->first();
 
 
         return view('admin.showAnnounce', compact('data'));
@@ -323,7 +334,7 @@ class AdminController extends Controller
 
     public function editAnnounce ($id) {
         // $data = Announcement::where('id', $id)->first();
-        $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->where('announcements.id', $id)->first();
+        $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->where('announcements.id', $id)->first();
         // dd($data);
 
 
@@ -399,7 +410,7 @@ class AdminController extends Controller
         $dept = Department::where("id", $user->department)->first();
 
         // $data = Announcement::orderBy("created_at", "desc")->paginate(1);
-        // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
+        // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
         // dd($data);
 
         $data = User::join("departments", "users.department", "=", "departments.id")->select("users.*", "departments.name as dept_name")->when(request('key'), function ($p) {
@@ -419,9 +430,9 @@ class AdminController extends Controller
     public function deleteUser ($id) {
         // dd($id);
         $user = User::where('id', $id)->first();
-        $old_img = $user['profile_photo'];
+        $old_img = $user['profile_photo_path'];
         // dd($old_img);
-        Storage::delete('public/upload/'.$old_img);
+        Storage::delete('public/profile-photos/'.$old_img);
 
         User::where('id', $id)->delete();
 
@@ -500,7 +511,7 @@ class AdminController extends Controller
         $lecturer = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->orWhere("users.role", "Lecturer")->orWhere("users.role", "Admin")->get();
 
         // $data = Announcement::orderBy("created_at", "desc")->paginate(1);
-        // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
+        // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
         // dd($data);
 
         // $data = Timetable::all()->groupBy("department_id");
@@ -620,7 +631,7 @@ class AdminController extends Controller
         $dept = Department::where("id", $user->department)->first();
 
         // $data = Announcement::orderBy("created_at", "desc")->paginate(1);
-        // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
+        // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
         // dd($data);
 
         $data = Department::when(request('key'), function ($p) {
@@ -681,10 +692,10 @@ class AdminController extends Controller
 
 
         // $data = Announcement::orderBy("created_at", "desc")->paginate(1);
-        // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
+        // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
         // dd($data);
 
-        $data = Group::where("type", "mul2mul")->join("users", "groups.creater_id", "=", "users.id")->select("groups.*", "users.name as user_name", "users.email", "users.gendar", "users.profile_photo")->when(request('key'), function ($p) {
+        $data = Group::where("type", "mul2mul")->join("users", "groups.creater_id", "=", "users.id")->select("groups.*", "users.name as user_name", "users.email", "users.gendar", "users.profile_photo_path")->when(request('key'), function ($p) {
             $key = request('key');
             $p->where('groups.name', 'like', '%'.$key.'%');
         })->orderBy('groups.updated_at', 'desc')->paginate(4);
@@ -724,8 +735,8 @@ class AdminController extends Controller
     public function editGroup ($id) {
         // dd($id);
 
-        $data = Group::where("groups.id", $id)->join("users", "groups.creater_id", "=", "users.id")->select("groups.*", "users.name as user_name", "users.email", "users.gendar", "users.profile_photo")->first();
-        $member = GroupMember::where("group_id", $id)->join("users", "group_members.user_id", "=", "users.id")->select("group_members.*", "users.name as user_name", "users.email", "users.gendar", "users.profile_photo")->get();
+        $data = Group::where("groups.id", $id)->join("users", "groups.creater_id", "=", "users.id")->select("groups.*", "users.name as user_name", "users.email", "users.gendar", "users.profile_photo_path")->first();
+        $member = GroupMember::where("group_id", $id)->join("users", "group_members.user_id", "=", "users.id")->select("group_members.*", "users.name as user_name", "users.email", "users.gendar", "users.profile_photo_path")->get();
         $custom = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->get();
 
         // dd($member);
@@ -823,7 +834,7 @@ class AdminController extends Controller
     public function editGrade ($id) {
         // dd($id);
 
-        $data = GroupConversation::where('group_conversations.id', $id)->join("groups", "group_conversations.group_id", "=", "groups.id")->join("users", "groups.creater_id", "=", "users.id")->select("group_conversations.*", "groups.name as group_name", "groups.type", "groups.creater_id", "users.name as creater_name", "users.profile_photo")->first();
+        $data = GroupConversation::where('group_conversations.id', $id)->join("groups", "group_conversations.group_id", "=", "groups.id")->join("users", "groups.creater_id", "=", "users.id")->select("group_conversations.*", "groups.name as group_name", "groups.type", "groups.creater_id", "users.name as creater_name", "users.profile_photo_path")->first();
         // dd($data);
         $gm = GroupMember::where('id', $data->member_id)->first();
         $rc = User::where('id', $gm->user_id)->first();
@@ -883,11 +894,11 @@ class AdminController extends Controller
                 $unique = uniqid();
                 $unique_file = $unique."-iQ-".$file;
                 // dd($unique_file);
-    
+
                 $req->file("attachment")->storeAs("public/upload", $unique_file);
-    
+
                 GroupConversation::where("id", $cid)->update(["message" => $req["message"], "attachment" => $unique_file]);
-    
+
                 return redirect()->back()->with("message", "Grade is successfully updated.");
             } else {
                 GroupConversation::where("id", $cid)->update(["message" => $req["message"]]);
@@ -896,28 +907,6 @@ class AdminController extends Controller
             }
         }
 
-    }
-
-    public function manageProfile () {
-        $user = Auth::user();
-        $dept = Department::where("id", $user->department)->first();
-
-
-        // // $data = Announcement::orderBy("created_at", "desc")->paginate(1);
-        // // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
-        // // dd($data);
-
-        // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo", "users.email", "announcements.*")->when(request('key'), function ($p) {
-        //     $key = request('key');
-        //     $p->orWhere('title', 'like', '%'.$key.'%')->orWhere('content', 'like', '%'.$key.'%');
-        // })->orderBy('announcements.created_at', 'desc')->paginate(2);
-
-
-        return view('admin.profile', [
-            "user" => $user,
-            "dept" => $dept,
-            // "data" => $data
-        ]);
     }
 
 }

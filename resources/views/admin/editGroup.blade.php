@@ -106,10 +106,10 @@
                     <table class="table table-hover px-3" style="text-align: left;">
                         <tr>
                             <td>
-                                @if ($r["profile_photo"] == null)
+                                @if ($r["profile_photo_path"] == null)
                                 <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
                                 @else
-                                <img src="{{ asset('storage/upload/'.$r->profile_photo) }}" alt="profile" class="profile-icon rounded-circle">
+                                <img src="{{ url('storage/'.$r->profile_photo_path) }}" alt="profile" class="profile-icon rounded-circle">
                                 @endif
                             </td>
                             <td class="w-75" style="vertical-align: middle;">

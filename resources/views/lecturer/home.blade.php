@@ -3,61 +3,89 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-2 vertical-menu bg-teacher">
+            <div class="col-2 vertical-menu bg-teacher" style="position: sticky; top: 0;">
                 <!-- vertical menubar -->
                 <nav>
                     <div class="logo d-flex pt-3">
-                        <img src="{{ asset('img/favicon/stud_com.png') }}" alt="logo" class="logo-image mt-1">
-                        <h4 class="logo-title d-none d-lg-inline px-3 text-ucsp">Studcom <span class="pageuser-role">(teacher)</span></h>
+                        <img src="{{ asset('img/favicon/stud_com.png') }}" alt="logo" class="logo-image" style="margin-top: 6.8px;">
+                        <h4 class="logo-title d-none d-lg-inline px-3 text-ucsp">Studcom <span class="pageuser-role">(lecturer)</span></h>
                     </div>
-                    <hr>
+                    <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 1px;"></div>
+
                     <div class="d-flex flex-column flex-shrink-0">
                         <ul class="nav nav-pills flex-column mb-auto">
+                            <h6 class="text-ucsp ps-1 d-none d-lg-inline" style="font-size: 14px;">General</h6>
                             <li class="nav-item">
-                                <a href="#" class="nav-link active-vertical-menu" aria-current="page">
+                                <a href="{{route('user@home')}}" class="nav-link active-vertical-menu" aria-current="page">
                                     <i class="bi-grid"></i>
                                     <span class="d-none d-lg-inline ms-3">Dashboard</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="nav-link link-body-emphasis">
+                            <li class="nav-item">
+                                <a href="{{route('lecturer@timetable')}}" class="nav-link link-body-emphasis">
                                     <i class="bi-table"></i>
                                     <span class="d-none d-lg-inline ms-3">Timetable</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="nav-link link-body-emphasis">
-                                    <i class="fa-solid fa-graduation-cap"></i>
-                                    <span class="d-none d-lg-inline ms-3">Grade</span>
+                            <li class="nav-item">
+                                <a href="{{route('lecturer@department')}}" class="nav-link link-body-emphasis">
+                                    <i class="fa-solid fa-briefcase"></i>
+                                    <span class="d-none d-lg-inline ms-3">Department</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="nav-link link-body-emphasis">
-                                    <i class="bi bi-gear-wide"></i>
-                                    <span class="d-none d-lg-inline ms-3">Settings</span>
+                            <li class="nav-item">
+                                <a href="{{route('lecturer@group')}}" class="nav-link link-body-emphasis">
+                                    <i class="bi bi-people-fill"></i>
+                                    <span class="d-none d-lg-inline ms-3">Group</span>
                                 </a>
+                            </li>
+                            <div class="divider bg-muted m-0 p-0 mt-2 mb-3" style="height: 1px;"></div>
+
+                            <h6 class="text-ucsp p-1 d-none d-lg-inline" style="font-size: 14px;">Personal</h6>
+                            <li class="d-none d-lg-inline">
+                                <a href="{{route('user@manageProfile')}}" class="nav-link link-body-emphasis">
+                                    <i class="bi bi-gear-wide"></i>
+                                    <span class="d-none d-lg-inline ms-3">Profile Settings</span>
+                                </a>
+                            </li>
+                            <li class="d-none d-lg-inline">
+                                <form action="{{route("logout")}}" method="post">
+                                    @csrf
+                                    <button type="submit" class="nav-link link-body-emphasis">
+                                        <i class="bi bi-box-arrow-left"></i>
+                                        <span class="d-none d-lg-inline ms-3">Log out</span>
+                                    </button>
+                                </form>
                             </li>
                         </ul>
-                        <hr>
-                        <li class="d-none d-lg-inline">
-                            <form action="{{route('logout')}}" method="post">
-                                @csrf
-                                <button type="submit" class="nav-link link-body-emphasis">
-                                    <i class="bi bi-box-arrow-left"></i>
-                                    <span class="d-none d-lg-inline ms-3">Log out</span>
-                                </button>
-                            </form>
-                        </li>
+
                         <div class="d-lg-none">
                             <div class="dropdown">
                                 <a href="#"
                                     class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{asset('upload/pp.jpeg')}}" alt="" width="32" height="32"
-                                        class="rounded-circle">
+                                    @if ($user->profile_photo_path == null)
+                                    <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
+                                    @else
+                                    <img src="{{ url('storage/'.$user->profile_photo_path) }}" alt="profile" class="profile-icon rounded-circle">
+                                    @endif
                                 </a>
                                 <ul class="dropdown-menu text-small shadow">
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-left me-3"></i>Sign out</a></li>
+                                    <li class="nav-item">
+                                        <a href="{{route('user@manageProfile')}}" class="nav-link link-body-emphasis">
+                                            <i class="bi bi-gear-wide"></i>
+                                            <span class="d-none d-lg-inline ms-3">Profile Settings</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <form action="{{route("logout")}}" method="post">
+                                            @csrf
+                                            <button type="submit" class="nav-link link-body-emphasis">
+                                                <i class="bi bi-box-arrow-left"></i>
+                                                <span class="d-none d-lg-inline ms-3">Log out</span>
+                                            </button>
+                                        </form>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -67,43 +95,77 @@
 
             <!-- main content -->
             <div class="col-10 bg-light">
-                <div class="horizontal-menu py-2 mt-1 d-flex justify-content-between">
-                    <label class="form-label" for="announce-alert" class="announce-alert bg-white rounded-pill py-2 px-3 d-flex">
-                        <i class="bi-megaphone-fill pe-2 text-ucsp"></i>
-                        <marquee direction="rtl" class="text-ucsp">This is new announce.</marquee>
-                    </label>
+                <div class="horizontal-menu py-2 mt-1 d-flex justify-content-between bg-light" style="position: sticky; top: 0; z-index: 5;">
+                    <div class="d-flex">
+                        <p class="text-ucsp">
+                            @if (\Session::has('message'))
+                                {{ \Session::get('message') }}
+                            @endif
+                        </p>
+                        <p class="text-danger">
+                            @if (\Session::has('error'))
+                                {{ \Session::get('error') }}
+                            @endif
+                        </p>
+                    </div>
                     <div class="lg-profile d-flex justify-content-between">
                         <div class="d-flex">
                             <div class="position-relative p-2">
-                                <i class="bi bi-bell-fill text-ucsp"></i>
+                                <a href="{{route('user@chat', ['back' => 'user@home'])}}">
+                                    <i class="bi bi-chat-fill text-ucsp px-2"></i>
                                 <span
-                                    class="position-absolute translate-middle p-1 bg-danger border border-2 border-light rounded-circle absolute-noti"></span>
-                            </div>
-                            <div class="position-relative p-2">
-                                <i class="bi bi-chat-fill text-ucsp px-2"></i>
-                                <span
-                                    class="position-absolute translate-middle p-1 bg-danger border border-2 border-light rounded-circle absolute-message"></span>
+                                    class="position-absolute translate-middle  p-1 bg-danger border border-2 border-light rounded-circle absolute-message"></span>
+                                </a>
                             </div>
                         </div>
                         <div class="d-none d-lg-inline">
-                            <div class="d-flex mt-1 ms-5">
+                            <div class="d-flex justify-content-center mt-1 ms-5">
                                 <div class="profile-group position-relative">
-                                    <h5 class="profile-title">Genius iQ</h5>
-                                    <p class="profile-role">Final Year</p>
+                                    <h5 class="profile-title">{{Str::words(Str::after($user->name, 'Daw'), 5, '...')}}</h5>
+                                    <p class="profile-role">{{Str::words(Str::after($dept->name, 'Department of'), 4, '...')}}</p>
                                 </div>
-                                <img src="{{ asset('upload/pp.jpeg') }}" alt="profile"
-                                    class="profile-icon rounded-circle mx-2">
+                                <div class="ms-2">
+                                    @if ($user->profile_photo_path == null)
+                                    <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
+                                    @else
+                                    <img src="{{ url('storage/'.$user->profile_photo_path) }}" alt="profile" class="profile-icon rounded-circle">
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-
-                <div class="row">
+                <div class="row text-dark">
                     <div class="col-sm col-lg-9">
-                        <div class="bg-primary mb-3" style="height: 300px"></div>
-                        <div class="bg-success mb-3" style="height: 300px"></div>
+                        <div class=mb-3">
+
+                            <!-- admin dashboard -->
+                            <div class="d-flex flex-column flex-md-row flex-lg-row flex-xl-row" style="gap: 10px">
+                                <div class="w-25"></div>
+                                <div class="card-body bg-teacher border rounded py-1 py-md-3 py-lg-3 py-xl-3">
+                                    <p class="position-absolute py-2"><i class="fa-solid fa-chalkboard-user fa-xl"></i></p>
+                                    <p class="text-end">{{$deptLecturer}} <br>Dept Lecturers</p>
+                                </div>
+                                <div class="card-body bg-student border rounded py-1 py-md-3 py-lg-3 py-xl-3">
+                                    <p class="position-absolute py-2"><i class="fa-solid fa-chalkboard-user fa-xl"></i></p>
+                                    <p class="text-end">{{$totLecturer}} <br>Total Lecturers</p>
+                                </div>
+                                <div class="card-body bg-white border rounded py-1 py-md-3 py-lg-3 py-xl-3">
+                                    <p class="position-absolute py-2"><i class="fa-solid fa-graduation-cap fa-xl"></i></p>
+                                    <p class="text-end">{{$totStudent}} <br>Total Students</p>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
                     </div>
+
+
+                    {{-- right side nav --}}
                     <div class="col-sm col-lg-3">
                         <section class="ftco-section" style="margin: 0; padding: 0;">
                             <div class="row">
@@ -206,13 +268,28 @@
                             <div class="card">
                                 <div class="card-body py-2">
                                     <h4 class="logo-title text-ucsp">Timetable today:</h4>
-                                    <div style="line-height: 10px;">
-                                        <p class="time-table-interval">9:00AM-10:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>English</span></p>
-                                        <p class="time-table-interval">10:00AM-11:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-502</span></p>
-                                        <p class="time-table-interval">11:00AM-12:00PM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-503</span></p>
-                                        <p class="time-table-interval">1:00AM-2:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-501</span></p>
-                                        <p class="time-table-interval">2:00AM-3:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-506</span></p>
-                                        <p class="time-table-interval">3:00AM-4:00AM <span class="text-ucsp d-block mt-1"><i class="fa-solid fa-book me-3"></i>CST-505</span></p>
+                                    <div style="line-height: 18px;">
+                                        @if (count($lttt) == 0)
+                                            <div class="my-5 text-center">
+                                                <div class="text-muted fs-5">
+                                                    Oop! No data found<br>
+                                                    <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                                </div>
+                                            </div>
+                                        @else
+                                            @foreach ($lttt as $r)
+                                                <p class="timetable-interval">
+                                                    {{$r->start_hour." - ".$r->end_hour}}:
+                                                    <span class="text-dark ms-1">{{$r->dept_name}}</span>
+                                                    <span class="text-ucsp d-block mt-1" style="font-size: 15px;">
+                                                        <i class="fa-solid fa-book me-3"></i>
+                                                        {{$r->subject_code." ".$r->subject_name}}
+                                                    </span>
+                                                </p>
+
+                                            @endforeach
+                                        @endif
+
                                     </div>
                                 </div>
                             </div>
