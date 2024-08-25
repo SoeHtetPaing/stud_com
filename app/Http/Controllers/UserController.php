@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Group;
 use App\Models\Subject;
 use App\Models\Timetable;
 use App\Models\Department;
+use App\Models\GroupMember;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Models\AnnouncementNoti;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -18,7 +21,8 @@ class UserController extends Controller
 
         $adminNo = User::where("role", "Admin")->count();
         $lecturerNo = User::where("role", "Lecturer")->count();
-        $studentNo = User::where("role", "Student")->count();
+        // $studentNo = User::Nowhere("role", "Student")->count();
+        $studentNo = User::where("role", "!=", "Admin")->where("role", "!=", "Lecturer")->count();
 
         $lecturer = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->orWhere("users.role", "Lecturer")->orWhere("users.role", "Admin")->get();
         $student = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->where("users.role", "Student")->get();
@@ -64,6 +68,10 @@ class UserController extends Controller
         //student
         $sttt = Timetable::where("day", $today)->where("department_id", $user->department)->join("departments", "timetables.department_id", "=", "departments.id")->select("timetables.*", "departments.name as dept_name")->get();
 
+        $data = AnnouncementNoti::where("audience_id", $user->id)->join("announcements", "announcement_notis.announce_id", "=", "announcements.id")->join("users", "announcements.announcer_id", "=", "users.id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*", "announcement_notis.*")->orderBy('announcements.updated_at', 'desc')->paginate(2);
+
+        // dd($data);
+
         if ($user->role == "Admin") { return view("admin.home", [
             "user" => $user,
             "dept" => $dept,
@@ -108,6 +116,7 @@ class UserController extends Controller
             "totLecturer" => $lecturerNo,
             "totStudent" => $studentNo,
             "lttt" => $lttt,
+            "data" => $data
         ]); }
         else { return view("student.home", [
             "user"=> $user,
@@ -115,7 +124,7 @@ class UserController extends Controller
             "deptLecturer" => $deptLecturer,
             "totStudent" => $studentNo,
             "sttt" => $sttt,
-
+            "data" => $data
         ]); }
     }
 
@@ -123,6 +132,7 @@ class UserController extends Controller
         // dd($back);
         $user = Auth::user();
         $dept = Department::where("id", $user->department)->first();
+
         return view("user.chat", ["user"=> $user, "dept"=> $dept, "back" => $back]);
     }
 
@@ -133,4 +143,15 @@ class UserController extends Controller
             "user" => $user,
         ]);
     }
+
+    public function viewAnnounce ($id) {
+        $user = Auth::user();
+        $dept = Department::where("id", $user->department)->first();
+        // dd($id);
+        AnnouncementNoti::where("id", $id)->update(["is_seen" => 1]);
+        $data = AnnouncementNoti::where("announcement_notis.id", $id)->join("announcements", "announcement_notis.announce_id", "=", "announcements.id")->join("users", "announcements.announcer_id", "=", "users.id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*", "announcement_notis.*")->first();
+
+        return view('user.viewAnnounce', compact('user', 'dept', 'data'));
+    }
+
 }

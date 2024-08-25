@@ -68,6 +68,7 @@ Route::get('/admin/manageGroup/edit/{id}', [AdminController::class, 'editGroup']
 Route::post('/admin/manageGroup/updateGroup', [AdminController::class, 'updateGroup'])->name('admin@updateGroup');
 Route::get('/admin/manageGroup/removeMember/{id}', [AdminController::class, 'removeMember'])->name('admin@removeMember');
 Route::post('/admin/manageGroup/addMember', [AdminController::class, 'addMember'])->name('admin@addMember');
+Route::post('/admin/manageGroup/updateGroupPhoto', [AdminController::class, 'updateGroupPhoto'])->name('admin@updateGroupPhoto');
 
 Route::get('/admin/manageGrade', [AdminController::class, 'manageGrade'])->name('admin@manageGrade');
 Route::get('/admin/manageGrade/delete/{id}', [AdminController::class, 'deleteGrade'])->name('admin@deleteGrade');
@@ -80,15 +81,27 @@ Route::post('/admin/manageGrade/updateGrade', [AdminController::class, 'updateGr
 
 Route::get('/lecturer/timetable', [LecturerController::class, 'timetable'])->name('lecturer@timetable');
 Route::get('/lecturer/department', [LecturerController::class, 'department'])->name('lecturer@department');
+
 Route::get('/lecturer/group', [LecturerController::class, 'group'])->name('lecturer@group');
+Route::get('/lecturer/group/edit/{id}', [LecturerController::class, 'editGroup'])->name('lecturer@editGroup');
+Route::post('/lecturer/group/updateGroup', [LecturerController::class, 'updateGroup'])->name('lecturer@updateGroup');
+Route::post('/lecturer/group/addMember', [LecturerController::class, 'addMember'])->name('lecturer@addMember');
 
 
 //student
 
 Route::get('/student/timetable', [StudentController::class, 'timetable'])->name('student@timetable');
 Route::get('/student/department', [StudentController::class, 'department'])->name('student@department');
+
 Route::get('/student/group', [StudentController::class, 'group'])->name('student@group');
+Route::get('/student/group/edit/{id}', [StudentController::class, 'editGroup'])->name('student@editGroup');
+Route::post('/student/group/updateGroup', [StudentController::class, 'updateGroup'])->name('student@updateGroup');
+Route::post('/student/group/addMember', [StudentController::class, 'addMember'])->name('student@addMember');
+
 Route::get('/student/grade', [StudentController::class, 'grade'])->name('student@grade');
+
+//user
+Route::get('/user/announce/view/{id}', [UserController::class, 'viewAnnounce'])->name('user@viewAnnounce');
 
 
 

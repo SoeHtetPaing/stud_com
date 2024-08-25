@@ -315,10 +315,10 @@
                     <div class="lg-profile d-flex justify-content-between">
                         <div class="d-flex">
                             <div class="position-relative p-2">
-                                <a href="{{route('user@chat', ['back' => 'admin@manageProfile'])}}">
+                                <a href="{{route('user@chat', ['back' => 'user@manageProfile'])}}">
                                     <i class="bi bi-chat-fill text-ucsp px-2"></i>
                                 <span
-                                    class="position-absolute translate-middle  p-1 bg-danger border border-2 border-light rounded-circle absolute-message" style="top: 0.8rem; right: 0.4rem;"></span>
+                                    class="position-absolute translate-middle  p-1 bg-danger border border-2 border-light rounded-circle absolute-message" style="top: 0.9rem; right: 0.4rem;"></span>
                                 </a>
                             </div>
                         </div>

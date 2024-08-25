@@ -188,7 +188,7 @@
                                         {{-- 1 year section A --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>First Year Section A</h6>
+                                                <h6>First Year » Section A</h6>
                                             </div>
                                             @if (count($y1s1) == 0)
                                                 <td colspan="4" style="">
@@ -249,7 +249,7 @@
                                         {{-- 1 year section B --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>First Year Section B</h6>
+                                                <h6>First Year » Section B</h6>
                                             </div>
                                             @if (count($y1s2) == 0)
                                                 <td colspan="4" style="">
@@ -310,7 +310,7 @@
                                         {{-- 1 year section C --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>First Year Section C</h6>
+                                                <h6>First Year » Section C</h6>
                                             </div>
                                             @if (count($y1s3) == 0)
                                                 <td colspan="4" style="">
@@ -374,7 +374,7 @@
                                         {{-- 2 year section A --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>Second Year Section A</h6>
+                                                <h6>Second Year » Section A</h6>
                                             </div>
                                             @if (count($y2s1) == 0)
                                                 <td colspan="4" style="">
@@ -435,7 +435,7 @@
                                         {{-- 2 year section B --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>Second Year Section B</h6>
+                                                <h6>Second Year » Section B</h6>
                                             </div>
                                             @if (count($y2s2) == 0)
                                                 <td colspan="4" style="">
@@ -496,7 +496,7 @@
                                         {{-- 2 year section CT --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>Second Year Section CT</h6>
+                                                <h6>Second Year » Section CT</h6>
                                             </div>
                                             @if (count($y2s3) == 0)
                                                 <td colspan="4" style="">
@@ -560,7 +560,7 @@
                                         {{-- 3 year section A --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>Third Year Section A</h6>
+                                                <h6>Third Year » Section A</h6>
                                             </div>
                                             @if (count($y3s1) == 0)
                                                 <td colspan="4" style="">
@@ -621,7 +621,7 @@
                                         {{-- 3 year section B --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>Third Year Section B</h6>
+                                                <h6>Third Year » Section B</h6>
                                             </div>
                                             @if (count($y3s2) == 0)
                                                 <td colspan="4" style="">
@@ -682,7 +682,7 @@
                                         {{-- 3 year section CT --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>Third Year Section CT</h6>
+                                                <h6>Third Year » Section CT</h6>
                                             </div>
                                             @if (count($y3s3) == 0)
                                                 <td colspan="4" style="">
@@ -746,7 +746,7 @@
                                         {{-- 4 year section A --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>Fourth Year Section A</h6>
+                                                <h6>Fourth Year » Section A</h6>
                                             </div>
                                             @if (count($y4s1) == 0)
                                                 <td colspan="4" style="">
@@ -807,7 +807,7 @@
                                         {{-- 4 year section B --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>Fourth Year Section B</h6>
+                                                <h6>Fourth Year » Section B</h6>
                                             </div>
                                             @if (count($y4s2) == 0)
                                                 <td colspan="4" style="">
@@ -868,7 +868,7 @@
                                         {{-- 4 year section CT --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>Fourth Year Section CT</h6>
+                                                <h6>Fourth Year » Section CT</h6>
                                             </div>
                                             @if (count($y4s3) == 0)
                                                 <td colspan="4" style="">
@@ -932,7 +932,7 @@
                                         {{-- 5 year section A --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>Final Year Section A</h6>
+                                                <h6>Final Year » Section A</h6>
                                             </div>
                                             @if (count($y5s1) == 0)
                                                 <td colspan="4" style="">
@@ -993,7 +993,7 @@
                                         {{-- 5 year section B --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>Final Year Section B</h6>
+                                                <h6>Final Year » Section B</h6>
                                             </div>
                                             @if (count($y5s2) == 0)
                                                 <td colspan="4" style="">
@@ -1054,7 +1054,7 @@
                                         {{-- 5 year section CT --}}
                                         <div class="card mb-3">
                                             <div class="card-header my-card-header">
-                                                <h6>Final Year Section CT</h6>
+                                                <h6>Final Year » Section CT</h6>
                                             </div>
                                             @if (count($y5s3) == 0)
                                                 <td colspan="4" style="">

@@ -5,7 +5,7 @@
 
         <div class="d-flex justify-content-between align-items-center pt-3 px-md-5 mb-2">
             <div class="">
-                <a href="{{route('admin@manageGroup')}}"><button class="btn btn-ucsp me-3 my-1"><i class="fa-solid fa-arrow-left me-2"></i>Back</button></a>
+                <a href="{{ route('student@group') }}"><button class="btn btn-ucsp me-3 my-1"><i class="fa-solid fa-arrow-left me-2"></i>Back</button></a>
             </div>
             <div class="d-flex align-items-center">
                 <div class="mt-2">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
 
-                <form action="{{route('admin@updateGroup')}}" method="POST" enctype="multipart/form-data" class="me-3">
+                <form action="{{route('student@updateGroup')}}" method="POST" enctype="multipart/form-data" class="me-3">
                     @csrf
 
                     <input class="form-control" type="hidden" name="groupId" id="groupId" value="{{$data['id']}}">
@@ -152,7 +152,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-        <form action="{{route('admin@addMember')}}" enctype="multipart/form-data" method="post">
+        <form action="{{route('student@addMember')}}" enctype="multipart/form-data" method="post">
             @csrf
             <input class="form-control" type="hidden" name="groupId" id="groupId" value="{{$data['id']}}">
 
@@ -197,6 +197,7 @@
       </div>
     </div>
 </div>
+
 
 @push("script")
 

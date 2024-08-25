@@ -1,0 +1,16 @@
+my-group-member-info
+----------------------
+$mygroup = GroupMember::where("user_id", $user->id)
+->join("groups", function($jg) {
+    $jg->on("groups.id", "=", "group_members.group_id")->where("groups.type", "=", "grade2announce");
+})
+->join("users", "users.id", "=", "group_members.user_id")
+->join("departments", "departments.id", "=", "users.department")
+->select(
+    "users.id as uid", "groups.id as gid", "group_members.id as mid",
+    "groups.name as gname", "groups.image as gimage", "groups.type as gtype","groups.creater_id as gcid",
+    "users.name as uname", "users.email as uemail", "users.profile_photo_path as uimage", "users.role as urole", "users.gendar as usex", "users.section as usection",
+    "departments.name as dname", "departments.id as did",
+)->get();
+//paginate(5);
+dd($mygroup);

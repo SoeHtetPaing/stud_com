@@ -793,6 +793,50 @@ class AdminController extends Controller
 
     }
 
+    public function updateGroupPhoto (Request $req) {
+        // dd($req);
+        $gid = $req['gid'];
+        // dd($data_id);
+
+        $action = $req['submit'];
+        // dd($action);
+
+        if($action == "Remove") {
+            $temp = Group::where("id", $gid)->first();
+            // dd($temp);
+            $old_img = $temp['image'];
+            // dd($old_img);
+
+            Storage::delete('public/upload/'.$old_img);
+            Group::where("id", $gid)->update(["image" => null]);
+
+            return redirect()->back()->with("message", "Group photo is successfully removed.");
+
+        } else {
+            if($req->hasFile("groupImage")) {
+                $image = $req->file("groupImage")->getClientOriginalName();
+                // dd($image);
+
+                $temp = Group::where("id", $gid)->first();
+                // dd($temp);
+                $old_img = $temp['image'];
+                // dd($old_img);
+
+                Storage::delete('public/upload/'.$old_img);
+                $req->file("groupImage")->storeAs("public/upload", $image);
+
+                Group::where("id", $gid)->update(["image" => $image]);
+
+                return redirect()->back()->with("message", "Group photo is successfully updated.");
+            } else {
+                return redirect()->back()->with("error", "Error! Image is null.");
+            }
+        }
+
+    }
+
+
+
     public function manageGrade () {
         $user = Auth::user();
         $dept = Department::where("id", $user->department)->first();

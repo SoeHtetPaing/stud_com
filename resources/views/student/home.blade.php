@@ -143,6 +143,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="divider bg-muted m-0 p-0 mb-3" style="height: 1px;"></div>
 
                 <div class="row text-dark">
                     <div class="col-sm col-lg-9">
@@ -154,7 +155,7 @@
                                 <div class="w-25"></div>
                                 <div class="card-body bg-student border rounded py-1 py-md-3 py-lg-3 py-xl-3">
                                     <p class="position-absolute py-2"><i class="fa-solid fa-chalkboard-user fa-xl"></i></p>
-                                    <p class="text-end">{{$deptLecturer}} <br>Classmates</p>
+                                    <p class="text-end">{{$deptLecturer}} <br>Class Mates</p>
                                 </div>
                                 <div class="card-body bg-white border rounded py-1 py-md-3 py-lg-3 py-xl-3">
                                     <p class="position-absolute py-2"><i class="fa-solid fa-graduation-cap fa-xl"></i></p>
@@ -162,8 +163,58 @@
                                 </div>
                             </div>
 
+                            <div class="my-3">
+                                @if (count($data) == 0)
+                                <div class="my-5 text-center">
+                                    <div class="text-muted fs-5">
+                                        Oop! No data found<br>
+                                        <i class="fs-3 mt-5 fa-solid fa-bomb fa-beat"></i>
+                                    </div>
+                                </div>
+                             @else
 
+                                @foreach ($data as $r)
+                                    <div class="card mb-3">
+                                        <div class="card-header my-card-header d-flex justify-content-between">
+                                            <div class="d-flex">
+                                                <div class="me-2">
+                                                    @if ($r["profile_photo_path"] == null)
+                                                        <i class="fa-solid fa-user-circle" style="font-size: 35px; color: #0097b2"></i>
+                                                    @else
+                                                        <img src="{{ url('storage/'.$r->profile_photo_path) }}" alt="profile" class="profile-icon rounded-circle">
+                                                    @endif
+                                                </div>
+                                                <div class="d-flex align-item-center">
+                                                    <div class="position-relative">
+                                                        <h6 class="profile-title" style="width: 180px;">{{Str::words(Str::after($r->name, 'Daw'), 5, '...')}} ({{$r["role"]}})</h6>
+                                                        <p class="profile-date">{{$r->created_at->format('D d F Y')}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                @if ($r->is_seen == 0)
+                                                <span class="btn btn-delete btn-danger p-1 m-1 px-lg-2 rounded-pill"><span class="d-none d-lg-inline">New</span></span>
+                                                @else
+                                                <span class="btn btn-delete btn-light p-1 m-1 px-lg-2 rounded-pill disabled"><span class="d-none d-lg-inline">Read</span></span>
+                                                @endif
+                                                <a href="{{route('user@viewAnnounce', $r['id'])}}" class="text-decoration-none">
+                                                    <button class="btn btn-outline-ucsp"><i class="fa fa-info-circle me-lg-2"></i> <span class="d-none d-lg-inline">See more...</span></button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <h6 class="text-ucsp">{{$r['title']}}</h6>
+                                            <p class=" text-justify">{{Str::words($r['content'], 20, '...')}}</p>
+                                            <small><a class="text-decoration-none" href="mailto:{{$r['email']}}">
+                                                {{$r['email']}}
+                                            </a></small>
+                                        </div>
+                                    </div>
 
+                                @endforeach
+                                {{$data->appends(request()->query())->links()}}
+                            @endif
+                            </div>
 
 
                         </div>
