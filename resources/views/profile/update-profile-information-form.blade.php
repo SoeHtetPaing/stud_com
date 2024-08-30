@@ -62,6 +62,15 @@
             <x-input-error for="role" class="mt-2" />
         </div>
 
+        <!-- Section -->
+        @if (Auth::user()->section != "NA")
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="section" value="{{ __('Position') }}" />
+            <x-input id="section" type="text" class="mt-1 block w-full" wire:model="state.section" required autocomplete="section" disabled />
+            <x-input-error for="section" class="mt-2" />
+        </div>
+        @endif
+
         <!-- Desc -->
         <div class="col-span-6 sm:col-span-4">
             <h1 class="text-ucsp">Editable Fields</h1>
@@ -93,21 +102,26 @@
             @endif
         </div>
 
+        <!-- Phone -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="phone" value="{{ __('Phone') }}" />
+            <x-input id="phone" type="text" class="mt-1 block w-full" wire:model="state.phone" required autocomplete="phone" />
+            <x-input-error for="phone" class="mt-2" />
+        </div>
+
+        <!-- Address -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="address" value="{{ __('Address') }}" />
+            <x-input id="address" type="text" class="mt-1 block w-full" wire:model="state.address" required autocomplete="address" />
+            <x-input-error for="address" class="mt-2" />
+        </div>
+
         <!-- Gendar -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="gendar" value="{{ __('Gendar') }}" />
             <x-input id="gendar" type="text" class="mt-1 block w-full" wire:model="state.gendar" required autocomplete="gendar" />
             <x-input-error for="gendar" class="mt-2" />
         </div>
-
-        <!-- Section -->
-        @if (Auth::user()->section != null)
-        <div class="col-span-6 sm:col-span-4">
-            <x-label for="section" value="{{ __('Section') }}" />
-            <x-input id="section" type="text" class="mt-1 block w-full" wire:model="state.section" required autocomplete="section" />
-            <x-input-error for="section" class="mt-2" />
-        </div>
-        @endif
 
     </x-slot>
     <x-slot name="actions">

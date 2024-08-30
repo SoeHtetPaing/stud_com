@@ -14,9 +14,15 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('mygn')->nullable();
+            $table->string('yrgn')->nullable();
             $table->string('type');
             $table->integer('creater_id');
             $table->string('image')->nullable();
+            $table->string('mygimg')->nullable();
+            $table->string('yrgimg')->nullable();
+            $table->integer('myid')->nullable();
+            $table->integer('yrid')->nullable();
             $table->timestamps();
         });
     }

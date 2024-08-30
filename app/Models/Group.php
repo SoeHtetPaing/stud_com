@@ -11,8 +11,14 @@ class Group extends Model
 
     protected $fillable = [
         'name',
+        'mygn',
+        'yrgn',
         'type',
         'creater_id',
-        'image'
+        'image',
+        'mygimg',
+        'yrgimg',
+        'myid',
+        'yrid'
     ];
 }

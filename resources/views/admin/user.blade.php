@@ -69,7 +69,7 @@
                                 </a>
                             </li>
                             <li class="d-none d-lg-inline">
-                                <form action="{{route("logout")}}" method="post">
+                                <form action="{{route("user@logout")}}" method="post">
                                     @csrf
                                     <button type="submit" class="nav-link link-body-emphasis">
                                         <i class="bi bi-box-arrow-left"></i>
@@ -98,7 +98,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <form action="{{route("logout")}}" method="post">
+                                        <form action="{{route("user@logout")}}" method="post">
                                             @csrf
                                             <button type="submit" class="nav-link link-body-emphasis">
                                                 <i class="bi bi-box-arrow-left"></i>
@@ -223,7 +223,7 @@
                                                 </span>
                                             </p>
                                             <p class="m-0 text-end">
-                                                @if ($r['section'] != "")
+                                                @if ($r['section'] != "NA")
                                                 <span class="text-muted" style="font-size: 13px;">Section:&emsp;</span>
                                                 <span style="font-size: 15px;">
                                                     {{$r['section']}}
@@ -302,6 +302,10 @@
                                             <input type="email" name="lectEmail" class="form-control" required="" placeholder="niniwin@ucspyay.edu.mm">
                                         </div>
                                         <div class="form-group mb-3">
+                                            <label class="form-label" for="phone"><span class="text-danger fw-bold">*</span> Enter lecturer phone</label>
+                                            <input type="text" name="phone" class="form-control" required="" placeholder="09755089001">
+                                        </div>
+                                        <div class="form-group mb-3">
                                             <label class="form-label" for="dept"><span class="text-danger fw-bold">*</span> Select department name</label>
                                             <select name="dept" id="dept" class="form-select">
                                                 @foreach($lectDept as $item)
@@ -318,6 +322,10 @@
                                                 <input class="form-check-input" type="radio" name="gendar" id="gendar" value="Female">
                                                 <label class="form-check-label" for="inlineRadio2">Female</label>
                                             </div>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="address"><span class="text-danger fw-bold">*</span> Enter lecturer address</label>
+                                            <input type="text" name="address" class="form-control" required="" placeholder="Magway">
                                         </div>
                                         <div class="form-group mb-3">
                                             <label class="form-label" for="lectPassword"><span class="text-success fw-bold">*</span> Default password for lecturer is <span class="text-ucsp">lecturer@ucsp</span></label>
@@ -355,6 +363,10 @@
                                             <input type="email" name="stuEmail" class="form-control" required="" placeholder="soehtetpaing@ucspyay.edu.mm">
                                         </div>
                                         <div class="form-group mb-3">
+                                            <label class="form-label" for="phone"><span class="text-danger fw-bold">*</span> Enter student phone</label>
+                                            <input type="text" name="phone" class="form-control" required="" placeholder="09784440048">
+                                        </div>
+                                        <div class="form-group mb-3">
                                             <label class="form-label" for="dept"><span class="text-danger fw-bold">*</span> Select academic year</label>
                                             <select name="dept" id="dept" class="form-select">
                                                 @foreach($stuDept as $item)
@@ -380,6 +392,10 @@
                                                 <input class="form-check-input" type="radio" name="gendar" id="gendar" value="Female">
                                                 <label class="form-check-label" for="inlineRadio2">Female</label>
                                             </div>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="address"><span class="text-danger fw-bold">*</span> Enter student address</label>
+                                            <input type="text" name="address" class="form-control" required="" placeholder="Pyay">
                                         </div>
                                         <div class="form-group mb-3">
                                             <label class="form-label" for="stuPassword"><span class="text-success fw-bold">*</span> Default password for student is <span class="text-ucsp">student@ucsp</span></label>

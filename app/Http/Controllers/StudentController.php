@@ -21,13 +21,13 @@ class StudentController extends Controller
         $mon = Timetable::where("day", "Monday")->where("department_id", $user->department)->where("section", $user->section)->get();
         $tt ["mon"] = $mon->toArray();
 
-        $tue = Timetable::where("day", "Tueday")->where("department_id", $user->department)->where("section", $user->section)->get();
+        $tue = Timetable::where("day", "Tuesday")->where("department_id", $user->department)->where("section", $user->section)->get();
         $tt["tue"] = $tue->toArray();
 
         $wed = Timetable::where("day", "Wednesday")->where("department_id", $user->department)->where("section", $user->section)->get();
         $tt["wed"] = $wed->toArray();
 
-        $thu = Timetable::where("day", "Thurday")->where("department_id", $user->department)->where("section", $user->section)->get();
+        $thu = Timetable::where("day", "Thursday")->where("department_id", $user->department)->where("section", $user->section)->get();
         $tt["thu"] = $thu->toArray();
 
         $fri = Timetable::where("day", "Friday")->where("department_id", $user->department)->where("section", $user->section)->get();
@@ -113,6 +113,9 @@ class StudentController extends Controller
                 // dd($member_exist);
                 if($member_exist == null) {
                     GroupMember::create(["group_id" => $req["groupId"], "user_id" => $member]);
+                    ChatConfig::where("user_id", $member)->where("is_active", 1)->update(["is_active" => 0]);
+                    ChatConfig::create(["user_id" => $member, "yrnew" => 1, "is_active" => 1, "lat" => Carbon::now(), "creater_id" => Auth::user()->id, "group_id" => $req['groupId']]);
+
                     $user = User::where('id', $member)->first();
                     array_push($msg, $user->name." is successfully enrolled in this group.");
                 } else {

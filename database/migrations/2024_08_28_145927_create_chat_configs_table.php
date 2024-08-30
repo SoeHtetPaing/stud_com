@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('group_conversations', function (Blueprint $table) {
+        Schema::create('chat_configs', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->integer('mynew')->default(0);
+            $table->integer('yrnew')->default(0);
+            $table->integer('is_active');
+            $table->timestamp('lat');
+            $table->integer('creater_id');
             $table->integer('group_id');
-            $table->integer('member_id');
-            $table->text('message')->nullable();
-            $table->string('attachment')->nullable();
-            $table->integer('grade_announce')->default(0);
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('group_conversations');
+        Schema::dropIfExists('chat_configs');
     }
 };

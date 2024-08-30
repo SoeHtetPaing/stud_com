@@ -67,7 +67,7 @@
                                 </a>
                             </li>
                             <li class="d-none d-lg-inline">
-                                <form action="{{route("logout")}}" method="post">
+                                <form action="{{route("user@logout")}}" method="post">
                                     @csrf
                                     <button type="submit" class="nav-link link-body-emphasis">
                                         <i class="bi bi-box-arrow-left"></i>
@@ -96,7 +96,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <form action="{{route("logout")}}" method="post">
+                                        <form action="{{route("user@logout")}}" method="post">
                                             @csrf
                                             <button type="submit" class="nav-link link-body-emphasis">
                                                 <i class="bi bi-box-arrow-left"></i>
@@ -1162,9 +1162,9 @@
                                             <label class="form-label" for="day"><span class="text-danger fw-bold">*</span> Select day</label>
                                             <select name="day" id="day" class="form-select">
                                                 <option value="Monday">Monday</option>
-                                                <option value="Tueday">Tueday</option>
+                                                <option value="Tuesday">Tuesday</option>
                                                 <option value="Wednesday">Wednesday</option>
-                                                <option value="Thurday">Thurday</option>
+                                                <option value="Thursday">Thursday</option>
                                                 <option value="Friday">Friday</option>
                                             </select>
                                         </div>

@@ -19,8 +19,17 @@ Route::middleware([
     Route::get('/dashboard', [UserController::class,'home'])->name('user@home');
 });
 
+//user
 Route::get('/user/{back}/chat', [UserController::class,'chat'])->name('user@chat');
-Route::get('/admin/manageProfile', [UserController::class, 'manageProfile'])->name('user@manageProfile');
+Route::post('/user/startChat', [UserController::class, 'startChat'])->name('user@startChat');
+Route::post('/user/sendMessage', [UserController::class, 'sendMessage'])->name('user@sendMessage');
+Route::post('/user/sendMessageWithPhoto', [UserController::class, 'sendMessageWithPhoto'])->name('user@sendMessageWithPhoto');
+Route::post('/user/sendMessageWithFile', [UserController::class, 'sendMessageWithFile'])->name('user@sendMessageWithFile');
+Route::get('/user/selectChat/{gid}', [UserController::class, 'selectChat'])->name('user@selectChat');
+
+Route::get('/user/announce/view/{id}', [UserController::class, 'viewAnnounce'])->name('user@viewAnnounce');
+Route::get('/user/manageProfile', [UserController::class, 'manageProfile'])->name('user@manageProfile');
+Route::post('/user/logout', [UserController::class, 'logout'])->name('user@logout');
 
 
 Route::post('/admin/addAnnouncement', [AdminController::class, 'addAnnouncement'])->name('admin@addAnnouncement');
@@ -99,13 +108,3 @@ Route::post('/student/group/updateGroup', [StudentController::class, 'updateGrou
 Route::post('/student/group/addMember', [StudentController::class, 'addMember'])->name('student@addMember');
 
 Route::get('/student/grade', [StudentController::class, 'grade'])->name('student@grade');
-
-//user
-Route::get('/user/announce/view/{id}', [UserController::class, 'viewAnnounce'])->name('user@viewAnnounce');
-
-
-
-
-
-
-

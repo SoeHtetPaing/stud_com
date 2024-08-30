@@ -1,16 +1,202 @@
+$user = Auth::user();
+$dept = Department::where("id", $user->department)->first();
+--------------------------------------------------------------
+
+
 my-group-member-info
 ----------------------
 $mygroup = GroupMember::where("user_id", $user->id)
-->join("groups", function($jg) {
-    $jg->on("groups.id", "=", "group_members.group_id")->where("groups.type", "=", "grade2announce");
-})
-->join("users", "users.id", "=", "group_members.user_id")
-->join("departments", "departments.id", "=", "users.department")
-->select(
-    "users.id as uid", "groups.id as gid", "group_members.id as mid",
-    "groups.name as gname", "groups.image as gimage", "groups.type as gtype","groups.creater_id as gcid",
-    "users.name as uname", "users.email as uemail", "users.profile_photo_path as uimage", "users.role as urole", "users.gendar as usex", "users.section as usection",
-    "departments.name as dname", "departments.id as did",
-)->get();
-//paginate(5);
-dd($mygroup);
+        ->join("groups", function($jg) {
+            $jg->on("groups.id", "=", "group_members.group_id")->where("groups.type", "=", "grade2announce");
+        })
+        ->join("users", "users.id", "=", "group_members.user_id")
+        ->join("departments", "departments.id", "=", "users.department")
+        ->select(
+            "users.id as uid", "groups.id as gid", "group_members.id as mid",
+            "groups.name as gname", "groups.image as gimage", "groups.type as gtype","groups.creater_id as gcid",
+            "users.name as uname", "users.email as uemail", "users.profile_photo_path as uimage", "users.role as urole", "users.gendar as usex", "users.section as usection",
+            "departments.name as dname", "departments.id as did",
+        )->get();
+        //paginate(5);
+        dd($mygroup);
+
+
+my-announcement-announcementNoti-info
+--------------------------------------
+$new_alert = AnnouncementNoti::where("audience_id", $user->id)->where("is_seen", 0)
+        ->join("announcements", "announcements.id", "=", "announcement_notis.announce_id")
+        ->select(
+            "announcements.id as aid", "announcement_notis.id as anid",
+            "announcements.title as atitle", "announcements.content as acontent",
+            "announcements.announcer_id as announcer", "announcement_notis.audience_id as audience", "announcement_notis.is_seen as seen",
+        )
+        ->get();
+dd($new_alert);
+
+$newChat = GroupConversationNoti::where("audience_id", $user->id)->where("is_seen", 0)
+        ->join("group_conversations", "group_conversations.id", "=", "group_conversation_notis.conversation_id")
+        ->join("groups", function($jg) {
+            $jg->on("groups.id", "=", "group_conversations.group_id");
+        })
+        ->join("users", "users.id", "=", "group_conversation_notis.audience_id")
+        ->join("departments", "departments.id", "=", "users.department")
+        ->select(
+            "users.id as uid", "groups.id as gid", "group_conversations.member_id as mid","group_conversations.id as gcid", "group_conversation_notis.id as gcnid",
+            "groups.name as gname", "groups.image as gimage", "groups.type as gtype","groups.creater_id as gcid",
+            "group_conversations.message as gcmessage", "group_conversations.attachment as gcfile",
+            "users.name as uname", "users.email as uemail", "users.profile_photo_path as uimage", "users.role as urole", "users.gendar as usex", "users.section as usection",
+            "departments.name as dname", "departments.id as did",
+            "group_conversation_notis.audience_id as audience", "group_conversation_notis.is_seen as seen", "group_conversation_notis.created_at as created_at", "group_conversation_notis.updated_at as updated_at",
+        )
+        ->orderBy("group_conversation_notis.created_at")
+        ->get();
+        // dd($newChat);
+
+
+
+meanless
+-----------
+$mygroup = GroupMember::where("user_id", $user->id)
+        ->join("groups", function($jg) {
+            $jg->on("groups.id", "=", "group_members.group_id")->where("groups.type", "=", "grade2announce");
+        })
+        ->join("users", "users.id", "=", "group_members.user_id")
+        ->join("departments", "departments.id", "=", "users.department")
+        ->join("group_conversations", function($jc) {
+            $jc->on("group_conversations.group_id", "=", "groups.id")->join("group_conversation_notis", "group_conversation_notis.conversation_id", "=", "group_conversations.id")->where("group_conversation_notis.is_seen", 0);
+        })
+        ->select(
+            "users.id as uid", "groups.id as gid", "group_members.id as mid",
+            "groups.name as gname", "groups.image as gimage", "groups.type as gtype","groups.creater_id as gcid",
+            "users.name as uname", "users.email as uemail", "users.profile_photo_path as uimage", "users.role as urole", "users.gendar as usex", "users.section as usection",
+            "departments.name as dname", "departments.id as did",
+            "group_conversations.message as gcmessage", "group_conversations.attachment as gcfile",
+            "group_conversation_notis.audience_id as audience", "group_conversation_notis.is_seen as seen", "group_conversation_notis.created_at as created_at", "group_conversation_notis.updated_at as updated_at",
+        )->get();
+        dd($mygroup);
+
+
+group
+------------
+<div class="d-flex mb-3 chat">
+                                        <div class="me-2">
+                                            @if ($user->profile_photo_path == null)
+                                            <img src="{{ asset('storage/upload/group-icon-v3.jpg') }}" alt="profile" class="image-icon-size rounded-circle border">
+                                            @else
+                                            <img src="{{ asset('storage/upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
+                                            @endif
+                                        </div>
+                                        <div class="position-relative w-100">
+                                            <h6 class="">1CST-EC & Course Leader <small class="text-muted float-end">1:30 PM</small></h6>
+                                            <small class="message-alert text-muted w-100">ကျောင်းသား အားလုံးမနက်ဖြန်ကျောင်းဝတ်စုံ ဝတ်ဖို့ ... <span class="badge rounded-pill bg-danger float-end">11</span></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex mb-3 chat">
+                                        <div class="me-2">
+                                            @if ($user->profile_photo_path == null)
+                                            <img src="{{ asset('storage/upload/group-icon-v3.jpg') }}" alt="profile" class="image-icon-size rounded-circle border">
+                                            @else
+                                            <img src="{{ asset('storage/upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
+                                            @endif
+                                        </div>
+                                        <div class="position-relative w-100">
+                                            <h6 class="">First year Section A <small class="text-muted float-end">12:05 PM</small></h6>
+                                            <small class="message-alert text-muted w-100">Hello, may i ask a question... <span class="badge rounded-pill bg-danger float-end">5</span></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex mb-3 chat">
+                                        <div class="me-2">
+                                            @if ($user->profile_photo_path == null)
+                                            <img src="{{ asset('storage/upload/group-icon-v3.jpg') }}" alt="profile" class="image-icon-size rounded-circle border">
+                                            @else
+                                            <img src="{{ asset('storage/upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
+                                            @endif
+                                        </div>
+                                        <div class="position-relative w-100">
+                                            <h6 class="">ပထမနှစ် ကွန်ပျူတာကျောင်းသားသီးသန့် <small class="text-muted float-end">12:05 PM</small></h6>
+                                            <small class="message-alert text-muted w-100">တစ်ယောက်ယောက် ရှိပါသလား?... <span class="badge rounded-pill bg-danger float-end">8</span></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex mb-3 chat">
+                                        <div class="me-2">
+                                            @if ($user->profile_photo_path == null)
+                                            <img src="{{ asset('storage/upload/group-icon-v3.jpg') }}" alt="profile" class="image-icon-size rounded-circle border">
+                                            @else
+                                            <img src="{{ asset('storage/upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
+                                            @endif
+                                        </div>
+                                        <div class="position-relative w-100">
+                                            <h6 class="">ပထမနှစ် ကွန်ပျူတာကျောင်းသားသီးသန့် <small class="text-muted float-end">12:05 PM</small></h6>
+                                            <small class="message-alert text-muted w-100">တစ်ယောက်ယောက် ရှိပါသလား?... <span class="badge rounded-pill bg-danger float-end">8</span></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex mb-3 chat">
+                                        <div class="me-2">
+                                            @if ($user->profile_photo_path == null)
+                                            <img src="{{ asset('storage/upload/group-icon-v3.jpg') }}" alt="profile" class="image-icon-size rounded-circle border">
+                                            @else
+                                            <img src="{{ asset('storage/upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
+                                            @endif
+                                        </div>
+                                        <div class="position-relative w-100">
+                                            <h6 class="">ပထမနှစ် ကွန်ပျူတာကျောင်းသားသီးသန့် <small class="text-muted float-end">12:05 PM</small></h6>
+                                            <small class="message-alert text-muted w-100">တစ်ယောက်ယောက် ရှိပါသလား?... <span class="badge rounded-pill bg-danger float-end">8</span></small>
+                                        </div>
+                                    </div>
+
+chat
+-----
+<div class="mb-3">
+                                <p class="mb-2 text-ucsp text-label">Chats</p>
+                                {{-- chat ui --}}
+                                <div class="chat-scroll-content">
+
+                                    <div class="d-flex mb-3 chat active-chat">
+                                        <div class="me-2">
+                                            @if ($user->profile_photo_path == null)
+                                            <img src="{{ asset('storage/upload/pp-v1.jpg') }}" alt="profile" class="image-icon-size rounded-circle border">
+                                            @else
+                                            <img src="{{ asset('storage/upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
+                                            @endif
+                                        </div>
+                                        <div class="position-relative w-100">
+                                            <h6 class="">Wai Hin Kyaw <small class="chat-arrive text-muted float-end">1:30 PM</small></h6>
+                                            <small class="message-alert text-muted w-100">ကျောင်းသား အားလုံးမနက်ဖြန်ကျောင်းဝတ်စုံ ဝတ်ဖို့ ... <span class="chat-amt badge rounded-pill bg-danger float-end">11</span></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex mb-3 chat">
+                                        <div class="me-2">
+                                            @if ($user->profile_photo_path == null)
+                                            <img src="{{ asset('storage/upload/pp-v10.jpg') }}" alt="profile" class="image-icon-size rounded-circle border">
+                                            @else
+                                            <img src="{{ asset('storage/upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
+                                            @endif
+                                        </div>
+                                        <div class="position-relative w-100">
+                                            <h6 class="">Wai Yan Hein <small class="text-muted float-end">12:05 PM</small></h6>
+                                            <small class="message-alert text-muted w-100">Hello, may i ask a question... <span class="badge rounded-pill bg-danger float-end">5</span></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex chat">
+                                        <div class="me-2">
+                                            @if ($user->profile_photo_path == null)
+                                            <img src="{{ asset('storage/upload/pp-v11.jpg') }}" alt="profile" class="image-icon-size rounded-circle border">
+                                            @else
+                                            <img src="{{ asset('storage/upload/pp.jpeg') }}" alt="profile" class="profile-icon rounded-circle">
+                                            @endif
+                                        </div>
+                                        <div class="position-relative w-100">
+                                            <h6 class="">Chan Myae Thu <small class="text-muted float-end">12:05 PM</small></h6>
+                                            <small class="message-alert text-muted w-100">တစ်ယောက်ယောက် ရှိပါသလား?... <span class="badge rounded-pill bg-danger float-end">8</span></small>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>

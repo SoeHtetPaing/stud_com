@@ -69,7 +69,7 @@
                             <div class="form-group mb-3">
                             <label class="form-label" for="day"><span class="text-danger fw-bold">*</span> Current day</span></label>
                         @php
-                            $r = ["Monday", "Tueday", "Wednesday", "Thurday", "Friday"];
+                            $r = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
                         @endphp
                         <select name="day" id="day" class="form-select">
                                 @php

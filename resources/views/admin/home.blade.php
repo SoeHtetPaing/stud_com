@@ -70,7 +70,7 @@
                                 </a>
                             </li>
                             <li class="d-none d-lg-inline">
-                                <form action="{{route("logout")}}" method="post">
+                                <form action="{{route("user@logout")}}" method="post">
                                     @csrf
                                     <button type="submit" class="nav-link link-body-emphasis">
                                         <i class="bi bi-box-arrow-left"></i>
@@ -99,7 +99,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <form action="{{route("logout")}}" method="post">
+                                        <form action="{{route("user@logout")}}" method="post">
                                             @csrf
                                             <button type="submit" class="nav-link link-body-emphasis">
                                                 <i class="bi bi-box-arrow-left"></i>
@@ -263,6 +263,10 @@
                                                     <input type="email" name="lectEmail" class="form-control" required="" placeholder="niniwin@ucspyay.edu.mm">
                                                 </div>
                                                 <div class="form-group mb-3">
+                                                    <label class="form-label" for="phone"><span class="text-danger fw-bold">*</span> Enter lecturer phone</label>
+                                                    <input type="text" name="phone" class="form-control" required="" placeholder="09755089001">
+                                                </div>
+                                                <div class="form-group mb-3">
                                                     <label class="form-label" for="dept"><span class="text-danger fw-bold">*</span> Select department name</label>
                                                     <select name="dept" id="dept" class="form-select">
                                                         @foreach($lectDept as $item)
@@ -279,6 +283,10 @@
                                                         <input class="form-check-input" type="radio" name="gendar" id="gendar" value="Female">
                                                         <label class="form-check-label" for="inlineRadio2">Female</label>
                                                     </div>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="form-label" for="address"><span class="text-danger fw-bold">*</span> Enter lecturer address</label>
+                                                    <input type="text" name="address" class="form-control" required="" placeholder="Magway">
                                                 </div>
                                                 <div class="form-group mb-3">
                                                     <label class="form-label" for="lectPassword"><span class="text-success fw-bold">*</span> Default password for lecturer is <span class="text-ucsp">lecturer@ucsp</span></label>
@@ -316,6 +324,10 @@
                                                     <input type="email" name="stuEmail" class="form-control" required="" placeholder="soehtetpaing@ucspyay.edu.mm">
                                                 </div>
                                                 <div class="form-group mb-3">
+                                                    <label class="form-label" for="phone"><span class="text-danger fw-bold">*</span> Enter student phone</label>
+                                                    <input type="text" name="phone" class="form-control" required="" placeholder="09784440048">
+                                                </div>
+                                                <div class="form-group mb-3">
                                                     <label class="form-label" for="dept"><span class="text-danger fw-bold">*</span> Select academic year</label>
                                                     <select name="dept" id="dept" class="form-select">
                                                         @foreach($stuDept as $item)
@@ -341,6 +353,10 @@
                                                         <input class="form-check-input" type="radio" name="gendar" id="gendar" value="Female">
                                                         <label class="form-check-label" for="inlineRadio2">Female</label>
                                                     </div>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="form-label" for="address"><span class="text-danger fw-bold">*</span> Enter student address</label>
+                                                    <input type="text" name="address" class="form-control" required="" placeholder="Pyay">
                                                 </div>
                                                 <div class="form-group mb-3">
                                                     <label class="form-label" for="stuPassword"><span class="text-success fw-bold">*</span> Default password for student is <span class="text-ucsp">student@ucsp</span></label>
@@ -402,9 +418,9 @@
                                                         <label class="form-label" for="day"><span class="text-danger fw-bold">*</span> Select day</label>
                                                         <select name="day" id="day" class="form-select">
                                                             <option value="Monday">Monday</option>
-                                                            <option value="Tueday">Tueday</option>
+                                                            <option value="Tuesday">Tuesday</option>
                                                             <option value="Wednesday">Wednesday</option>
-                                                            <option value="Thurday">Thurday</option>
+                                                            <option value="Thursday">Thursday</option>
                                                             <option value="Friday">Friday</option>
                                                         </select>
                                                     </div>

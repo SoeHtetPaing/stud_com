@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Group;
 use App\Models\Subject;
 use App\Models\Timetable;
+use App\Models\ChatConfig;
 use App\Models\Department;
 use App\Models\GroupMember;
 use App\Models\Announcement;
@@ -69,7 +70,7 @@ class AdminController extends Controller
 
         // dd($save_image_path);
 
-        User::create(["name" => $req["lectName"], "email" => $req["lectEmail"], "role" => "Lecturer", "department" => $req["dept"], "section" => null, "gendar" => $req["gendar"], "password" => $req["lectPassword"], "profile_photo_path" => $save_image_path]);
+        User::create(["name" => $req["lectName"], "email" => $req["lectEmail"], "phone" => $req["phone"],"role" => "Lecturer", "department" => $req["dept"], "section" => "NA", "gendar" => $req["gendar"], "address" => $req["address"], "password" => $req["lectPassword"], "profile_photo_path" => $save_image_path, "status" => "Offline"]);
 
         return redirect()->back()->with("message", "New lecturer is successfully added.");
     }
@@ -91,7 +92,7 @@ class AdminController extends Controller
 
         // dd($save_image_path);
 
-        User::create(["name" => $req["stuName"], "email" => $req["stuEmail"], "role" => "Student", "department" => $req["dept"], "section" => $req["section"], "gendar" => $req["gendar"], "password" => $req["stuPassword"], "profile_photo_path" => $save_image_path]);
+        User::create(["name" => $req["stuName"], "email" => $req["stuEmail"], "phone" => $req["phone"], "role" => "Student", "department" => $req["dept"], "section" => $req["section"], "gendar" => $req["gendar"], "address" => $req["address"], "password" => $req["stuPassword"], "profile_photo_path" => $save_image_path, "status" => "Offline"]);
 
         return redirect()->back()->with("message", "New student is successfully added.");
     }
@@ -137,11 +138,15 @@ class AdminController extends Controller
         $last = Group::all()->last();
 
         GroupMember::create(["group_id" => $last->id, "user_id" => Auth::user()->id]);
+        ChatConfig::where("user_id", Auth::user()->id)->where("is_active", 1)->update(["is_active" => 0]);
+        ChatConfig::create(["user_id" => Auth::user()->id, "mynew" => 0, "is_active" => 1, "lat" => Carbon::now(), "creater_id" => Auth::user()->id, "group_id" => $last->id]);
 
         $members = $req["member"];
         if($members != null) {
             foreach ($members as $member) {
                 GroupMember::create(["group_id" => $last->id, "user_id" => $member]);
+                ChatConfig::where("user_id", $member)->where("is_active", 1)->update(["is_active" => 0]);
+                ChatConfig::create(["user_id" => $member, "yrnew" => 1, "is_active" => 1, "lat" => Carbon::now(), "creater_id" => Auth::user()->id, "group_id" => $last->id]);
             }
         }
 
@@ -162,11 +167,15 @@ class AdminController extends Controller
         $last = Group::all()->last();
 
         GroupMember::create(["group_id" => $last->id, "user_id" => Auth::user()->id]);
+        ChatConfig::where("user_id", Auth::user()->id)->where("is_active", 1)->update(["is_active" => 0]);
+        ChatConfig::create(["user_id" => Auth::user()->id, "mynew" => 0, "is_active" => 1, "lat" => Carbon::now(), "creater_id" => Auth::user()->id, "group_id" => $last->id]);
 
         $members = $req["member"];
         if($members != null) {
             foreach ($members as $member) {
                 GroupMember::create(["group_id" => $last->id, "user_id" => $member]);
+                ChatConfig::where("user_id", $member)->where("is_active", 1)->update(["is_active" => 0]);
+                ChatConfig::create(["user_id" => $member, "yrnew" => 1, "is_active" => 1, "lat" => Carbon::now(), "creater_id" => Auth::user()->id, "group_id" => $last->id]);
             }
         }
 
@@ -187,11 +196,15 @@ class AdminController extends Controller
         $last = Group::all()->last();
 
         GroupMember::create(["group_id" => $last->id, "user_id" => Auth::user()->id]);
+        ChatConfig::where("user_id", Auth::user()->id)->where("is_active", 1)->update(["is_active" => 0]);
+        ChatConfig::create(["user_id" => Auth::user()->id, "mynew" => 0, "is_active" => 1, "lat" => Carbon::now(), "creater_id" => Auth::user()->id, "group_id" => $last->id]);
 
         $members = $req["member"];
         if($members != null) {
             foreach ($members as $member) {
                 GroupMember::create(["group_id" => $last->id, "user_id" => $member]);
+                ChatConfig::where("user_id", $member)->where("is_active", 1)->update(["is_active" => 0]);
+                ChatConfig::create(["user_id" => $member, "yrnew" => 1, "is_active" => 1, "lat" => Carbon::now(), "creater_id" => Auth::user()->id, "group_id" => $last->id]);
             }
         }
 
@@ -233,6 +246,12 @@ class AdminController extends Controller
 
     public function announceGrade (Request $req) {
         // dd($req);
+        $my = Auth::user();
+        // dd($my);
+        $yr = User::where('id', $req['member'][0])->first();
+        // dd($yr);
+
+
         if($req->hasFile("gradeFile")) {
             $file = $req->file("gradeFile")->getClientOriginalName();
             $unique = uniqid();
@@ -245,41 +264,58 @@ class AdminController extends Controller
             return redirect()->back()->with("error", "Empty grade file!");
         }
 
-        $group_name = "gStu" . Auth::user()->id . "bless" . $req["member"][0];
+        $group_name = "gStu" . $my->id . "bless" . $req["member"][0];
         // echo $group_name;
-        $group_name_rev = "gStu" . $req["member"][0] . "bless" . Auth::user()->id;
+        $group_name_rev = "gStu" . $req["member"][0] . "bless" . $my->id;
         // echo $group_name_rev;
 
         $group_exist = Group::orWhere("name", "$group_name")->orWhere("name", "$group_name_rev")->first();
         // dd($group_exist);
 
         if($group_exist == null) {
-            Group::create(["name" => $group_name, "type" => "grade2announce", "creater_id" => Auth::user()->id, "image" => null]);
+            Group::create(["name" => $group_name, "mygn" => $yr->name, "yrgn" => $my->name, "type" => "grade2announce", "creater_id" => $my->id, "image" => null, "mygimg" => $yr->profile_photo_path, "myid" => $my->id, "yrid" => $yr->id, "yrgimg" => $my->profile_photo_path]);
             $last = Group::all()->last();
 
             GroupMember::create(["group_id" => $last->id, "user_id" => Auth::user()->id]);
+            $last_m = GroupMember::all()->last();
+
+            ChatConfig::where("user_id", Auth::user()->id)->where("is_active", 1)->update(["is_active" => 0]);
+            ChatConfig::create(["user_id" => Auth::user()->id, "mynew" => 0, "is_active" => 1, "lat" => Carbon::now(), "creater_id" => Auth::user()->id, "group_id" => $last->id]);
+
+            GroupConversation::create(["group_id" => $last->id, "member_id" => $last_m->id, "message" => $req["message"], "attachment" => $unique_file, "grade_announce" => 1]);
+            $last_c = GroupConversation::all()->last();
 
             $members = $req["member"];
             if($members != null) {
                 foreach ($members as $member) {
                     GroupMember::create(["group_id" => $last->id, "user_id" => $member]);
-                    $last_m = GroupMember::all()->last();
-                    GroupConversation::create(["group_id" => $last->id, "member_id" => $last_m->id, "message" => $req["message"], "attachment" => $unique_file]);
-                    $last_c = GroupConversation::all()->last();
+                    ChatConfig::where("user_id", $member)->where("is_active", 1)->update(["is_active" => 0]);
+                    ChatConfig::create(["user_id" => $member, "yrnew" => 1, "is_active" => 1, "lat" => Carbon::now(), "creater_id" => Auth::user()->id, "group_id" => $last->id]);
+
                     GroupConversationNoti::create(["conversation_id" => $last_c->id, "audience_id" => $member, "is_seen" => false]);
                 }
             }
 
             return redirect()->back()->with("message", "Grade is successfully sent.");
         } else {
+            $mymid = GroupMember::where("group_id", $group_exist["id"])->where("user_id", $my->id)->first();
+            ChatConfig::where("user_id", $my->id)->where("is_active", 1)->update(["is_active" => 0]);
+            ChatConfig::where("user_id", $my->id)->where("group_id", $group_exist["id"])->update(["is_active" => 1, "lat" => Carbon::now()]);
+
+
+            GroupConversation::create(["group_id" => $group_exist["id"], "member_id" => $mymid["id"], "message" => $req["message"], "attachment" => $unique_file, "grade_announce" => 1]);
+            $last_c = GroupConversation::all()->last();
+
             $members = $req["member"];
             if($members != null) {
                 foreach ($members as $member) {
                     $member_id = GroupMember::where("group_id", $group_exist["id"])->where("user_id", $member)->first();
                     // dd($member_id);
+                    $cc = ChatConfig::where("group_id", $group_exist["id"])->where("user_id", $member)->first();
+                    ChatConfig::where("user_id", $member)->where("is_active", 1)->update(["is_active" => 0]);
+                    $no_of_new = $cc->yrnew + 1;
+                    ChatConfig::where("user_id", $member)->where("group_id", $group_exist["id"])->update(["yrnew" => $no_of_new, "is_active" => 1, "lat" => Carbon::now()]);
 
-                    GroupConversation::create(["group_id" => $group_exist["id"], "member_id" => $member_id["id"], "message" => $req["message"], "attachment" => $unique_file]);
-                    $last_c = GroupConversation::all()->last();
                     GroupConversationNoti::create(["conversation_id" => $last_c->id, "audience_id" => $member, "is_seen" => false]);
                 }
             }
@@ -687,7 +723,7 @@ class AdminController extends Controller
         $dept = Department::where("id", $user->department)->first();
 
         $lecturer = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->orWhere("users.role", "Lecturer")->orWhere("users.role", "Admin")->get();
-        $student = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->where("users.role", "Student")->get();
+        $student = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->where("users.role", "!=", "Admin")->where("users.role", "!=", "Lecturer")->get();
         $custom = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->get();
 
 
@@ -763,6 +799,7 @@ class AdminController extends Controller
             GroupConversationNoti::where("conversation_id", $value->id)->delete();
         }
         GroupMember::where('id', $id)->delete();
+        ChatConfig::where("user_id", $member->id)->where("group_id", $temp->group_id)->delete();
 
 
         return redirect()->back()->with("error", "Member '".$member->name."' is successfully removed from this group.");
@@ -779,6 +816,9 @@ class AdminController extends Controller
                 // dd($member_exist);
                 if($member_exist == null) {
                     GroupMember::create(["group_id" => $req["groupId"], "user_id" => $member]);
+                    ChatConfig::where("user_id", $member)->where("is_active", 1)->update(["is_active" => 0]);
+                    ChatConfig::create(["user_id" => $member, "yrnew" => 1, "is_active" => 1, "lat" => Carbon::now(), "creater_id" => Auth::user()->id, "group_id" => $req['groupId']]);
+
                     $user = User::where('id', $member)->first();
                     array_push($msg, $user->name." is successfully enrolled in this group.");
                 } else {
@@ -841,9 +881,11 @@ class AdminController extends Controller
         $user = Auth::user();
         $dept = Department::where("id", $user->department)->first();
 
-        $student = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->where("users.role", "Student")->get();
+        $student = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->where("users.role", "!=", "Admin")->where("users.role", "!=", "Lecturer")->get();
 
-        $data = Group::where('type', 'grade2announce')->join("group_conversations", "groups.id", "=", "group_conversations.group_id")->join("users", "groups.creater_id", "=", "users.id")->select("group_conversations.*", "groups.name as group_name", "groups.type", "groups.creater_id", "users.name as creater_name")->when(request('key'), function ($p) {
+        $data = Group::where('type', 'grade2announce')->join("group_conversations", function ($jgc) {
+            $jgc->on("groups.id", "=", "group_conversations.group_id")->where("group_conversations.grade_announce", 1);
+        })->join("users", "groups.creater_id", "=", "users.id")->select("group_conversations.*", "groups.name as group_name", "groups.type", "groups.creater_id", "users.name as creater_name")->when(request('key'), function ($p) {
             $key = request('key');
             $p->where('group_conversations.message', 'like', '%'.$key.'%');
         })->orderBy('group_conversations.created_at', 'desc')->paginate(10);

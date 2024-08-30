@@ -57,7 +57,7 @@
                                 </a>
                             </li>
                             <li class="d-none d-lg-inline">
-                                <form action="{{route("logout")}}" method="post">
+                                <form action="{{route("user@logout")}}" method="post">
                                     @csrf
                                     <button type="submit" class="nav-link link-body-emphasis">
                                         <i class="bi bi-box-arrow-left"></i>
@@ -86,7 +86,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <form action="{{route("logout")}}" method="post">
+                                        <form action="{{route("user@logout")}}" method="post">
                                             @csrf
                                             <button type="submit" class="nav-link link-body-emphasis">
                                                 <i class="bi bi-box-arrow-left"></i>
