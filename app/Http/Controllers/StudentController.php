@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Timetable;
+use App\Models\ChatConfig;
 use App\Models\Department;
 use App\Models\GroupMember;
 use Illuminate\Http\Request;
@@ -15,6 +16,9 @@ class StudentController extends Controller
     public function timetable () {
         $user = Auth::user();
         $dept = Department::where("id", $user->department)->first();
+
+        User::where("id", $user->id)->update(["status" => "Busy"]);
+        $chatNoti = ChatConfig::where("user_id", $user->id)->sum("yrnew");
 
         $tt = array();
 
@@ -42,7 +46,8 @@ class StudentController extends Controller
             "user" => $user,
             "dept" => $dept,
             "tt" => $tt,
-            "tte" => $tte
+            "tte" => $tte,
+            "chatNoti" => $chatNoti
         ]);
     }
 
@@ -51,13 +56,17 @@ class StudentController extends Controller
         $user = Auth::user();
         $dept = Department::where("id", $user->department)->first();
 
+        User::where("id", $user->id)->update(["status" => "Busy"]);
+        $chatNoti = ChatConfig::where("user_id", $user->id)->sum("yrnew");
+
         $member = User::where("department", $dept->id)->get();
         // dd($member);
 
         return view('student.department', [
             "user" => $user,
             "dept" => $dept,
-            "member" => $member
+            "member" => $member,
+            "chatNoti" => $chatNoti
         ]);
     }
 
@@ -65,6 +74,9 @@ class StudentController extends Controller
     public function group () {
         $user = Auth::user();
         $dept = Department::where("id", $user->department)->first();
+
+        User::where("id", $user->id)->update(["status" => "Busy"]);
+        $chatNoti = ChatConfig::where("user_id", $user->id)->sum("yrnew");
 
         $custom = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->get();
 
@@ -77,7 +89,8 @@ class StudentController extends Controller
             "user" => $user,
             "dept" => $dept,
             "data" => $data,
-            "custom" => $custom
+            "custom" => $custom,
+            "chatNoti" => $chatNoti
         ]);
     }
 
@@ -135,6 +148,8 @@ class StudentController extends Controller
         $user = Auth::user();
         $dept = Department::where("id", $user->department)->first();
 
+        User::where("id", $user->id)->update(["status" => "Busy"]);
+        $chatNoti = ChatConfig::where("user_id", $user->id)->sum("yrnew");
 
         $data = GroupMember::where("user_id", $user->id)
         ->join("groups", function($jg) {
@@ -157,6 +172,7 @@ class StudentController extends Controller
             "user" => $user,
             "dept" => $dept,
             "data" => $data,
+            "chatNoti" => $chatNoti
         ]);
     }
 }

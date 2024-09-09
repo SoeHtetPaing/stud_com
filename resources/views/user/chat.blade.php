@@ -112,9 +112,9 @@
                                                             $dd = date_diff(date_create($today), date_create($mg->lat))->format('%a');
                                                         @endphp
                                                         @if ($dd == '0')
-                                                            last active in {{date_create($mg->lat)->format('H:i A')}} ago
+                                                            last active in {{date_create($mg->lat)->format('h:i A')}} ago
                                                         @else
-                                                            {{date_create($mg->lat)->format('M j Y H:i A (D)')}}
+                                                            {{date_create($mg->lat)->format('M j Y h:i A (D)')}}
                                                         @endif
                                                     </small>
                                                 </div>
@@ -178,9 +178,9 @@
                                                                 $dd = date_diff(date_create($today), date_create($mc->lat))->format('%a');
                                                             @endphp
                                                             @if ($dd == '0')
-                                                                last active in {{date_create($mc->lat)->format('H:i A')}} ago
+                                                                last active in {{date_create($mc->lat)->format('h:i A')}} ago
                                                             @else
-                                                                {{date_create($mc->lat)->format('M j Y H:i A (D)')}}
+                                                                {{date_create($mc->lat)->format('M j Y h:i A (D)')}}
                                                             @endif
                                                         </small>
                                                     </div>
@@ -400,7 +400,7 @@
                                                             $dd = date_diff(date_create($today), date_create($msg->created_at))->format('%a');
                                                         @endphp
                                                         @if ($dd == '0')
-                                                            {{date_create($msg->created_at)->format('H:i A')}} ago
+                                                            {{date_create($msg->created_at)->format('h:i A')}} ago
                                                         @else
                                                             {{date_create($msg->created_at)->format('M j Y (D)')}}
                                                         @endif
@@ -422,7 +422,11 @@
                                                             </div>
                                                         @endif
                                                     </div>
-                                                    <img src='{{ url('storage/'.Auth::user()->profile_photo_path) }}' alt='' class='msg-me-img'>
+                                                    @if (Auth::user()->profile_photo_path == null)
+                                                        <img src='{{ asset("storage/upload/default-pp.png") }}' alt='' class='msg-me-img'>
+                                                    @else
+                                                        <img src='{{ url('storage/'.Auth::user()->profile_photo_path) }}' alt='' class='msg-me-img'>
+                                                    @endif
                                                     <h3 class='msg-me-foot fw-bold'>
                                                         <span>Me</span><br>
                                                     </h3>
@@ -435,7 +439,7 @@
                                                         $dd = date_diff(date_create($today), date_create($msg->created_at))->format('%a');
                                                     @endphp
                                                     @if ($dd == '0')
-                                                        {{date_create($msg->created_at)->format('H:i A')}} ago
+                                                        {{date_create($msg->created_at)->format('h:i A')}} ago
                                                     @else
                                                         {{date_create($msg->created_at)->format('M j Y (D)')}}
                                                     @endif
@@ -464,12 +468,20 @@
                                                         $uinfo = App\Models\User::where("id", $u->user_id)->first();
                                                         $uinfo = json_decode($uinfo);
                                                     @endphp
-                                                    <img src='{{ url('storage/'.$uinfo->profile_photo_path.'') }}' alt='' class='msg-box-img'>
+                                                    @if ($uinfo->profile_photo_path == null)
+                                                        <img src='{{ asset("storage/upload/default-pp.png") }}' alt='' class='msg-box-img'>
+                                                    @else
+                                                        <img src='{{ url('storage/'.$uinfo->profile_photo_path.'') }}' alt='' class='msg-box-img'>
+                                                    @endif
                                                     <h3 class='msg-box-foot fw-bold'>
                                                         <span>{{Str::words(Str::after($uinfo->name, 'Daw'), 1, '')}}</span><br>
                                                     </h3>
                                                 @else
-                                                    <img src='{{ url('storage/'.$ag->mygimg.'') }}' alt='' class='msg-box-img'>
+                                                    @if ($ag->mygimg == null)
+                                                        <img src='{{ asset("storage/upload/default-pp.png") }}' alt='' class='msg-box-img'>
+                                                    @else
+                                                        <img src='{{ url('storage/'.$ag->mygimg.'') }}' alt='' class='msg-box-img'>
+                                                    @endif
                                                     <h3 class='msg-box-foot fw-bold'>
                                                         <span>{{Str::words(Str::after($ag->mygn, 'Daw'), 1, '')}}</span><br>
                                                     </h3>
@@ -488,7 +500,7 @@
                                                             $dd = date_diff(date_create($today), date_create($msg->created_at))->format('%a');
                                                         @endphp
                                                         @if ($dd == '0')
-                                                            {{date_create($msg->created_at)->format('H:i A')}} ago
+                                                            {{date_create($msg->created_at)->format('h:i A')}} ago
                                                         @else
                                                             {{date_create($msg->created_at)->format('M j Y (D)')}}
                                                         @endif
@@ -510,7 +522,11 @@
                                                             </div>
                                                         @endif
                                                     </div>
-                                                    <img src='{{ url('storage/'.Auth::user()->profile_photo_path) }}' alt='' class='msg-me-img'>
+                                                    @if (Auth::user()->profile_photo_path == null)
+                                                        <img src='{{ asset("storage/upload/default-pp.png") }}' alt='' class='msg-me-img'>
+                                                    @else
+                                                        <img src='{{ url('storage/'.Auth::user()->profile_photo_path) }}' alt='' class='msg-me-img'>
+                                                    @endif
                                                     <h3 class='msg-me-foot fw-bold'>
                                                         <span>Me</span><br>
                                                     </h3>
@@ -523,7 +539,7 @@
                                                         $dd = date_diff(date_create($today), date_create($msg->created_at))->format('%a');
                                                     @endphp
                                                     @if ($dd == '0')
-                                                        {{date_create($msg->created_at)->format('H:i A')}} ago
+                                                        {{date_create($msg->created_at)->format('h:i A')}} ago
                                                     @else
                                                         {{date_create($msg->created_at)->format('M j Y (D)')}}
                                                     @endif
@@ -552,12 +568,20 @@
                                                         $uinfo = App\Models\User::where("id", $u->user_id)->first();
                                                         $uinfo = json_decode($uinfo);
                                                     @endphp
-                                                    <img src='{{ url('storage/'.$uinfo->profile_photo_path.'') }}' alt='' class='msg-box-img'>
+                                                    @if ($uinfo->profile_photo_path == null)
+                                                       <img src='{{ asset("storage/upload/default-pp.png") }}' alt='' class='msg-box-img'>
+                                                    @else
+                                                        <img src='{{ url('storage/'.$uinfo->profile_photo_path.'') }}' alt='' class='msg-box-img'>
+                                                    @endif
                                                     <h3 class='msg-box-foot fw-bold'>
                                                         <span>{{Str::words(Str::after($uinfo->name, 'Daw'), 1, '')}}</span><br>
                                                     </h3>
                                                 @else
-                                                    <img src='{{ url('storage/'.$ag->yrgimg.'') }}' alt='' class='msg-box-img'>
+                                                    @if ($ag->yrgimg == null)
+                                                        <img src='{{ asset("storage/upload/default-pp.png") }}' alt='' class='msg-box-img'>
+                                                     @else
+                                                        <img src='{{ url('storage/'.$ag->yrgimg.'') }}' alt='' class='msg-box-img'>
+                                                     @endif
                                                     <h3 class='msg-box-foot fw-bold'>
                                                         <span>{{Str::words(Str::after($ag->yrgn, 'Daw'), 1, '')}}</span><br>
                                                     </h3>

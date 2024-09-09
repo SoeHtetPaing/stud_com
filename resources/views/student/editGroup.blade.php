@@ -126,7 +126,7 @@
                                 @if ($r->user_id == $data->creater_id)
                                 <button class="btn btn-sm btn-light" title="Admin"><i class="fa-solid fa-user-tie text-ucsp" style="font-size: 16px;"></i></button>
                                 @else
-                                <a href="{{route('admin@removeMember', $r['id'])}}" class="text-decoration-none">
+                                <a onclick="return confirm('Are you sure to remove this member?')" href="{{route('admin@removeMember', $r['id'])}}" class="text-decoration-none">
                                     <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
                                 </a>
                                 @endif

@@ -122,8 +122,9 @@
                             <div class="position-relative p-2">
                                 <a href="{{route('user@chat', ['back' => 'admin@manageGrade'])}}">
                                     <i class="bi bi-chat-fill text-ucsp px-2"></i>
-                                <span
-                                    class="position-absolute translate-middle  p-1 bg-danger border border-2 border-light rounded-circle absolute-message" style="top: 0.8rem; right: 0.4rem;"></span>
+                                    @if ($chatNoti != 0)
+                                        <span class="position-absolute translate-middle px-1 bg-danger border border-2 border-light rounded-pill absolute-message fw-bold">{{$chatNoti}}</span>
+                                    @endif
                                 </a>
                             </div>
                         </div>
@@ -205,7 +206,7 @@
 
                                                 </td>
                                                 <td>
-                                                    <a href="{{route('admin@deleteGrade', $r['id'])}}" class="text-decoration-none">
+                                                    <a onclick="return confirm('Are you sure to delete this grade?')" href="{{route('admin@deleteGrade', $r['id'])}}" class="text-decoration-none">
                                                         <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
                                                     </a>
                                                     <a href="{{route('admin@editGrade', $r['id'])}}" class="text-decoration-none">

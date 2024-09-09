@@ -80,6 +80,8 @@ class UserController extends Controller
         // dd($data);
 
         User::where("id", $user->id)->update(["status" => "Busy"]);
+        $chatNoti = ChatConfig::where("user_id", $user->id)->sum("yrnew");
+
 
         if ($user->role == "Admin") { return view("admin.home", [
             "user" => $user,
@@ -115,7 +117,8 @@ class UserController extends Controller
             "t2y5cs" => $t2y5cs,
             "t2y5ct" => $t2y5cs,
 
-            "subject" => $subject
+            "subject" => $subject,
+            "chatNoti" => $chatNoti
 
         ]); }
         else if ($user->role == "Lecturer") { return view("lecturer.home", [
@@ -125,7 +128,8 @@ class UserController extends Controller
             "totLecturer" => $lecturerNo,
             "totStudent" => $studentNo,
             "lttt" => $lttt,
-            "data" => $data
+            "data" => $data,
+            "chatNoti" => $chatNoti
         ]); }
         else { return view("student.home", [
             "user"=> $user,
@@ -133,7 +137,8 @@ class UserController extends Controller
             "deptLecturer" => $deptLecturer,
             "totStudent" => $studentNo,
             "sttt" => $sttt,
-            "data" => $data
+            "data" => $data,
+            "chatNoti" => $chatNoti
         ]); }
     }
 
@@ -203,6 +208,8 @@ class UserController extends Controller
         //active chat
         $ac = ChatConfig::where("user_id", $user->id)->where("is_active", 1)->first();
         if ($ac != null) {
+            ChatConfig::where('id', $ac->id)->update(["yrnew" => 0 ]);
+
             $ag = GroupMember::where("group_id", $ac->group_id)->where("user_id", $user->id)
             ->join("groups", "groups.id", "=", "group_members.group_id")
             ->select(
@@ -496,7 +503,7 @@ class UserController extends Controller
     public function selectChat($id) {
         // dd($id);
         ChatConfig::where("user_id", Auth::user()->id)->where("is_active", 1)->update(["is_active" => 0]);
-        ChatConfig::where("group_id", $id)->where("user_id", Auth::user()->id)->update(["is_active" => 1]);
+        ChatConfig::where("group_id", $id)->where("user_id", Auth::user()->id)->update(["is_active" => 1, "yrnew" => 0]);
 
         return redirect()->back();
 
@@ -507,8 +514,12 @@ class UserController extends Controller
 
         User::where("id", $user->id)->update(["status" => "Busy"]);
 
+        $chatNoti = ChatConfig::where("user_id", $user->id)->sum("yrnew");
+        // dd($chatNoti);
+
         return view('user.profile', [
             "user" => $user,
+            "chatNoti" => $chatNoti
         ]);
     }
 

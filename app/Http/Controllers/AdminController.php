@@ -331,6 +331,9 @@ class AdminController extends Controller
         $user = Auth::user();
         $dept = Department::where("id", $user->department)->first();
 
+        User::where("id", $user->id)->update(["status" => "Busy"]);
+        $chatNoti = ChatConfig::where("user_id", $user->id)->sum("yrnew");
+
         // $data = Announcement::orderBy("created_at", "desc")->paginate(1);
         // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
         // dd($data);
@@ -343,7 +346,8 @@ class AdminController extends Controller
         return view('admin.announce', [
             "user" => $user,
             "dept" => $dept,
-            "data" => $data
+            "data" => $data,
+            "chatNoti" => $chatNoti
         ]);
     }
 
@@ -445,6 +449,9 @@ class AdminController extends Controller
         $user = Auth::user();
         $dept = Department::where("id", $user->department)->first();
 
+        User::where("id", $user->id)->update(["status" => "Busy"]);
+        $chatNoti = ChatConfig::where("user_id", $user->id)->sum("yrnew");
+
         // $data = Announcement::orderBy("created_at", "desc")->paginate(1);
         // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
         // dd($data);
@@ -459,7 +466,8 @@ class AdminController extends Controller
             "dept" => $dept,
             "lectDept" => Department::whereNotIn("name", ["First Year", "Second Year", "Third Year", "Fourth Year", "Final Year", "Granduate"])->get(),
             "stuDept" => Department::whereIn("name", ["First Year", "Second Year", "Third Year", "Fourth Year", "Final Year", "Granduate"])->get(),
-            "data" => $data
+            "data" => $data,
+            "chatNoti" => $chatNoti
         ]);
     }
 
@@ -546,6 +554,9 @@ class AdminController extends Controller
         $subject = Subject::all();
         $lecturer = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->orWhere("users.role", "Lecturer")->orWhere("users.role", "Admin")->get();
 
+        User::where("id", $user->id)->update(["status" => "Busy"]);
+        $chatNoti = ChatConfig::where("user_id", $user->id)->sum("yrnew");
+
         // $data = Announcement::orderBy("created_at", "desc")->paginate(1);
         // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
         // dd($data);
@@ -608,6 +619,7 @@ class AdminController extends Controller
             "y5s2" => $y5s2,
             "y5s3" => $y5s3,
 
+            "chatNoti" => $chatNoti
         ]);
     }
 
@@ -666,6 +678,9 @@ class AdminController extends Controller
         $user = Auth::user();
         $dept = Department::where("id", $user->department)->first();
 
+        User::where("id", $user->id)->update(["status" => "Busy"]);
+        $chatNoti = ChatConfig::where("user_id", $user->id)->sum("yrnew");
+
         // $data = Announcement::orderBy("created_at", "desc")->paginate(1);
         // $data = User::join("announcements", "users.id", "=", "announcements.announcer_id")->select("users.name", "users.role", "users.profile_photo_path", "users.email", "announcements.*")->orderBy("announcements.created_at", "desc")->paginate(2);
         // dd($data);
@@ -679,7 +694,8 @@ class AdminController extends Controller
         return view('admin.department', [
             "user" => $user,
             "dept" => $dept,
-            "data" => $data
+            "data" => $data,
+            "chatNoti" => $chatNoti
         ]);
     }
 
@@ -722,6 +738,9 @@ class AdminController extends Controller
         $user = Auth::user();
         $dept = Department::where("id", $user->department)->first();
 
+        User::where("id", $user->id)->update(["status" => "Busy"]);
+        $chatNoti = ChatConfig::where("user_id", $user->id)->sum("yrnew");
+
         $lecturer = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->orWhere("users.role", "Lecturer")->orWhere("users.role", "Admin")->get();
         $student = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->where("users.role", "!=", "Admin")->where("users.role", "!=", "Lecturer")->get();
         $custom = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->get();
@@ -745,7 +764,8 @@ class AdminController extends Controller
             "data" => $data,
             "lecturer" => $lecturer,
             "student" => $student,
-            "custom" => $custom
+            "custom" => $custom,
+            "chatNoti" => $chatNoti
         ]);
     }
 
@@ -881,6 +901,9 @@ class AdminController extends Controller
         $user = Auth::user();
         $dept = Department::where("id", $user->department)->first();
 
+        User::where("id", $user->id)->update(["status" => "Busy"]);
+        $chatNoti = ChatConfig::where("user_id", $user->id)->sum("yrnew");
+
         $student = User::select("users.id as user_id", "users.name as user_name", "users.email as user_email", "departments.name as dept_name")->join("departments", "departments.id", "=", "users.department")->where("users.role", "!=", "Admin")->where("users.role", "!=", "Lecturer")->get();
 
         $data = Group::where('type', 'grade2announce')->join("group_conversations", function ($jgc) {
@@ -897,7 +920,8 @@ class AdminController extends Controller
             "user" => $user,
             "dept" => $dept,
             "data" => $data,
-            "student" => $student
+            "student" => $student,
+            "chatNoti" => $chatNoti
         ]);
     }
 

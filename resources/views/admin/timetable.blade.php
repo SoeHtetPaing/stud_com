@@ -122,8 +122,9 @@
                             <div class="position-relative p-2">
                                 <a href="{{route('user@chat', ['back' => 'admin@manageTimetable'])}}">
                                     <i class="bi bi-chat-fill text-ucsp px-2"></i>
-                                <span
-                                    class="position-absolute translate-middle  p-1 bg-danger border border-2 border-light rounded-circle absolute-message" style="top: 0.8rem; right: 0.4rem;"></span>
+                                    @if ($chatNoti != 0)
+                                        <span class="position-absolute translate-middle px-1 bg-danger border border-2 border-light rounded-pill absolute-message fw-bold">{{$chatNoti}}</span>
+                                    @endif
                                 </a>
                             </div>
                         </div>
@@ -156,7 +157,7 @@
                                     <div class="search-input text-ucsp">
                                         <marquee behavior="" direction="" class="ms-3">If one semister finish, delete all timetables and setup timetables for next semister. Delete all timetables for click <i class="fa-solid fa-arrow-right ms-2"></i></marquee>
                                     </div>
-                                    <a href="{{route('admin@deleteAllTimetable')}}" class="search-btn text-decoration-none">
+                                    <a onclick="return confirm('Are you sure to delete all timetable in this semester?')" href="{{route('admin@deleteAllTimetable')}}" class="search-btn text-decoration-none">
                                         <button class="btn btn-sm btn-delete btn-danger" style="margin-left: 40%;"><i class="fa fa-trash"></i></button>
                                     </a>
                                 </div>
@@ -231,7 +232,7 @@
                                                             {{$interval}} Hr
                                                         </td>
                                                         <td>
-                                                            <a href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
+                                                            <a onclick="return confirm('Are you sure to delete this schedule?')" href="{{route('admin@deleteTimetable', $r['id'])}}" class="text-decoration-none">
                                                                 <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
                                                             </a>
                                                             <a href="{{route('admin@editTimetable', $r['id'])}}" class="text-decoration-none">

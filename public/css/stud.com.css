@@ -88,8 +88,10 @@ span.absolute-noti {
 }
 
 span.absolute-message {
-    top: 1rem;
-    right: 0.5rem;
+    font-size: 8px;
+    color: #fff;
+    top: 1.05rem;
+    right: -0.1rem;
 }
 
 img.profile-icon {

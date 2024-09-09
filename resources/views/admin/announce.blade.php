@@ -125,8 +125,9 @@
                             <div class="position-relative p-2">
                                 <a href="{{route('user@chat', ['back' => 'admin@manageAnnounce'])}}">
                                     <i class="bi bi-chat-fill text-ucsp px-2"></i>
-                                <span
-                                    class="position-absolute translate-middle  p-1 bg-danger border border-2 border-light rounded-circle absolute-message"></span>
+                                    @if ($chatNoti != 0)
+                                        <span class="position-absolute translate-middle px-1 bg-danger border border-2 border-light rounded-pill absolute-message fw-bold" style="top: 1.2rem;">{{$chatNoti}}</span>
+                                    @endif
                                 </a>
                             </div>
                         </div>
@@ -193,7 +194,7 @@
                                             </div>
                                         </div>
                                         <div class="">
-                                            <a href="{{route('admin@deleteAnnounce', $r['id'])}}" class="text-decoration-none">
+                                            <a onclick="return confirm('Are you sure to delete this announcement?')" href="{{route('admin@deleteAnnounce', $r['id'])}}" class="text-decoration-none">
                                                 <button class="btn btn-delete btn-danger"><i class="fa fa-trash me-lg-2"></i> <span class="d-none d-lg-inline">Delete</span></button>
                                             </a>
                                             <a href="{{route('admin@showAnnounce', $r['id'])}}" class="text-decoration-none">
@@ -255,3 +256,26 @@
         </div>
     </div>
 @endsection
+
+{{-- data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" --}}
+<!-- Delete Confirmation Modal -->
+{{-- <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure to delete this announcement!</p>
+        </div>
+        <div class="modal-footer border-top-none">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+          <a href="{{route('admin@deleteAnnounce', $_SESSION['deleteId'])}}" class="text-decoration-none">
+            <button class="btn btn-delete btn-danger"><i class="fa fa-trash me-lg-2"></i> <span class="d-none d-lg-inline">Delete</span></button>
+          </a>
+
+        </div>
+      </div>
+    </div>
+</div> --}}

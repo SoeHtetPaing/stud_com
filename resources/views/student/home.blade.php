@@ -121,8 +121,9 @@
                             <div class="position-relative p-2">
                                 <a href="{{route('user@chat', ['back' => 'user@home'])}}">
                                     <i class="bi bi-chat-fill text-ucsp px-2"></i>
-                                <span
-                                    class="position-absolute translate-middle  p-1 bg-danger border border-2 border-light rounded-circle absolute-message"></span>
+                                    @if ($chatNoti != 0)
+                                        <span class="position-absolute translate-middle px-1 bg-danger border border-2 border-light rounded-pill absolute-message fw-bold" style="top: 1.2rem;">{{$chatNoti}}</span>
+                                    @endif
                                 </a>
                             </div>
                         </div>

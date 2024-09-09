@@ -126,7 +126,8 @@
                                 @if ($r->user_id == $data->creater_id)
                                 <button class="btn btn-sm btn-light" title="Admin"><i class="fa-solid fa-user-tie text-ucsp" style="font-size: 16px;"></i></button>
                                 @else
-                                <a href="{{route('admin@removeMember', $r['id'])}}" class="text-decoration-none">
+                                {{-- onclick="return confirm('Are you sure to remove this member?')" --}}
+                                <a onclick="return confirm('Are you sure to remove this member?')" href="{{route('admin@removeMember', $r['id'])}}" class="text-decoration-none">
                                     <button class="btn btn-sm btn-delete btn-danger"><i class="fa fa-trash"></i></button>
                                 </a>
                                 @endif
@@ -194,6 +195,28 @@
 
         </div>
     </form>
+      </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure to delete this announcement!</p>
+        </div>
+        <div class="modal-footer border-top-none">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+          <a href="{{route('admin@deleteAnnounce', $r['id'])}}" class="text-decoration-none">
+            <button class="btn btn-delete btn-danger"><i class="fa fa-trash me-lg-2"></i> <span class="d-none d-lg-inline">Delete</span></button>
+          </a>
+
+        </div>
       </div>
     </div>
 </div>
