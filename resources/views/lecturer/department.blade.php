@@ -220,7 +220,7 @@
                                                 </td>
                                                 <td>
                                                     <a href="mailto:{{$r->email}}">
-                                                        <button class="btn btn-sm btn-ucsp"><i class="bi bi-chat-fill"></i></button>
+                                                        <button class="btn btn-sm btn-ucsp"><i class="bi bi-envelope"></i></button>
 
                                                     </a>
                                                 </td>
